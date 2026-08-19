@@ -1,13 +1,15 @@
 import Hero from "@/components/Hero";
 import SectionIntro from "@/components/SectionIntro";
 import DestinationTile from "@/components/DestinationTile";
+import DestinationSpotlight from "@/components/DestinationSpotlight";
+import SignatureGrid from "@/components/SignatureGrid";
 import ExperienceRow from "@/components/ExperienceRow";
 import JourneyCard from "@/components/JourneyCard";
 import CTABand from "@/components/CTABand";
 import MediaFrame from "@/components/MediaFrame";
 import Link from "next/link";
-import { destinations } from "@/data/destinations";
-import { experiences } from "@/data/experiences";
+import { destinations, getDestinationBySlug } from "@/data/destinations";
+import { experiences, getExperienceBySlug } from "@/data/experiences";
 import { journeys } from "@/data/journeys";
 import { brand } from "@/data/brand";
 
@@ -20,6 +22,20 @@ const featuredExperiences = experiences.filter((e) =>
     e.slug
   )
 );
+
+// The homepage's single-destination feature — Victoria Falls, since it's
+// literally where Muto Tours is based (see data/brand.js "founded").
+const spotlightDestination = getDestinationBySlug("victoria-falls");
+
+// Four browse-by-category cards — each one is a real, already-published
+// experience from data/experiences.js (same slug, same image), just given a
+// shorter image-led treatment here instead of the full description used in
+// the detailed "Experiences" rows further down the page.
+const signatureExperienceSlugs = ["custom-safari-itineraries", "zambezi-sunset-cruise", "guided-game-drives", "boma-cultural-dinner"];
+const signatureExperiences = signatureExperienceSlugs.map((slug) => {
+  const exp = getExperienceBySlug(slug);
+  return { slug: exp.slug, name: exp.name, image: exp.image, imageAlt: exp.imageAlt };
+});
 
 const whyMuto = [
   {
@@ -45,7 +61,9 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Arrival statement */}
+      {/* About blurb — short, with a link through to the full About page,
+          same "headline claim + read more" pattern most tourism-operator
+          homepages open with right under the hero. */}
       <section className="bg-sand">
         <div className="container-editorial py-20 md:py-28">
           <SectionIntro
@@ -53,11 +71,29 @@ export default function HomePage() {
             title="Southern Africa is enormous, uneven, and rewards people who go slowly."
             dek={brand.shortStatement}
           />
+          <Link
+            href="/about"
+            className="mt-6 inline-flex items-center gap-2 text-sm text-clay border-b border-clay pb-0.5 hover:text-clay-dark hover:border-clay-dark transition-colors"
+          >
+            More about us
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+              <path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="currentColor" strokeWidth="1.3" />
+            </svg>
+          </Link>
         </div>
       </section>
 
+      {/* Destination Spotlight — one destination, told properly, before the
+          fuller multi-destination grid further down the page. */}
+      <DestinationSpotlight destination={spotlightDestination} />
+
+      {/* Signature Experiences — browse-by-category grid */}
+      <SignatureGrid items={signatureExperiences} />
+
+      <CTABand />
+
       {/* Destination discovery — asymmetric, not a repeated grid */}
-      <section className="bg-sand pb-24">
+      <section className="bg-sand pb-24 pt-20 md:pt-28">
         <div className="container-editorial">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
             <SectionIntro kicker="Where We Go" title="Four countries, one continuous route." />
@@ -71,7 +107,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
             <div className="md:col-span-7">
-              <DestinationTile destination={featuredDestinations[0]} aspect="aspect-[16/11]" eager />
+              <DestinationTile destination={featuredDestinations[0]} aspect="aspect-[16/11]" />
             </div>
             <div className="md:col-span-5">
               <DestinationTile destination={featuredDestinations[1]} aspect="aspect-[16/11]" />
@@ -127,7 +163,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Experiences */}
+      {/* Experiences — the detailed version of the Signature Experiences
+          category grid higher up the page */}
       <section className="bg-sand">
         <div className="container-editorial py-20 md:py-28">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-6">
@@ -148,9 +185,9 @@ export default function HomePage() {
       </section>
 
       {/* Featured journeys — named sample routes, not a fixed package menu.
-          Every stop sequence here already exists in the destination/
-          experience copy elsewhere on the site (see data/journeys.js); this
-          just gives them their own visual moment before the closing CTA. */}
+          Positioned last, right before the footer — the site's equivalent
+          of a "featured itineraries" close, after the CTA rather than
+          before it, so the page doesn't end on a second repeated pitch. */}
       <section className="bg-ivory">
         <div className="container-editorial py-20 md:py-28">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
@@ -167,8 +204,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <CTABand />
     </>
   );
 }
