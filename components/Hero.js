@@ -11,11 +11,9 @@ export default function Hero() {
     const t = setTimeout(() => setEntered(true), 150);
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const connection = navigator.connection || navigator.webkitConnection;
-    const saveData = connection?.saveData || ["slow-2g", "2g"].includes(connection?.effectiveType);
 
     const vid = videoRef.current;
-    if (vid && !prefersReducedMotion && !saveData) {
+    if (vid && !prefersReducedMotion) {
       vid.play().catch(() => {});
     }
 
@@ -31,6 +29,7 @@ export default function Hero() {
         muted
         loop
         playsInline
+        preload="auto"
         poster="/images/victoria-falls-mist.jpg"
         aria-hidden="true"
       />
