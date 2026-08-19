@@ -11,8 +11,6 @@ const CATEGORIES = [
   "Boat Cruises",
   "Destinations",
   "Nature",
-  "Culture",
-  "Experiences",
 ];
 
 const SPAN_PATTERN = [
@@ -27,27 +25,11 @@ const SPAN_PATTERN = [
 const videos = [
   {
     type: "video",
-    title: "Zambezi Sunrise Cruise",
-    desc: "Real footage from an early-morning boat cruise on the Zambezi River.",
-    url: "/videos/hero.mp4",
-    category: "Boat Cruises",
-    span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
-  },
-  {
-    type: "video",
-    title: "Sunset Boat Cruise",
-    desc: "A golden sunset over the water from our boat cruise experience.",
-    url: "/videos/sunset-boat-cruise.mp4",
-    category: "Boat Cruises",
-    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-  },
-  {
-    type: "video",
     title: "Elephant in the Wild",
     desc: "An African elephant roaming freely in its natural habitat.",
     url: "/videos/elephant-wildlife.mp4",
     category: "Wildlife",
-    span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
+    span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
   },
   {
     type: "video",
@@ -55,7 +37,7 @@ const videos = [
     desc: "A hippopotamus wading through a river in Southern Africa.",
     url: "/videos/hippo-water.mp4",
     category: "Wildlife",
-    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
   {
     type: "video",
@@ -63,15 +45,7 @@ const videos = [
     desc: "Cape buffalo grazing on the open savanna.",
     url: "/videos/buffalo-wildlife.mp4",
     category: "Wildlife",
-    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-  },
-  {
-    type: "video",
-    title: "Boats at Sunset",
-    desc: "Traditional boats silhouetted against a golden African sunset.",
-    url: "/videos/boats-sunset.mp4",
-    category: "Boat Cruises",
-    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+    span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   },
   {
     type: "video",
@@ -80,14 +54,6 @@ const videos = [
     url: "/videos/savanna-sunset-mixkit.mp4",
     category: "Nature",
     span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
-  },
-  {
-    type: "video",
-    title: "Safari SUV Off-Road",
-    desc: "Our safari vehicle navigating rugged African terrain.",
-    url: "/videos/safari-suv.mp4",
-    category: "Experiences",
-    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
 ];
 
