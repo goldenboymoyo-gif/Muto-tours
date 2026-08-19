@@ -1,28 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-const CLIPS = [
-  { src: "/videos/vic-falls.mp4", type: "video/mp4" },
-  { src: "/videos/elephant-wildlife.mp4", type: "video/mp4" },
-  { src: "/videos/sunset-boat-cruise.mp4", type: "video/mp4" },
-  { src: "/videos/safari-drive.mp4", type: "video/mp4" },
-];
-
 export default function Hero() {
-  const videoARef = useRef(null);
-  const videoBRef = useRef(null);
+  const videoRef = useRef(null);
   const [entered, setEntered] = useState(false);
-  const activeRef = useRef("A");
-  const clipIndexRef = useRef(0);
-  const [fadeA, setFadeA] = useState(true);
-  const [fadeB, setFadeB] = useState(false);
-
-  const getNextClip = useCallback(() => {
-    clipIndexRef.current = (clipIndexRef.current + 1) % CLIPS.length;
-    return clipIndexRef.current;
-  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 150);
@@ -31,79 +14,24 @@ export default function Hero() {
     const connection = navigator.connection || navigator.webkitConnection;
     const saveData = connection?.saveData || ["slow-2g", "2g"].includes(connection?.effectiveType);
 
-    const playIfAllowed = (vid) => {
-      if (vid && !prefersReducedMotion && !saveData) {
-        vid.play().catch(() => {});
-      }
-    };
-
-    if (videoARef.current) {
-      videoARef.current.src = CLIPS[0].src;
-      videoARef.current.load();
-      playIfAllowed(videoARef.current);
+    const vid = videoRef.current;
+    if (vid && !prefersReducedMotion && !saveData) {
+      vid.play().catch(() => {});
     }
 
     return () => clearTimeout(t);
   }, []);
 
-  useEffect(() => {
-    const handleEndedA = () => {
-      if (activeRef.current !== "A") return;
-      const nextIdx = getNextClip();
-      const nextClip = CLIPS[nextIdx];
-      if (videoBRef.current) {
-        videoBRef.current.src = nextClip.src;
-        videoBRef.current.load();
-        videoBRef.current.play().catch(() => {});
-      }
-      setFadeA(false);
-      setFadeB(true);
-      activeRef.current = "B";
-    };
-
-    const handleEndedB = () => {
-      if (activeRef.current !== "B") return;
-      const nextIdx = getNextClip();
-      const nextClip = CLIPS[nextIdx];
-      if (videoARef.current) {
-        videoARef.current.src = nextClip.src;
-        videoARef.current.load();
-        videoARef.current.play().catch(() => {});
-      }
-      setFadeB(false);
-      setFadeA(true);
-      activeRef.current = "A";
-    };
-
-    const vA = videoARef.current;
-    const vB = videoBRef.current;
-    if (vA) vA.addEventListener("ended", handleEndedA);
-    if (vB) vB.addEventListener("ended", handleEndedB);
-    return () => {
-      if (vA) vA.removeEventListener("ended", handleEndedA);
-      if (vB) vB.removeEventListener("ended", handleEndedB);
-    };
-  }, [getNextClip]);
-
   return (
     <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink">
       <video
-        ref={videoARef}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
-          fadeA ? "opacity-100" : "opacity-0"
-        }`}
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/videos/vic-falls.mp4"
         muted
+        loop
         playsInline
         poster="/images/victoria-falls-mist.jpg"
-        aria-hidden="true"
-      />
-      <video
-        ref={videoBRef}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
-          fadeB ? "opacity-100" : "opacity-0"
-        }`}
-        muted
-        playsInline
         aria-hidden="true"
       />
 
