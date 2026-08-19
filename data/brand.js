@@ -46,7 +46,6 @@ const brand = {
     { label: "Destinations", href: "/destinations" },
     { label: "Itineraries", href: "/itineraries" },
     { label: "Activities", href: "/experiences" },
-    { label: "Gallery", href: "/gallery" },
     { label: "About", href: "/about" },
   ],
 

@@ -14,6 +14,7 @@ html {
 body {
   background-color: theme("colors.sand.DEFAULT");
   color: theme("colors.ink");
+  overflow-x: hidden;
 }
 
 ::selection {

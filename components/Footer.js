@@ -14,13 +14,13 @@ export default function Footer() {
             <p className="text-sm text-ivory/60 leading-relaxed mb-5">
               Travel ideas, inspiration, and wonderful places to stay, delivered to your inbox.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
                 placeholder="Your email"
-                className="bg-ivory/10 border border-ivory/20 rounded-sm px-4 py-2.5 text-sm text-ivory placeholder:text-ivory/40 flex-1 max-w-xs focus:outline-none focus:border-gold"
+                className="bg-ivory/10 border border-ivory/20 rounded-sm px-4 py-2.5 text-sm text-ivory placeholder:text-ivory/40 flex-1 min-w-0 focus:outline-none focus:border-gold"
               />
-              <button className="bg-clay text-ivory px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest2 hover:bg-clay-dark transition-colors">
+              <button className="bg-clay text-ivory px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest2 hover:bg-clay-dark transition-colors shrink-0">
                 Subscribe
               </button>
             </div>
@@ -83,7 +83,6 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link href="/about" className="text-sm text-ivory/70 hover:text-gold transition-colors">About Us</Link></li>
               <li><Link href="/experiences" className="text-sm text-ivory/70 hover:text-gold transition-colors">Activities</Link></li>
-              <li><Link href="/gallery" className="text-sm text-ivory/70 hover:text-gold transition-colors">Gallery</Link></li>
             </ul>
           </div>
 
