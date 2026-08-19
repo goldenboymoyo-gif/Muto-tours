@@ -4,6 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { brand } from "@/data/brand";
 import Button from "./Button";
 
+const stats = [
+  { value: "4", label: "Countries" },
+  { value: "7+", label: "Destinations" },
+  { value: "12+", label: "Experiences" },
+  { value: "100%", label: "Tailor-made" },
+];
+
 export default function Hero() {
   const videoRef = useRef(null);
   const [entered, setEntered] = useState(false);
@@ -34,8 +41,8 @@ export default function Hero() {
         poster="/images/zambezi-sunset-cruise.jpg"
         aria-hidden="true"
       >
-        <source src="/videos/hero.webm" type="video/webm" />
         <source src="/videos/hero.mp4" type="video/mp4" />
+        <source src="/videos/hero.webm" type="video/webm" />
       </video>
 
       <div
@@ -77,6 +84,34 @@ export default function Hero() {
             <Button href="/experiences" variant="primary">Explore Experiences</Button>
             <Button href="/destinations" variant="primary">See Destinations</Button>
           </div>
+        </div>
+
+        {/* Stats bar */}
+        <div
+          className={`border-t border-ivory/15 transition-all duration-700 delay-500 ${
+            entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <div className="container-editorial py-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center sm:text-left">
+                  <p className="font-display italic text-2xl sm:text-3xl text-gold">{stat.value}</p>
+                  <p className="text-xs uppercase tracking-widest2 text-ivory/60 mt-1">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          className={`absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-700 delay-700 ${
+            entered ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <span className="text-[10px] uppercase tracking-widest2 text-ivory/50">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-ivory/40 to-transparent animate-pulse" />
         </div>
       </div>
     </section>

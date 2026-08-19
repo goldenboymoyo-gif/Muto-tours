@@ -1,7 +1,6 @@
-import MediaFrame from "@/components/MediaFrame";
+import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import CTABand from "@/components/CTABand";
-import BackLink from "@/components/BackLink";
 import { brand } from "@/data/brand";
 
 export const metadata = {
@@ -27,32 +26,18 @@ const approach = [
 export default function AboutPage() {
   return (
     <div>
-      <section className="relative h-[52vh] min-h-[380px] w-full pt-20">
-        <MediaFrame
-          src="/images/quiver-tree.jpg"
-          alt="A quiver tree against a clear blue Southern African sky"
-          label="Southern Africa"
-          priority
-          className="absolute inset-0 h-full w-full"
-        />
-        <div className="absolute inset-0 bg-ink/45" />
-        <div className="relative h-full flex items-end">
-          <div className="container-editorial pb-14">
-            <BackLink fallbackHref="/" fallbackLabel="Home" className="text-gold hover:text-ivory mb-4" />
-            <p className="text-xs uppercase tracking-widest2 text-gold mb-4">About</p>
-            <h1 className="font-display italic text-4xl sm:text-5xl md:text-6xl text-ivory max-w-2xl text-balance">
-              {brand.name}
-            </h1>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        src="/images/quiver-tree.jpg"
+        alt="A quiver tree against a clear blue Southern African sky"
+        kicker="About"
+        title={brand.name}
+        subtitle="A Victoria Falls-based team building tours across four countries."
+        backLight
+      />
 
       <section className="bg-sand">
         <div className="container-editorial py-16 md:py-24 grid md:grid-cols-12 gap-12">
           <div className="md:col-span-7">
-            <p className="font-display italic text-xl sm:text-2xl text-clay leading-snug mb-6 text-balance">
-              A Victoria Falls-based team building tours across four countries.
-            </p>
             <div className="space-y-5 text-base leading-relaxed text-ink/80">
               <p>
                 Muto Tours is a Southern Africa travel operator based in Victoria Falls,

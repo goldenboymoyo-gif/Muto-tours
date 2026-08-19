@@ -1,7 +1,7 @@
+import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import ExperienceRow from "@/components/ExperienceRow";
 import CTABand from "@/components/CTABand";
-import BackLink from "@/components/BackLink";
 import { experiences } from "@/data/experiences";
 
 export const metadata = {
@@ -12,25 +12,34 @@ export const metadata = {
 
 export default function ExperiencesPage() {
   return (
-    <div className="pt-32 pb-8 bg-sand">
-      <div className="container-editorial">
-        <BackLink fallbackHref="/" fallbackLabel="Home" className="text-clay hover:text-clay-dark mb-8" />
-        <SectionIntro
-          kicker="Experiences"
-          title="Each one can stand alone, or become a day inside a longer route."
-          dek="Everything below has run as part of a real Muto Tours itinerary. Pricing is built per trip rather than listed per activity — ask for a quote and we'll tell you exactly what's included."
-        />
+    <div>
+      <PageHero
+        src="/images/okavango-mokoro-sunset.jpg"
+        alt="A mokoro dugout canoe on the Okavango Delta at sunset"
+        kicker="Experiences"
+        title="What a day on route actually looks like."
+        subtitle="Guided game drives, sunset cruises, mokoro excursions, dune climbs — each one can stand alone or become a day inside a longer route."
+      />
+
+      <section className="bg-sand">
+        <div className="container-editorial py-20 md:py-28">
+          <SectionIntro
+            kicker="Experiences"
+            title="Each one can stand alone, or become a day inside a longer route."
+            dek="Everything below has run as part of a real Muto Tours itinerary. Pricing is built per trip rather than listed per activity — ask for a quote and we'll tell you exactly what's included."
+          />
+        </div>
+      </section>
+
+      <div className="bg-sand pb-8">
+        <div className="container-editorial divide-y divide-ink/10">
+          {experiences.map((exp, i) => (
+            <ExperienceRow key={exp.slug} experience={exp} reverse={i % 2 === 1} index={i + 1} />
+          ))}
+        </div>
       </div>
 
-      <div className="container-editorial mt-8 divide-y divide-ink/10">
-        {experiences.map((exp, i) => (
-          <ExperienceRow key={exp.slug} experience={exp} reverse={i % 2 === 1} index={i + 1} />
-        ))}
-      </div>
-
-      <div className="mt-16">
-        <CTABand />
-      </div>
+      <CTABand />
     </div>
   );
 }

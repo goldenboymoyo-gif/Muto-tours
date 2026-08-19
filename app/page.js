@@ -4,6 +4,8 @@ import DestinationTile from "@/components/DestinationTile";
 import ExperienceRow from "@/components/ExperienceRow";
 import CTABand from "@/components/CTABand";
 import MediaFrame from "@/components/MediaFrame";
+import Button from "@/components/Button";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import Link from "next/link";
 import { destinations } from "@/data/destinations";
 import { experiences } from "@/data/experiences";
@@ -141,6 +143,64 @@ export default function HomePage() {
             {featuredExperiences.map((exp, i) => (
               <ExperienceRow key={exp.slug} experience={exp} reverse={i % 2 === 1} index={i + 1} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Muto Tours — editorial split with photo */}
+      <section className="bg-ivory">
+        <div className="container-editorial py-20 md:py-28 grid md:grid-cols-12 gap-12 items-center">
+          <div className="md:col-span-5">
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <MediaFrame
+                src="/images/quiver-tree.jpg"
+                alt="A quiver tree against a clear blue Southern African sky"
+                label="Victoria Falls, Zimbabwe"
+                className="h-full w-full"
+              />
+            </div>
+          </div>
+          <div className="md:col-span-6 md:col-start-7">
+            <SectionIntro
+              kicker="About Muto Tours"
+              title="A Victoria Falls-based team building tours across four countries."
+            />
+            <div className="mt-8 space-y-4 text-base leading-relaxed text-ink/75">
+              <p>
+                Muto Tours is close enough to the falls to hear them on a quiet morning.
+                We run expert-guided tours across Zimbabwe and its neighbours, built for
+                comfort, discovery, and the kind of moments that are hard to plan for
+                but easy to recognise once you're in them.
+              </p>
+              <p>
+                Trips are tailored rather than templated — adventurers, honeymooners,
+                families, and photographers each need a different pace, and the
+                itinerary changes accordingly.
+              </p>
+            </div>
+            <div className="mt-8">
+              <Button href="/about" variant="primary">Read Our Story</Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact strip */}
+      <section className="bg-sand-deep">
+        <div className="container-editorial py-16 md:py-20 grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7">
+            <p className="text-xs uppercase tracking-widest2 text-clay mb-4">Get in Touch</p>
+            <h2 className="font-display italic text-3xl sm:text-4xl text-ink leading-[1.1] text-balance">
+              Ready to start planning?
+            </h2>
+            <p className="mt-4 text-ink/70 max-w-lg leading-relaxed">
+              Tell us your dates, budget, and the places pulling at you — we reply
+              personally, usually within a day.
+            </p>
+          </div>
+          <div className="md:col-span-5 flex flex-col items-start md:items-end gap-4">
+            <Button href="/contact" variant="primary">Plan Your Trip</Button>
+            <WhatsAppButton className="!text-ink hover:!text-clay" />
           </div>
         </div>
       </section>
