@@ -42,15 +42,14 @@ const brand = {
   },
 
   nav: [
-    { label: "Home", href: "/" },
     { label: "Destinations", href: "/destinations" },
-    { label: "Experiences", href: "/experiences" },
+    { label: "Itineraries", href: "/itineraries" },
+    { label: "Activities", href: "/experiences" },
     { label: "Gallery", href: "/gallery" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
   ],
 
-  primaryCta: { label: "Plan Your Trip", href: "/contact" },
+  primaryCta: { label: "Enquire", href: "/contact" },
 };
 
 // ---------------------------------------------------------------------------

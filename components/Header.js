@@ -5,8 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { brand } from "@/data/brand";
 import Logo from "./Logo";
-import Button from "./Button";
-import SearchBar from "./SearchBar";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,9 +23,6 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
-  // On the homepage the header starts transparent over the hero video and
-  // solidifies on scroll. On every other page it's solid from the start,
-  // since there's no full-bleed hero behind it to read against.
   const transparent = isHome && !scrolled && !menuOpen;
 
   return (
@@ -41,15 +36,15 @@ export default function Header() {
           <Logo variant={transparent ? "light" : "dark"} />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-9" aria-label="Primary">
+        <nav className="hidden lg:flex items-center gap-8" aria-label="Primary">
           {brand.nav.map((item) => {
-            const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            const active = pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm tracking-wide transition-colors relative py-1 ${
-                  transparent ? "text-ivory/90 hover:text-gold" : "text-ink/80 hover:text-clay"
+                className={`text-xs uppercase tracking-widest2 transition-colors relative py-1 ${
+                  transparent ? "text-ivory/90 hover:text-gold" : "text-ink/70 hover:text-clay"
                 } ${active ? (transparent ? "text-gold" : "text-clay font-medium") : ""}`}
               >
                 {item.label}
@@ -65,17 +60,23 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          <SearchBar light={transparent} />
-          <Button href={brand.primaryCta.href} variant="outline" className="px-5 py-2.5">
+        <div className="hidden lg:flex items-center gap-4">
+          <Link
+            href={brand.primaryCta.href}
+            className={`text-xs uppercase tracking-widest2 px-6 py-2.5 rounded-sm border transition-all duration-300 ${
+              transparent
+                ? "border-ivory/60 text-ivory hover:bg-ivory hover:text-ink"
+                : "border-clay text-clay hover:bg-clay hover:text-ivory"
+            }`}
+          >
             {brand.primaryCta.label}
-          </Button>
+          </Link>
         </div>
 
         <button
           type="button"
           onClick={() => setMenuOpen((v) => !v)}
-          className={`md:hidden inline-flex flex-col justify-center gap-1.5 h-10 w-10 ${
+          className={`lg:hidden inline-flex flex-col justify-center gap-1.5 h-10 w-10 ${
             transparent ? "text-ivory" : "text-ink"
           }`}
           aria-expanded={menuOpen}
@@ -89,16 +90,15 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="md:hidden bg-ivory border-t border-ink/10">
+        <div id="mobile-menu" className="lg:hidden bg-ivory border-t border-ink/10">
           <nav className="container-editorial py-6 flex flex-col gap-5" aria-label="Mobile">
-            <SearchBar alwaysOpen className="w-full" />
             {brand.nav.map((item) => {
-              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              const active = pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-base flex items-center gap-3 ${
+                  className={`text-sm uppercase tracking-widest2 flex items-center gap-3 ${
                     active ? "text-clay font-medium" : "text-ink"
                   }`}
                 >
@@ -107,9 +107,12 @@ export default function Header() {
                 </Link>
               );
             })}
-            <Button href={brand.primaryCta.href} variant="outline" className="w-fit mt-2">
+            <Link
+              href={brand.primaryCta.href}
+              className="text-xs uppercase tracking-widest2 px-6 py-2.5 rounded-sm border border-clay text-clay hover:bg-clay hover:text-ivory transition-all w-fit mt-2"
+            >
               {brand.primaryCta.label}
-            </Button>
+            </Link>
           </nav>
         </div>
       )}

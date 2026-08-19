@@ -1,25 +1,36 @@
-import { brand } from "@/data/brand";
-import WhatsAppButton from "./WhatsAppButton";
-import Button from "./Button";
+import Link from "next/link";
 
 export default function CTABand({
   kicker = "Start Planning",
-  title = "Tell us where you'd like to go.",
-  dek = "Every Muto Tours itinerary is built from scratch around your dates, budget, and pace of travel. Send us a note and we'll reply with a route worth considering.",
+  title = "Your African Safari Experience Begins Here",
+  dek = "From exclusive accommodations to curated experiences, we tailor every detail to ensure an unparalleled journey that transcends expectations.",
 }) {
   return (
-    <section className="bg-clay">
-      <div className="container-editorial py-20 md:py-24 grid md:grid-cols-12 gap-10 items-end">
-        <div className="md:col-span-8">
-          <p className="text-xs uppercase tracking-widest2 text-ivory/70 mb-4">{kicker}</p>
-          <h2 className="font-display italic text-3xl sm:text-4xl md:text-5xl text-ivory leading-[1.1] text-balance">
-            {title}
-          </h2>
-          <p className="mt-5 text-ivory/85 max-w-lg leading-relaxed">{dek}</p>
-        </div>
-        <div className="md:col-span-4 flex flex-col items-start md:items-end gap-4">
-          <Button href="/contact" variant="inverse">{brand.primaryCta.label}</Button>
-          <WhatsAppButton className="!text-ivory/90 hover:!text-ivory" />
+    <section className="relative overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/lion-sunset-savanna.jpg"
+          alt=""
+          className="w-full h-full object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-ink/70" />
+      </div>
+
+      <div className="relative container-editorial py-20 md:py-28 text-center">
+        <p className="text-xs uppercase tracking-widest2 text-gold mb-4">{kicker}</p>
+        <h2 className="font-display italic text-3xl sm:text-4xl md:text-5xl text-ivory leading-[1.1] text-balance max-w-3xl mx-auto">
+          {title}
+        </h2>
+        <p className="mt-5 text-ivory/80 max-w-lg mx-auto leading-relaxed">{dek}</p>
+        <div className="mt-8">
+          <Link
+            href="/contact"
+            className="inline-block text-xs uppercase tracking-widest2 px-10 py-3.5 rounded-sm bg-clay text-ivory hover:bg-clay-dark transition-colors"
+          >
+            Book Now
+          </Link>
         </div>
       </div>
     </section>
