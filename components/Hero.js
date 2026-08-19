@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 
 const CLIPS = [
@@ -11,9 +11,18 @@ const CLIPS = [
 ];
 
 export default function Hero() {
-  const videoRef = useRef(null);
+  const videoARef = useRef(null);
+  const videoBRef = useRef(null);
   const [entered, setEntered] = useState(false);
-  const [clipIndex, setClipIndex] = useState(0);
+  const activeRef = useRef("A");
+  const clipIndexRef = useRef(0);
+  const [fadeA, setFadeA] = useState(true);
+  const [fadeB, setFadeB] = useState(false);
+
+  const getNextClip = useCallback(() => {
+    clipIndexRef.current = (clipIndexRef.current + 1) % CLIPS.length;
+    return clipIndexRef.current;
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 150);
@@ -22,46 +31,81 @@ export default function Hero() {
     const connection = navigator.connection || navigator.webkitConnection;
     const saveData = connection?.saveData || ["slow-2g", "2g"].includes(connection?.effectiveType);
 
-    if (videoRef.current && !prefersReducedMotion && !saveData) {
-      videoRef.current.play().catch(() => {});
+    const playIfAllowed = (vid) => {
+      if (vid && !prefersReducedMotion && !saveData) {
+        vid.play().catch(() => {});
+      }
+    };
+
+    if (videoARef.current) {
+      videoARef.current.src = CLIPS[0].src;
+      videoARef.current.load();
+      playIfAllowed(videoARef.current);
     }
 
     return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleEnded = () => {
-      setClipIndex((prev) => (prev + 1) % CLIPS.length);
+    const handleEndedA = () => {
+      if (activeRef.current !== "A") return;
+      const nextIdx = getNextClip();
+      const nextClip = CLIPS[nextIdx];
+      if (videoBRef.current) {
+        videoBRef.current.src = nextClip.src;
+        videoBRef.current.load();
+        videoBRef.current.play().catch(() => {});
+      }
+      setFadeA(false);
+      setFadeB(true);
+      activeRef.current = "B";
     };
 
-    video.addEventListener("ended", handleEnded);
-    return () => video.removeEventListener("ended", handleEnded);
-  }, []);
+    const handleEndedB = () => {
+      if (activeRef.current !== "B") return;
+      const nextIdx = getNextClip();
+      const nextClip = CLIPS[nextIdx];
+      if (videoARef.current) {
+        videoARef.current.src = nextClip.src;
+        videoARef.current.load();
+        videoARef.current.play().catch(() => {});
+      }
+      setFadeB(false);
+      setFadeA(true);
+      activeRef.current = "A";
+    };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.load();
-    video.play().catch(() => {});
-  }, [clipIndex]);
+    const vA = videoARef.current;
+    const vB = videoBRef.current;
+    if (vA) vA.addEventListener("ended", handleEndedA);
+    if (vB) vB.addEventListener("ended", handleEndedB);
+    return () => {
+      if (vA) vA.removeEventListener("ended", handleEndedA);
+      if (vB) vB.removeEventListener("ended", handleEndedB);
+    };
+  }, [getNextClip]);
 
   return (
     <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink">
       <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
+        ref={videoARef}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
+          fadeA ? "opacity-100" : "opacity-0"
+        }`}
         muted
         playsInline
-        autoPlay
         poster="/images/victoria-falls-mist.jpg"
         aria-hidden="true"
-        key={clipIndex}
-      >
-        <source src={CLIPS[clipIndex].src} type={CLIPS[clipIndex].type} />
-      </video>
+      />
+      <video
+        ref={videoBRef}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
+          fadeB ? "opacity-100" : "opacity-0"
+        }`}
+        muted
+        playsInline
+        aria-hidden="true"
+      />
 
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-ink/70" />
 
