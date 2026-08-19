@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import MediaFrame from "./MediaFrame";
+
+const DestinationMap = dynamic(() => import("./DestinationMap"), { ssr: false });
 
 const countries = [
   {
@@ -90,7 +93,7 @@ export default function CountryGrid() {
                           {country.description}
                         </p>
                         <span className="mt-3 inline-block text-xs uppercase tracking-widest2 text-gold">
-                          Go
+                          Explore
                           <svg className="inline-block ml-2 w-4 h-4" viewBox="0 0 16 10" fill="none">
                             <path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="currentColor" strokeWidth="1.3" />
                           </svg>
@@ -103,44 +106,9 @@ export default function CountryGrid() {
             </div>
           </div>
 
-          {/* Right: map of Southern Africa */}
+          {/* Right: interactive map of Southern Africa */}
           <div className="md:col-span-5 md:sticky md:top-28">
-            <div className="relative rounded-lg overflow-hidden border border-ink/10">
-              <img
-                src="/images/southern-africa-map.png"
-                alt="Map of Southern Africa showing Muto Tours destinations across Zimbabwe, Botswana, Namibia, Zambia, and South Africa"
-                className="w-full h-auto"
-                loading="lazy"
-              />
-              {/* Overlay markers on the map */}
-              <div className="absolute inset-0">
-                {countries.map((country) => {
-                  // Position markers based on rough relative coordinates on the map image
-                  const positions = {
-                    Zimbabwe: { top: "42%", left: "58%" },
-                    Botswana: { top: "55%", left: "48%" },
-                    Namibia: { top: "45%", left: "28%" },
-                    Zambia: { top: "28%", left: "55%" },
-                    "South Africa": { top: "72%", left: "45%" },
-                  };
-                  const pos = positions[country.name];
-                  return (
-                    <Link
-                      key={country.name}
-                      href={`/destinations/${country.slug}`}
-                      className="absolute group/marker"
-                      style={{ top: pos.top, left: pos.left }}
-                      title={country.name}
-                    >
-                      <div className="w-3 h-3 bg-clay rounded-full border-2 border-ivory shadow-md hover:scale-150 transition-transform cursor-pointer" />
-                      <span className="absolute left-5 top-1/2 -translate-y-1/2 bg-ink/90 text-ivory text-[10px] uppercase tracking-wider px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover/marker:opacity-100 transition-opacity pointer-events-none">
-                        {country.name}
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
+            <DestinationMap />
           </div>
         </div>
       </div>
