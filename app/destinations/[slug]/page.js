@@ -85,8 +85,11 @@ export default function DestinationPage({ params }) {
     .map((slug) => getDestinationBySlug(slug))
     .filter(Boolean);
 
+  const route = ROUTE_MAP[destination.slug];
+
   return (
     <div>
+      {/* ── Hero ─────────────────────────────────────────────────── */}
       <section className="relative h-[62vh] min-h-[420px] w-full pt-20">
         <MediaFrame
           src={destination.image}
@@ -109,42 +112,26 @@ export default function DestinationPage({ params }) {
         </div>
       </section>
 
+      {/* ── Tagline ──────────────────────────────────────────────── */}
+      <section className="bg-ivory">
+        <div className="container-editorial py-14 md:py-20 text-center">
+          <p className="font-display italic text-2xl sm:text-3xl md:text-4xl text-clay leading-snug max-w-2xl mx-auto text-balance">
+            {destination.tagline}
+          </p>
+        </div>
+      </section>
+
+      {/* ── Description + Sidebar ────────────────────────────────── */}
       <section className="bg-sand">
         <div className="container-editorial py-16 md:py-24 grid md:grid-cols-12 gap-12">
           <div className="md:col-span-7">
-            <p className="font-display italic text-xl sm:text-2xl text-clay leading-snug mb-6 text-balance">
-              {destination.tagline}
-            </p>
             {destination.description.split("\n\n").map((para, i) => (
               <p key={i} className="text-base leading-relaxed text-ink/80 mb-5 last:mb-0">
                 {para}
               </p>
             ))}
-
-            {ROUTE_MAP[destination.slug] && (
-              <div className="mt-10">
-                <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-2">
-                  {ROUTE_MAP[destination.slug].title}
-                </h2>
-                <p className="text-sm text-ink/70 mb-4 leading-relaxed">
-                  {ROUTE_MAP[destination.slug].description}
-                </p>
-
-                <RouteMap stops={ROUTE_MAP[destination.slug].stops} />
-
-                <ol className="mt-6 space-y-2.5">
-                  {ROUTE_MAP[destination.slug].stops.map((stop, i) => (
-                    <li key={stop} className="flex gap-3 text-sm text-ink/80 leading-relaxed">
-                      <span className="text-clay shrink-0 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                      {stop}
-                    </li>
-                  ))}
-                </ol>
-                <p className="mt-4 text-xs text-ink/50 leading-relaxed italic">{ROUTE_MAP[destination.slug].note}</p>
-              </div>
-            )}
           </div>
-          <div className="md:col-span-4 md:col-start-9">
+          <aside className="md:col-span-4 md:col-start-9">
             <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-5">On route here</h2>
             <ul className="space-y-4">
               {destination.highlights.map((h) => (
@@ -154,54 +141,98 @@ export default function DestinationPage({ params }) {
                 </li>
               ))}
             </ul>
-
-            {pairedDestinations.length > 0 && (
-              <>
-                <div className="hr-rule my-7" />
-                <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-5">Pairs well with</h2>
-                <div className="space-y-3">
-                  {pairedDestinations.map((p) => (
-                    <Link
-                      key={p.slug}
-                      href={`/destinations/${p.slug}`}
-                      className="flex items-center gap-3 text-sm text-ink/80 hover:text-clay transition-colors group"
-                    >
-                      <span className="w-6 h-6 rounded-full bg-clay/10 flex items-center justify-center shrink-0 group-hover:bg-clay/20 transition-colors">
-                        <span className="w-1.5 h-1.5 rounded-full bg-clay" />
-                      </span>
-                      <span className="underline decoration-ink/20 underline-offset-4 group-hover:decoration-clay">
-                        {p.name}, {p.country}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </>
-            )}
-
             <Button href="/contact" variant="primary" className="mt-8">
               Plan a trip to {destination.name}
             </Button>
-          </div>
+          </aside>
         </div>
       </section>
 
-      {destination.gallery?.length > 0 && (
-        <section className="bg-sand">
-          <div className="container-editorial pb-16 md:pb-24 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {destination.gallery.map((src, i) => (
-              <div
-                key={src}
-                className={`relative aspect-[4/3] ${i === 0 ? "col-span-2 md:col-span-1 md:aspect-square" : ""}`}
-              >
-                <MediaFrame src={src} alt={`${destination.name} photo`} label={destination.name} sizes="(min-width: 768px) 33vw, 50vw" className="h-full w-full" />
-              </div>
-            ))}
+      {/* ── Route Map (full-width) ───────────────────────────────── */}
+      {route && (
+        <section className="bg-ivory">
+          <div className="container-editorial py-16 md:py-24">
+            <div className="text-center mb-10">
+              <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-3">{route.title}</h2>
+              <p className="text-base text-ink/70 max-w-2xl mx-auto leading-relaxed">
+                {route.description}
+              </p>
+            </div>
+
+            <RouteMap stops={route.stops} />
+
+            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {route.stops.map((stop, i) => (
+                <div key={stop} className="flex items-start gap-3 bg-sand rounded-lg px-4 py-3">
+                  <span className="text-clay font-display text-lg leading-none mt-0.5 shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm text-ink/80 leading-snug">{stop}</span>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-6 text-xs text-ink/50 leading-relaxed italic text-center">{route.note}</p>
           </div>
         </section>
       )}
 
-      {relatedExperiences.length > 0 && (
+      {/* ── Gallery ──────────────────────────────────────────────── */}
+      {destination.gallery?.length > 0 && (
+        <section className="bg-sand">
+          <div className="container-editorial py-16 md:py-24">
+            <h2 className="font-display text-2xl sm:text-3xl text-ink mb-8 text-center">Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+              {destination.gallery.map((src, i) => (
+                <div
+                  key={src}
+                  className={`relative aspect-[4/3] ${i === 0 ? "col-span-2 md:col-span-1 md:aspect-square" : ""}`}
+                >
+                  <MediaFrame src={src} alt={`${destination.name} photo`} label={destination.name} sizes="(min-width: 768px) 33vw, 50vw" className="h-full w-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Pairs Well With (image cards) ────────────────────────── */}
+      {pairedDestinations.length > 0 && (
         <section className="bg-ivory">
+          <div className="container-editorial py-16 md:py-24">
+            <h2 className="font-display text-2xl sm:text-3xl text-ink mb-3 text-center">Pairs well with</h2>
+            <p className="text-sm text-ink/60 text-center mb-10">Continue the journey</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {pairedDestinations.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/destinations/${p.slug}`}
+                  className="group relative aspect-[16/9] rounded-xl overflow-hidden"
+                >
+                  <MediaFrame
+                    src={p.image}
+                    alt={p.imageAlt}
+                    label={p.name}
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <p className="text-xs uppercase tracking-widest2 text-ivory/70 mb-1">{p.country}</p>
+                    <h3 className="font-display italic text-xl sm:text-2xl text-ivory group-hover:text-gold transition-colors">
+                      {p.name}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Related Experiences ──────────────────────────────────── */}
+      {relatedExperiences.length > 0 && (
+        <section className="bg-sand">
           <div className="container-editorial py-16 md:py-20">
             <h2 className="font-display text-2xl sm:text-3xl text-ink mb-2">Experiences here</h2>
             <div className="divide-y divide-ink/10">
@@ -213,6 +244,7 @@ export default function DestinationPage({ params }) {
         </section>
       )}
 
+      {/* ── Next Destination CTA ─────────────────────────────────── */}
       <CTABand
         kicker="Next stop"
         title={`Pair it with ${next.name}`}
