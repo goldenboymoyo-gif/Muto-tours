@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import MediaFrame from "@/components/MediaFrame";
 import CTABand from "@/components/CTABand";
@@ -7,6 +8,8 @@ import Button from "@/components/Button";
 import BackLink from "@/components/BackLink";
 import { destinations, getDestinationBySlug } from "@/data/destinations";
 import { experiences } from "@/data/experiences";
+
+const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
 const ROUTE_MAP = {
   "victoria-falls": {
@@ -119,14 +122,17 @@ export default function DestinationPage({ params }) {
             ))}
 
             {ROUTE_MAP[destination.slug] && (
-              <div className="mt-10 border-l-2 border-clay/40 pl-6">
-                <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-4">
+              <div className="mt-10">
+                <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-2">
                   {ROUTE_MAP[destination.slug].title}
                 </h2>
                 <p className="text-sm text-ink/70 mb-4 leading-relaxed">
                   {ROUTE_MAP[destination.slug].description}
                 </p>
-                <ol className="space-y-2.5">
+
+                <RouteMap stops={ROUTE_MAP[destination.slug].stops} />
+
+                <ol className="mt-6 space-y-2.5">
                   {ROUTE_MAP[destination.slug].stops.map((stop, i) => (
                     <li key={stop} className="flex gap-3 text-sm text-ink/80 leading-relaxed">
                       <span className="text-clay shrink-0 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
