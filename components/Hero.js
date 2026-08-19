@@ -41,7 +41,7 @@ export default function Hero() {
         poster="/images/safari-jeep-road.jpg"
         aria-hidden="true"
       >
-        <source src="/videos/safari-drive.mp4" type="video/mp4" />
+        <source src="/videos/sunset-boat-cruise.mp4" type="video/mp4" />
         <source src="/videos/hero.mp4" type="video/mp4" />
         <source src="/videos/hero.webm" type="video/webm" />
       </video>

@@ -90,15 +90,15 @@ export default function SearchBar({ light = false, alwaysOpen = false, className
   }
 
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
+    <div ref={containerRef} className={`relative flex-1 ${className}`}>
       <motion.div
         initial={false}
         animate={{ width: open ? (alwaysOpen ? "100%" : 288) : 40 }}
         transition={{ type: "spring", stiffness: 320, damping: 22 }}
-        className={`h-10 rounded-full flex items-center overflow-hidden transition-colors duration-300 ${
+        className={`h-10 rounded-full flex items-center overflow-hidden ${
           light
-            ? "bg-ivory/10 focus-within:bg-ivory/20"
-            : "bg-ink/[0.04] focus-within:bg-ink/[0.08]"
+            ? "bg-ivory/10"
+            : "bg-ink/[0.04]"
         }`}
       >
         <button
@@ -145,7 +145,7 @@ export default function SearchBar({ light = false, alwaysOpen = false, className
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 mt-2 w-full min-w-[280px] max-w-sm rounded-2xl bg-ivory shadow-[0_20px_50px_-15px_rgba(33,29,24,0.35)] border border-ink/10 overflow-hidden z-10"
+            className="absolute right-0 mt-2 w-full min-w-[280px] max-w-sm rounded-2xl bg-ivory shadow-[0_20px_50px_-15px_rgba(33,29,24,0.35)] overflow-hidden z-10"
           >
             {results.length > 0 ? (
               results.map((r) => (
