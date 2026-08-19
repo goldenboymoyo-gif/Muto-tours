@@ -3,14 +3,13 @@ import Link from "next/link";
 export default function CTABand({
   kicker = "Start Planning",
   title = "Your African Safari Experience Begins Here",
-  dek = "From exclusive accommodations to curated experiences, we tailor every detail to ensure an unparalleled journey that transcends expectations.",
+  dek = "From exclusive accommodations to curated experiences, we tailor every detail to ensure an unparalleled journey that transcends expectations. Elevate your travel aspirations with our commitment to excellence and seamless service.",
 }) {
   return (
     <section className="relative overflow-hidden">
-      {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="/images/lion-sunset-savanna.jpg"
+          src="/images/bushveld-sunset.jpg"
           alt=""
           className="w-full h-full object-cover"
           aria-hidden="true"
@@ -19,7 +18,6 @@ export default function CTABand({
       </div>
 
       <div className="relative container-editorial py-20 md:py-28 text-center">
-        <p className="text-xs uppercase tracking-widest2 text-gold mb-4">{kicker}</p>
         <h2 className="font-display italic text-3xl sm:text-4xl md:text-5xl text-ivory leading-[1.1] text-balance max-w-3xl mx-auto">
           {title}
         </h2>

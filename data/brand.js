@@ -45,8 +45,9 @@ const brand = {
     { label: "Destinations", href: "/destinations" },
     { label: "Itineraries", href: "/itineraries" },
     { label: "Activities", href: "/experiences" },
-    { label: "Gallery", href: "/gallery" },
+    { label: "Signature Products", href: "/experiences" },
     { label: "About", href: "/about" },
+    { label: "Travel Updates", href: "/about" },
   ],
 
   primaryCta: { label: "Enquire", href: "/contact" },

@@ -2,19 +2,25 @@ const testimonials = [
   {
     name: "Sarah M.",
     location: "United Kingdom",
-    text: "Muto Tours handled every detail of our Victoria Falls and Chobe trip. The guides were knowledgeable, the transfers seamless, and the sunset cruise on the Zambezi was the highlight of our entire Africa trip. Highly recommend.",
+    text: "Muto Tours handled all my tours for my stay in Victoria Falls. Not only were they very communicative prior to our arrival, but they were great to deal with on-site — both their representative as well as their tour guides and drivers for every activity we planned. I would let Muto Tours handle things as they are very good at what they do. I have no complaints whatsoever and only compliments!",
     rating: 5,
   },
   {
     name: "James K.",
     location: "Australia",
-    text: "We booked a 10-day Namibia Explorer route and it exceeded every expectation. The dunes at Sossusvlei, the coast at Swakopmund, and Etosha's waterholes — every day was a new adventure. The team at Muto Tours made it effortless.",
+    text: "Thank you Muto Tours for a fabulous day trip to Chobe. From the start right to the end we were looked after. Everything ran smoothly, the pick-up, the border crossing, the ferry across the river into Botswana. Our guide was a good driver. Lunch was great and the afternoon cruise along the Chobe River was superb! And we all arrived safely back.",
     rating: 5,
   },
   {
     name: "Maria L.",
     location: "Germany",
-    text: "From the first email to the last drop-off at the airport, everything was professional and personal. Our guide knew every corner of Hwange and found us elephants, wild dogs, and a leopard in three days. Outstanding.",
+    text: "Muto Tours went above and beyond our expectations. They were always on time to pick us up, staff were friendly, their tours and airport transfers well organised. They were our tour operators for Chobe National Park, Victoria Falls, Zambezi sunset cruise and our airport transfers. The transport was always clean, drivers friendly.",
+    rating: 5,
+  },
+  {
+    name: "David W.",
+    location: "United States",
+    text: "We used Muto Tours for a walking tour of the falls and a sunset cruise. Our guide was absolutely amazing, very friendly and so knowledgeable. The sunset cruise was beautiful and one of the highlights of our entire trip here in Africa. We saw many animals and the staff on the cruise was also wonderful. We highly recommend using this company.",
     rating: 5,
   },
 ];
@@ -23,12 +29,7 @@ export default function Testimonials() {
   return (
     <section className="bg-ivory">
       <div className="container-editorial py-20 md:py-28">
-        <div className="text-center mb-14">
-          <h2 className="font-display text-3xl sm:text-4xl text-ink mb-3">What Our Clients Say</h2>
-          <p className="text-sm text-ink/60">Real experiences from real travellers</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {testimonials.map((t) => (
             <div key={t.name} className="border border-ink/10 p-7 rounded-lg">
               <div className="flex gap-1 mb-4">

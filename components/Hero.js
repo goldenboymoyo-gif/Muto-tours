@@ -23,8 +23,6 @@ export default function Hero() {
 
   return (
     <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink">
-      {/* Hero video — sourced from Bush Tracks Africa, loaded from Wix CDN.
-          Replace with self-hosted Muto Tours footage when available. */}
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
@@ -43,49 +41,47 @@ export default function Hero() {
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-ink/40" />
-
-      {/* Gradient overlays matching Bush Tracks style */}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-ink/70" />
 
-      <div className="relative h-full flex flex-col justify-center">
-        <div className="container-editorial text-center px-6">
-          <p
-            className={`text-gold text-xs sm:text-sm uppercase tracking-[0.3em] mb-6 transition-all duration-700 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            Zimbabwe &middot; Botswana &middot; Namibia &middot; South Africa
-          </p>
-          <h1
-            className={`font-display italic text-ivory text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] max-w-4xl mx-auto text-balance transition-all duration-700 delay-100 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-            }`}
-          >
-            A Leading Tour Operator in Southern Africa
-          </h1>
-          <p
-            className={`mt-4 text-ivory/80 text-sm sm:text-base uppercase tracking-[0.2em] transition-all duration-700 delay-200 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            Operating from the Heart of Africa
-          </p>
-          <div
-            className={`mt-10 transition-all duration-700 delay-300 ${
-              entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 text-ivory text-sm uppercase tracking-widest2 border border-ivory/50 px-8 py-3 rounded-sm hover:bg-ivory hover:text-ink transition-all duration-300"
+      <div className="relative h-full flex items-center">
+        <div className="container-editorial px-6 sm:px-10 lg:px-16">
+          <div className="max-w-2xl">
+            <h1
+              className={`font-display text-ivory text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase leading-[1.15] text-balance transition-all duration-700 ${
+                entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
             >
-              More About Us
-              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
-                <path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="currentColor" strokeWidth="1.3" />
-              </svg>
-            </Link>
+              A Leading Tour Operator in Southern Africa
+            </h1>
+            <p
+              className={`mt-4 text-gold text-xs sm:text-sm uppercase tracking-[0.25em] transition-all duration-700 delay-100 ${
+                entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              Operating from the Heart of Africa
+            </p>
+            <p
+              className={`mt-6 text-ivory/85 text-sm sm:text-base leading-relaxed max-w-lg transition-all duration-700 delay-200 ${
+                entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              Welcome to Muto Tours, where we craft bespoke African travel experiences across Zimbabwe, Botswana, Namibia, and South Africa. With a commitment to excellence, we curate unforgettable journeys that immerse you in the wonders of Africa&apos;s wilderness and culture. Every moment is designed to exceed your expectations.
+            </p>
+            <div
+              className={`mt-8 transition-all duration-700 delay-300 ${
+                entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-ivory text-xs uppercase tracking-widest2 border border-ivory/50 px-8 py-3 rounded-sm hover:bg-ivory hover:text-ink transition-all duration-300"
+              >
+                More About Us
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+                  <path d="M1 5H15M15 5L11 1M15 5L11 9" stroke="currentColor" strokeWidth="1.3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
