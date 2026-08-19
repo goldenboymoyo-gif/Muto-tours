@@ -185,26 +185,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact strip */}
-      <section className="bg-sand-deep">
-        <div className="container-editorial py-16 md:py-20 grid md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7">
-            <p className="text-xs uppercase tracking-widest2 text-clay mb-4">Get in Touch</p>
-            <h2 className="font-display italic text-3xl sm:text-4xl text-ink leading-[1.1] text-balance">
-              Ready to start planning?
-            </h2>
-            <p className="mt-4 text-ink/70 max-w-lg leading-relaxed">
-              Tell us your dates, budget, and the places pulling at you — we reply
-              personally, usually within a day.
-            </p>
-          </div>
-          <div className="md:col-span-5 flex flex-col items-start md:items-end gap-4">
-            <Button href="/contact" variant="primary">Plan Your Trip</Button>
-            <WhatsAppButton className="!text-ink hover:!text-clay" />
-          </div>
-        </div>
-      </section>
-
       <CTABand />
     </>
   );

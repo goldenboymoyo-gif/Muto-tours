@@ -20,7 +20,7 @@ export default function PageHero({
         priority
         className="absolute inset-0 h-full w-full"
       />
-      <div className="absolute inset-0 bg-ink/45" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/40 to-ink/70" />
       <div className="relative h-full flex items-end">
         <div className="container-editorial pb-14">
           <BackLink

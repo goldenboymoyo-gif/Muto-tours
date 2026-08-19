@@ -38,18 +38,18 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/images/zambezi-sunset-cruise.jpg"
+        poster="/images/savanna-sunset-hq.jpg"
         aria-hidden="true"
       >
+        <source src="/videos/savanna-sunset-mixkit.mp4" type="video/mp4" />
         <source src="/videos/hero.mp4" type="video/mp4" />
-        <source src="/videos/hero.webm" type="video/webm" />
       </video>
 
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(14,33,30,0.55) 0%, rgba(14,33,30,0.15) 35%, rgba(14,33,30,0.35) 70%, rgba(14,33,30,0.85) 100%)",
+            "linear-gradient(180deg, rgba(14,33,30,0.65) 0%, rgba(14,33,30,0.25) 30%, rgba(14,33,30,0.35) 65%, rgba(14,33,30,0.9) 100%)",
         }}
       />
 
@@ -70,7 +70,7 @@ export default function Hero() {
             {brand.tagline}
           </h1>
           <p
-            className={`mt-6 text-ivory/85 text-base sm:text-lg max-w-xl leading-relaxed transition-all duration-700 delay-200 ${
+            className={`mt-6 text-ivory/90 text-base sm:text-lg max-w-xl leading-relaxed transition-all duration-700 delay-200 ${
               entered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -83,6 +83,7 @@ export default function Hero() {
           >
             <Button href="/experiences" variant="primary">Explore Experiences</Button>
             <Button href="/destinations" variant="primary">See Destinations</Button>
+            <Button href="/contact" variant="primary">Plan Your Trip</Button>
           </div>
         </div>
 
@@ -102,16 +103,6 @@ export default function Hero() {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div
-          className={`absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-700 delay-700 ${
-            entered ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <span className="text-[10px] uppercase tracking-widest2 text-ivory/50">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-ivory/40 to-transparent animate-pulse" />
         </div>
       </div>
     </section>
