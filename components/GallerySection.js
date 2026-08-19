@@ -7,8 +7,6 @@ import { galleryPhotos } from "@/data/gallery";
 const CATEGORIES = [
   "All",
   "Wildlife",
-  "Adventure",
-  "Boat Cruises",
   "Destinations",
   "Nature",
 ];
