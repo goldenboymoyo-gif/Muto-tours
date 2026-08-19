@@ -30,12 +30,10 @@ export default function Hero() {
         loop
         playsInline
         autoPlay
-        poster="/images/safari-jeep-road.jpg"
+        poster="/images/victoria-falls-mist.jpg"
         aria-hidden="true"
       >
-        <source src="/videos/safari-drive.mp4" type="video/mp4" />
-        <source src="/videos/sunset-boat-cruise.mp4" type="video/mp4" />
-        <source src="/videos/hero.mp4" type="video/mp4" />
+        <source src="/videos/vic-falls.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-ink/70" />
