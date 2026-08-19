@@ -102,3 +102,154 @@ body {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   GooeySearchBar
+   ========================================================================== */
+
+.gooey-search-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.gooey-search-inner {
+  position: relative;
+}
+
+.gooey-search-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+  filter: url(#goo-effect);
+}
+
+.no-goo .gooey-search-content {
+  filter: none;
+}
+
+.gooey-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  border-radius: 9999px;
+  cursor: pointer;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.gooey-light {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(251, 248, 242, 0.9);
+  border: 1px solid rgba(251, 248, 242, 0.2);
+}
+
+.gooey-light:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.gooey-dark {
+  background: rgba(33, 29, 24, 0.06);
+  color: rgba(33, 29, 24, 0.7);
+  border: 1px solid rgba(33, 29, 24, 0.1);
+}
+
+.gooey-dark:hover {
+  background: rgba(33, 29, 24, 0.1);
+  color: rgba(33, 29, 24, 0.9);
+}
+
+.gooey-search-text {
+  pointer-events: none;
+}
+
+.gooey-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-size: 13px;
+  width: 100%;
+  padding: 0;
+}
+
+.gooey-search-input::placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+
+.gooey-search-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+
+.gooey-search-results {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  min-width: 260px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(33, 29, 24, 0.2), 0 4px 16px rgba(33, 29, 24, 0.1);
+  padding: 6px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.gooey-search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  color: #211D18;
+}
+
+.gooey-search-result:hover {
+  background: #F6F1E7;
+}
+
+.gooey-search-result-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-info-icon {
+  color: #B5502B;
+  flex-shrink: 0;
+}
+
+.gooey-search-result-category {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(33, 29, 24, 0.4);
+}
+
+@keyframes loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+.gooey-search-icon svg.loading-icon {
+  animation: loading-spin 1s linear infinite;
+  width: 15px;
+  height: 15px;
+}

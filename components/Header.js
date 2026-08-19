@@ -2,18 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { brand } from "@/data/brand";
 import Logo from "./Logo";
 import Button from "./Button";
+import GooeySearchBar from "./ui/animated-search-bar";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
-  const router = useRouter();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -25,28 +23,9 @@ export default function Header() {
 
   useEffect(() => {
     setMenuOpen(false);
-    setSearchOpen(false);
   }, [pathname]);
 
   const transparent = isHome && !scrolled && !menuOpen;
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    const q = searchQuery.trim().toLowerCase();
-    // Search through nav items
-    const match = brand.nav.find(
-      (item) => item.label.toLowerCase().includes(q) || item.href.replace("/", "").includes(q)
-    );
-    if (match) {
-      router.push(match.href);
-    } else {
-      // Default to destinations if no match
-      router.push(`/destinations?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-    setSearchQuery("");
-    setSearchOpen(false);
-  };
 
   const isActive = (href) => {
     if (href === "/") return pathname === "/";
@@ -86,41 +65,13 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          {/* Search toggle */}
-          <button
-            type="button"
-            onClick={() => setSearchOpen((v) => !v)}
-            className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-colors ${
-              transparent
-                ? "text-ivory/70 hover:text-gold hover:bg-ivory/10"
-                : "text-ink/50 hover:text-clay hover:bg-ink/5"
-            }`}
-            aria-label="Search"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </button>
+          <GooeySearchBar transparent={transparent} />
           <Button href={brand.primaryCta.href} variant="primary" className="px-5 py-2.5">
             {brand.primaryCta.label}
           </Button>
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
-          <button
-            type="button"
-            onClick={() => setSearchOpen((v) => !v)}
-            className={`inline-flex items-center justify-center h-9 w-9 rounded-full transition-colors ${
-              transparent ? "text-ivory/70" : "text-ink/50"
-            }`}
-            aria-label="Search"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </button>
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
@@ -138,43 +89,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Search bar dropdown */}
-      {searchOpen && (
-        <div className={`border-t ${transparent ? "bg-ink/80 backdrop-blur-sm border-ivory/10" : "bg-ivory border-ink/10"}`}>
-          <div className="container-editorial py-4">
-            <form onSubmit={handleSearch} className="flex items-center gap-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={transparent ? "text-ivory/50" : "text-ink/40"}>
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search destinations, experiences..."
-                autoFocus
-                className={`flex-1 bg-transparent border-b-2 outline-none text-sm py-2 placeholder:transition-colors ${
-                  transparent
-                    ? "text-ivory border-ivory/30 placeholder:text-ivory/40 focus:border-gold"
-                    : "text-ink border-ink/20 placeholder:text-ink/40 focus:border-clay"
-                }`}
-              />
-              <button
-                type="submit"
-                className={`text-sm font-medium px-4 py-2 rounded-full transition-colors ${
-                  transparent
-                    ? "text-gold hover:bg-ivory/10"
-                    : "text-clay hover:bg-clay/10"
-                }`}
-              >
-                Go
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile menu */}
       {menuOpen && (
         <div id="mobile-menu" className="md:hidden bg-ivory border-t border-ink/10">
           <nav className="container-editorial py-6 flex flex-col gap-5" aria-label="Mobile">
