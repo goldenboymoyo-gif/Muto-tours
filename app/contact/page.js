@@ -13,8 +13,8 @@ export default function ContactPage() {
   return (
     <div>
       <PageHero
-        src="/images/etosha-safari-track.jpg"
-        alt="Safari vehicles on a game-viewing track"
+        src="/images/namibia-rock-arch.jpg"
+        alt="A natural rock arch in the Namibian desert"
         kicker="Get in Touch"
         title="Let's plan your route."
         subtitle="Fill in as much or as little as you know so far — dates, a rough budget, the destinations pulling at you."

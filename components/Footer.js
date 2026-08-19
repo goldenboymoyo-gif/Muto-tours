@@ -83,7 +83,6 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><Link href="/about" className="text-sm text-ivory/70 hover:text-gold transition-colors">About Us</Link></li>
               <li><Link href="/experiences" className="text-sm text-ivory/70 hover:text-gold transition-colors">Activities</Link></li>
-              <li><Link href="/experiences" className="text-sm text-ivory/70 hover:text-gold transition-colors">Signature Products</Link></li>
               <li><Link href="/gallery" className="text-sm text-ivory/70 hover:text-gold transition-colors">Gallery</Link></li>
             </ul>
           </div>
@@ -110,13 +109,12 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Extra nav */}
+          {/* More */}
           <div>
             <h3 className="text-xs uppercase tracking-widest2 text-ivory/50 mb-5">More</h3>
             <ul className="space-y-3">
-              <li><Link href="/experiences" className="text-sm text-ivory/70 hover:text-gold transition-colors">Signature Products</Link></li>
               <li><Link href="/contact" className="text-sm text-ivory/70 hover:text-gold transition-colors">Enquire</Link></li>
-              <li><Link href="/about" className="text-sm text-ivory/70 hover:text-gold transition-colors">Travel Updates</Link></li>
+              <li><Link href="/itineraries" className="text-sm text-ivory/70 hover:text-gold transition-colors">Itineraries</Link></li>
             </ul>
           </div>
         </div>

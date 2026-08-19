@@ -14,8 +14,8 @@ export default function ExperiencesPage() {
   return (
     <div>
       <PageHero
-        src="/images/okavango-mokoro-sunset.jpg"
-        alt="A mokoro dugout canoe on the Okavango Delta at sunset"
+        src="/images/zambezi-cruise-hq.jpg"
+        alt="A boat cruise on the Zambezi River"
         kicker="Experiences"
         title="What a day on route actually looks like."
         subtitle="Guided game drives, sunset cruises, mokoro excursions, dune climbs — each one can stand alone or become a day inside a longer route."

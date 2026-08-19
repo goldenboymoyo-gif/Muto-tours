@@ -42,12 +42,12 @@ const brand = {
   },
 
   nav: [
+    { label: "Home", href: "/" },
     { label: "Destinations", href: "/destinations" },
     { label: "Itineraries", href: "/itineraries" },
     { label: "Activities", href: "/experiences" },
-    { label: "Signature Products", href: "/experiences" },
+    { label: "Gallery", href: "/gallery" },
     { label: "About", href: "/about" },
-    { label: "Travel Updates", href: "/about" },
   ],
 
   primaryCta: { label: "Enquire", href: "/contact" },

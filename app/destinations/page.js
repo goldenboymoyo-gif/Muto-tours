@@ -16,8 +16,8 @@ export default function DestinationsPage() {
   return (
     <div>
       <PageHero
-        src="/images/savanna-track-sunset.jpg"
-        alt="A golden sunset over the Southern African savanna"
+        src="/images/fish-river-canyon.jpg"
+        alt="The vast Fish River Canyon in Namibia"
         kicker="Destinations"
         title="Four countries, one continuous route."
         subtitle="Victoria Falls, Hwange, Chobe, the Okavango Delta, Namibia, and beyond — where Muto Tours builds its routes."

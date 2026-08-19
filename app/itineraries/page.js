@@ -13,8 +13,8 @@ export default function ItinerariesPage() {
   return (
     <div>
       <PageHero
-        src="/images/okavango-mokoro-sunset.jpg"
-        alt="Mokoro canoes on the Okavango Delta at sunset"
+        src="/images/savanna-sunset-hq.jpg"
+        alt="A golden sunset over the Southern African savanna"
         kicker="Multi-Day Routes"
         title="Tour Itineraries"
         subtitle="Pre-designed routes that work as starting points — every one is quoted individually and adjusted to your dates, pace, and interests."

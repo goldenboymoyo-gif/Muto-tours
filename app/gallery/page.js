@@ -11,8 +11,8 @@ export default function GalleryPage() {
   return (
     <div>
       <PageHero
-        src="/images/deadvlei-dunes.jpg"
-        alt="The orange dunes of Deadvlei against a deep blue sky"
+        src="/images/giraffe-acacia.jpg"
+        alt="A giraffe under an acacia tree in the African savanna"
         kicker="Gallery"
         title="What it actually looks like out there."
         subtitle="Real photography and footage from Southern Africa trips — no stock imagery."
