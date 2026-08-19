@@ -83,7 +83,6 @@ export default function Hero() {
             }`}
           >
             <Button href="/experiences" variant="primary">Explore Experiences</Button>
-            <Button href="/destinations" variant="primary">See Destinations</Button>
             <Button href="/contact" variant="primary">Plan Your Trip</Button>
           </div>
         </div>

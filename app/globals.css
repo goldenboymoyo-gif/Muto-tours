@@ -121,11 +121,6 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-  filter: url(#goo-effect);
-}
-
-.no-goo .gooey-button-content-inner {
-  filter: none;
 }
 
 .gooey-search-btn {
@@ -145,19 +140,19 @@ body {
 }
 
 .gooey-light {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(251, 248, 242, 0.9);
-  border: 1px solid rgba(251, 248, 242, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .gooey-light:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .gooey-dark {
-  background: rgba(33, 29, 24, 0.06);
-  color: rgba(33, 29, 24, 0.7);
-  border: 1px solid rgba(33, 29, 24, 0.1);
+  background: rgba(33, 29, 24, 0.08);
+  color: rgba(33, 29, 24, 0.85);
+  border: 1px solid rgba(33, 29, 24, 0.15);
 }
 
 .gooey-dark:hover {
