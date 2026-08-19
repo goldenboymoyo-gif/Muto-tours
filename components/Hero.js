@@ -41,9 +41,9 @@ export default function Hero() {
         poster="/images/savanna-sunset-hq.jpg"
         aria-hidden="true"
       >
-        <source src="/videos/sunset-boat-cruise.mp4" type="video/mp4" />
-        <source src="/videos/savanna-sunset-mixkit.mp4" type="video/mp4" />
         <source src="/videos/hero.mp4" type="video/mp4" />
+        <source src="/videos/hero.webm" type="video/webm" />
+        <source src="/videos/savanna-sunset-mixkit.mp4" type="video/mp4" />
       </video>
 
       <div
