@@ -3,9 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+const CLIPS = [
+  { src: "/videos/vic-falls.mp4", type: "video/mp4" },
+  { src: "/videos/elephant-wildlife.mp4", type: "video/mp4" },
+  { src: "/videos/sunset-boat-cruise.mp4", type: "video/mp4" },
+  { src: "/videos/safari-drive.mp4", type: "video/mp4" },
+];
+
 export default function Hero() {
   const videoRef = useRef(null);
   const [entered, setEntered] = useState(false);
+  const [clipIndex, setClipIndex] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 150);
@@ -21,24 +29,43 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnded = () => {
+      setClipIndex((prev) => (prev + 1) % CLIPS.length);
+    };
+
+    video.addEventListener("ended", handleEnded);
+    return () => video.removeEventListener("ended", handleEnded);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.load();
+    video.play().catch(() => {});
+  }, [clipIndex]);
+
   return (
     <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-ink">
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
         muted
-        loop
         playsInline
         autoPlay
         poster="/images/victoria-falls-mist.jpg"
         aria-hidden="true"
+        key={clipIndex}
       >
-        <source src="/videos/vic-falls.mp4" type="video/mp4" />
+        <source src={CLIPS[clipIndex].src} type={CLIPS[clipIndex].type} />
       </video>
 
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-transparent to-ink/70" />
 
-      <div className="relative h-full flex items-center">
+      <div className="relative h-full flex items-end pb-24 md:pb-32 lg:pb-40">
         <div className="container-editorial px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl">
             <h1
