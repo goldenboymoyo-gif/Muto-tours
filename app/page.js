@@ -2,13 +2,13 @@ import Hero from "@/components/Hero";
 import SectionIntro from "@/components/SectionIntro";
 import DestinationTile from "@/components/DestinationTile";
 import ExperienceRow from "@/components/ExperienceRow";
+import JourneyCard from "@/components/JourneyCard";
 import CTABand from "@/components/CTABand";
 import MediaFrame from "@/components/MediaFrame";
-import Button from "@/components/Button";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import Link from "next/link";
 import { destinations } from "@/data/destinations";
 import { experiences } from "@/data/experiences";
+import { journeys } from "@/data/journeys";
 import { brand } from "@/data/brand";
 
 const featuredDestinations = destinations.filter((d) =>
@@ -147,40 +147,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Muto Tours — editorial split with photo */}
+      {/* Featured journeys — named sample routes, not a fixed package menu.
+          Every stop sequence here already exists in the destination/
+          experience copy elsewhere on the site (see data/journeys.js); this
+          just gives them their own visual moment before the closing CTA. */}
       <section className="bg-ivory">
-        <div className="container-editorial py-20 md:py-28 grid md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden">
-              <MediaFrame
-                src="/images/quiver-tree.jpg"
-                alt="A quiver tree against a clear blue Southern African sky"
-                label="Victoria Falls, Zimbabwe"
-                className="h-full w-full"
-              />
-            </div>
-          </div>
-          <div className="md:col-span-6 md:col-start-7">
+        <div className="container-editorial py-20 md:py-28">
+          <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
             <SectionIntro
-              kicker="About Muto Tours"
-              title="A Victoria Falls-based team building tours across four countries."
+              kicker="Sample Routes"
+              title="A few ways a Muto Tours journey can run."
+              dek="Starting points, not a fixed menu — every route below is built and re-paced around your own dates and interests before it's quoted."
             />
-            <div className="mt-8 space-y-4 text-base leading-relaxed text-ink/75">
-              <p>
-                Muto Tours is close enough to the falls to hear them on a quiet morning.
-                We run expert-guided tours across Zimbabwe and its neighbours, built for
-                comfort, discovery, and the kind of moments that are hard to plan for
-                but easy to recognise once you're in them.
-              </p>
-              <p>
-                Trips are tailored rather than templated — adventurers, honeymooners,
-                families, and photographers each need a different pace, and the
-                itinerary changes accordingly.
-              </p>
-            </div>
-            <div className="mt-8">
-              <Button href="/about" variant="primary">Read Our Story</Button>
-            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-14">
+            {journeys.map((journey) => (
+              <JourneyCard key={journey.slug} journey={journey} />
+            ))}
           </div>
         </div>
       </section>
