@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { brand } from "@/data/brand";
 import Logo from "./Logo";
 import Button from "./Button";
-import GooeySearchBar from "./ui/animated-search-bar";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,12 +25,10 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
+  // On the homepage the header starts transparent over the hero video and
+  // solidifies on scroll. On every other page it's solid from the start,
+  // since there's no full-bleed hero behind it to read against.
   const transparent = isHome && !scrolled && !menuOpen;
-
-  const isActive = (href) => {
-    if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
-  };
 
   return (
     <header
@@ -48,65 +46,48 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`text-sm tracking-wide transition-colors relative py-1 ${
+              className={`text-sm tracking-wide transition-colors ${
                 transparent ? "text-ivory/90 hover:text-gold" : "text-ink/80 hover:text-clay"
-              } ${isActive(item.href) ? (transparent ? "text-gold" : "text-clay font-medium") : ""}`}
+              } ${pathname === item.href ? (transparent ? "text-gold" : "text-clay") : ""}`}
             >
               {item.label}
-              {isActive(item.href) && (
-                <span
-                  className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${
-                    transparent ? "bg-gold" : "bg-clay"
-                  }`}
-                />
-              )}
             </Link>
           ))}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <GooeySearchBar transparent={transparent} />
-          <Button href={brand.primaryCta.href} variant="primary" className="px-5 py-2.5">
+          <SearchBar light={transparent} />
+          <Button href={brand.primaryCta.href} variant="outline" className="px-5 py-2.5">
             {brand.primaryCta.label}
           </Button>
         </div>
 
-        <div className="flex items-center gap-3 md:hidden">
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            className={`inline-flex flex-col justify-center gap-1.5 h-10 w-10 ${
-              transparent ? "text-ivory" : "text-ink"
-            }`}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label="Toggle menu"
-          >
-            <span className={`block h-px w-6 bg-current transition-transform ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`block h-px w-6 bg-current transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-px w-6 bg-current transition-transform ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setMenuOpen((v) => !v)}
+          className={`md:hidden inline-flex flex-col justify-center gap-1.5 h-10 w-10 ${
+            transparent ? "text-ivory" : "text-ink"
+          }`}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label="Toggle menu"
+        >
+          <span className={`block h-px w-6 bg-current transition-transform ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+          <span className={`block h-px w-6 bg-current transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block h-px w-6 bg-current transition-transform ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+        </button>
       </div>
 
       {menuOpen && (
         <div id="mobile-menu" className="md:hidden bg-ivory border-t border-ink/10">
           <nav className="container-editorial py-6 flex flex-col gap-5" aria-label="Mobile">
+            <SearchBar alwaysOpen className="w-full" />
             {brand.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-base flex items-center gap-3 ${
-                  isActive(item.href) ? "text-clay font-medium" : "text-ink"
-                }`}
-              >
-                {isActive(item.href) && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-clay shrink-0" />
-                )}
+              <Link key={item.href} href={item.href} className="text-base text-ink">
                 {item.label}
               </Link>
             ))}
-            <Button href={brand.primaryCta.href} variant="primary" className="w-fit mt-2">
+            <Button href={brand.primaryCta.href} variant="outline" className="w-fit mt-2">
               {brand.primaryCta.label}
             </Button>
           </nav>
