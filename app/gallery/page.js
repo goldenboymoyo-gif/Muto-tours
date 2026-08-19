@@ -5,7 +5,7 @@ import { galleryPhotos } from "@/data/gallery";
 
 export const metadata = {
   title: "Gallery",
-  description: "Real photography from Southern Africa trips — Victoria Falls, the Okavango Delta, Namibia, and beyond.",
+  description: "Real photography and footage from Southern Africa trips — Victoria Falls, the Okavango Delta, Namibia, and beyond.",
 };
 
 const SPAN_PATTERN = [
@@ -21,31 +21,31 @@ const mediaItems = [
   {
     id: 0,
     type: "video",
-    title: "Zambezi Sunrise Cruise",
-    desc: "Real footage from an early-morning boat cruise on the Zambezi.",
-    url: "/videos/hero.mp4",
+    title: "Safari Game Drive",
+    desc: "Point-of-view footage from a real safari game drive through the African bush.",
+    url: "/videos/safari-drive.mp4",
     span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
   },
   {
     id: 1,
     type: "video",
-    title: "Sunset Boat Cruise",
-    desc: "A golden sunset over the water from our boat cruise experience.",
-    url: "/videos/sunset-boat-cruise.mp4",
+    title: "Zambezi Sunrise Cruise",
+    desc: "Real footage from an early-morning boat cruise on the Zambezi River.",
+    url: "/videos/hero.mp4",
     span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
   {
     id: 2,
     type: "video",
-    title: "Savanna Sunset",
-    desc: "The African savanna bathed in golden light as the sun sets.",
-    url: "/videos/savanna-sunset-mixkit.mp4",
+    title: "Sunset Boat Cruise",
+    desc: "A golden sunset over the water from our boat cruise experience.",
+    url: "/videos/sunset-boat-cruise.mp4",
     span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   },
   {
     id: 3,
     type: "video",
-    title: "Giraffes Walking",
+    title: "Giraffes in the Bush",
     desc: "A tower of giraffes crossing the African bush.",
     url: "/videos/giraffes-walking.mp4",
     span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
@@ -53,8 +53,8 @@ const mediaItems = [
   {
     id: 4,
     type: "video",
-    title: "Lions Resting",
-    desc: "A pride of lions relaxing in the shade during a game drive.",
+    title: "Lions on Safari",
+    desc: "A pride of lions relaxing during a game drive.",
     url: "/videos/lions-resting.mp4",
     span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
@@ -62,17 +62,17 @@ const mediaItems = [
     id: 5,
     type: "video",
     title: "Boats at Sunset",
-    desc: "Traditional boats silhouetted against a golden sunset.",
+    desc: "Traditional boats silhouetted against a golden African sunset.",
     url: "/videos/boats-sunset.mp4",
     span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
   },
   {
     id: 6,
     type: "video",
-    title: "Safari Drive",
-    desc: "Point-of-view footage from a real safari game drive.",
-    url: "/videos/safari-drive.mp4",
-    span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
+    title: "Savanna Sunset",
+    desc: "The African savanna bathed in golden light as the sun sets.",
+    url: "/videos/savanna-sunset-mixkit.mp4",
+    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
   },
   {
     id: 7,
@@ -80,7 +80,7 @@ const mediaItems = [
     title: "Zebra Herd",
     desc: "A dazzle of zebras grazing on the open plains.",
     url: "/videos/zebra-herd.mp4",
-    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
   {
     id: 8,
@@ -96,7 +96,7 @@ const mediaItems = [
     title: "Safari SUV Off-Road",
     desc: "Our safari vehicle navigating rugged African terrain.",
     url: "/videos/safari-suv.mp4",
-    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+    span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   },
   {
     id: 10,
@@ -112,7 +112,7 @@ const mediaItems = [
     title: "River Sunset Cruise",
     desc: "Cruising down the river as the sun dips below the horizon.",
     url: "/videos/boat-river-sunset.mp4",
-    span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
+    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
   },
   ...galleryPhotos.map((photo, i) => ({
     id: i + 12,

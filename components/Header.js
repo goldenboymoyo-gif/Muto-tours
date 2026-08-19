@@ -42,17 +42,27 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-9" aria-label="Primary">
-          {brand.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-sm tracking-wide transition-colors ${
-                transparent ? "text-ivory/90 hover:text-gold" : "text-ink/80 hover:text-clay"
-              } ${pathname === item.href ? (transparent ? "text-gold" : "text-clay") : ""}`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {brand.nav.map((item) => {
+            const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm tracking-wide transition-colors relative py-1 ${
+                  transparent ? "text-ivory/90 hover:text-gold" : "text-ink/80 hover:text-clay"
+                } ${active ? (transparent ? "text-gold" : "text-clay font-medium") : ""}`}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    className={`absolute -bottom-1 left-0 right-0 h-0.5 rounded-full ${
+                      transparent ? "bg-gold" : "bg-clay"
+                    }`}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -82,11 +92,21 @@ export default function Header() {
         <div id="mobile-menu" className="md:hidden bg-ivory border-t border-ink/10">
           <nav className="container-editorial py-6 flex flex-col gap-5" aria-label="Mobile">
             <SearchBar alwaysOpen className="w-full" />
-            {brand.nav.map((item) => (
-              <Link key={item.href} href={item.href} className="text-base text-ink">
-                {item.label}
-              </Link>
-            ))}
+            {brand.nav.map((item) => {
+              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-base flex items-center gap-3 ${
+                    active ? "text-clay font-medium" : "text-ink"
+                  }`}
+                >
+                  {active && <span className="w-1.5 h-1.5 rounded-full bg-clay shrink-0" />}
+                  {item.label}
+                </Link>
+              );
+            })}
             <Button href={brand.primaryCta.href} variant="outline" className="w-fit mt-2">
               {brand.primaryCta.label}
             </Button>

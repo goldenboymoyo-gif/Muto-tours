@@ -8,6 +8,51 @@ import BackLink from "@/components/BackLink";
 import { destinations, getDestinationBySlug } from "@/data/destinations";
 import { experiences } from "@/data/experiences";
 
+const ROUTE_MAP = {
+  "victoria-falls": {
+    title: "Typical Route",
+    description: "Victoria Falls sits at the eastern end of most multi-country circuits — the grand finale after Botswana's rivers and Namibia's dunes, or the starting point for routes heading west.",
+    stops: ["Windhoek, Namibia", "Sossusvlei & Deadvlei", "Swakopmund", "Damaraland", "Etosha National Park", "Okavango Delta / Chobe", "Victoria Falls, Zimbabwe"],
+    note: "Most itineraries end here before departure from Victoria Falls Airport.",
+  },
+  "hwange-national-park": {
+    title: "Typical Route",
+    description: "Hwange is a natural add-on from Victoria Falls — just 2–3 hours by road — and often appears as a short safari chapter between the Falls and Chobe.",
+    stops: ["Victoria Falls, Zimbabwe", "Hwange National Park", "Chobe, Botswana", "Okavango Delta"],
+    note: "Often combined as a 2–3 day extension from Victoria Falls.",
+  },
+  "chobe-national-park": {
+    title: "Typical Route",
+    description: "Chobe sits just across the border from Victoria Falls and is typically visited as a day trip or overnight before heading deeper into Botswana.",
+    stops: ["Victoria Falls, Zimbabwe", "Chobe National Park, Botswana", "Kasane", "Okavango Delta", "Maun"],
+    note: "Border crossing at Kazungula — a half-day transfer from Victoria Falls.",
+  },
+  "okavango-delta": {
+    title: "Typical Route",
+    description: "The Okavango Delta is the quiet centre of most Botswana itineraries — reached from Maun after Chobe, or as a multi-day fly-in from the south.",
+    stops: ["Windhoek, Namibia", "Etosha National Park", "Kasane / Chobe", "Maun", "Okavango Delta"],
+    note: "Water levels peak June–August as Angolan floodwaters arrive.",
+  },
+  "namibia": {
+    title: "The Namibia Explorer Route",
+    description: "Namibia's west-to-north arc is the backbone of Muto Tours' own Namibia Explorer package and the opening chapter of most multi-country circuits.",
+    stops: ["Windhoek — arrival", "Sossusvlei — dunes and Deadvlei", "Swakopmund — coastal town", "Damaraland — rock art, desert wildlife", "Etosha National Park — floodlit waterholes"],
+    note: "Road transfers of several hours between stops are normal and built into the pacing.",
+  },
+  "south-africa": {
+    title: "Typical Route",
+    description: "South Africa usually serves as the bookend — the arrival or departure point — with Kruger National Park as a Big Five safari extension.",
+    stops: ["Johannesburg — arrival", "Kruger National Park", "OR depart to Victoria Falls / Windhoek"],
+    note: "Johannesburg is the region's main air hub for international connections.",
+  },
+  "matobo-hills": {
+    title: "Typical Route",
+    description: "Matobo is a deliberate detour from the main Victoria Falls–Chobe corridor — best as a dedicated day or overnight from Bulawayo.",
+    stops: ["Bulawayo", "Matobo Hills National Park", "Return to Bulawayo or continue to Victoria Falls"],
+    note: "A cultural and geological counterpoint to the bigger wildlife parks.",
+  },
+};
+
 export function generateStaticParams() {
   return destinations.map((d) => ({ slug: d.slug }));
 }
@@ -72,6 +117,26 @@ export default function DestinationPage({ params }) {
                 {para}
               </p>
             ))}
+
+            {ROUTE_MAP[destination.slug] && (
+              <div className="mt-10 border-l-2 border-clay/40 pl-6">
+                <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-4">
+                  {ROUTE_MAP[destination.slug].title}
+                </h2>
+                <p className="text-sm text-ink/70 mb-4 leading-relaxed">
+                  {ROUTE_MAP[destination.slug].description}
+                </p>
+                <ol className="space-y-2.5">
+                  {ROUTE_MAP[destination.slug].stops.map((stop, i) => (
+                    <li key={stop} className="flex gap-3 text-sm text-ink/80 leading-relaxed">
+                      <span className="text-clay shrink-0 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                      {stop}
+                    </li>
+                  ))}
+                </ol>
+                <p className="mt-4 text-xs text-ink/50 leading-relaxed italic">{ROUTE_MAP[destination.slug].note}</p>
+              </div>
+            )}
           </div>
           <div className="md:col-span-4 md:col-start-9">
             <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-5">On route here</h2>
@@ -88,18 +153,22 @@ export default function DestinationPage({ params }) {
               <>
                 <div className="hr-rule my-7" />
                 <h2 className="text-xs uppercase tracking-widest2 text-ink/50 mb-5">Pairs well with</h2>
-                <ul className="space-y-3">
+                <div className="space-y-3">
                   {pairedDestinations.map((p) => (
-                    <li key={p.slug}>
-                      <Link
-                        href={`/destinations/${p.slug}`}
-                        className="text-sm text-ink/80 hover:text-clay transition-colors underline decoration-ink/20 underline-offset-4 hover:decoration-clay"
-                      >
+                    <Link
+                      key={p.slug}
+                      href={`/destinations/${p.slug}`}
+                      className="flex items-center gap-3 text-sm text-ink/80 hover:text-clay transition-colors group"
+                    >
+                      <span className="w-6 h-6 rounded-full bg-clay/10 flex items-center justify-center shrink-0 group-hover:bg-clay/20 transition-colors">
+                        <span className="w-1.5 h-1.5 rounded-full bg-clay" />
+                      </span>
+                      <span className="underline decoration-ink/20 underline-offset-4 group-hover:decoration-clay">
                         {p.name}, {p.country}
-                      </Link>
-                    </li>
+                      </span>
+                    </Link>
                   ))}
-                </ul>
+                </div>
               </>
             )}
 

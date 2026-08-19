@@ -95,10 +95,10 @@ export default function SearchBar({ light = false, alwaysOpen = false, className
         initial={false}
         animate={{ width: open ? (alwaysOpen ? "100%" : 288) : 40 }}
         transition={{ type: "spring", stiffness: 320, damping: 22 }}
-        className={`h-10 rounded-full flex items-center overflow-hidden border transition-colors duration-300 ${
+        className={`h-10 rounded-full flex items-center overflow-hidden transition-colors duration-300 ${
           light
-            ? "bg-ivory/10 border-ivory/30 focus-within:border-ivory/60"
-            : "bg-ink/[0.04] border-ink/15 focus-within:border-clay"
+            ? "bg-ivory/10 focus-within:bg-ivory/20"
+            : "bg-ink/[0.04] focus-within:bg-ink/[0.08]"
         }`}
       >
         <button

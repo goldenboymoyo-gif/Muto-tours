@@ -38,12 +38,12 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/images/savanna-sunset-hq.jpg"
+        poster="/images/safari-jeep-road.jpg"
         aria-hidden="true"
       >
+        <source src="/videos/safari-drive.mp4" type="video/mp4" />
         <source src="/videos/hero.mp4" type="video/mp4" />
         <source src="/videos/hero.webm" type="video/webm" />
-        <source src="/videos/savanna-sunset-mixkit.mp4" type="video/mp4" />
       </video>
 
       <div
