@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { X } from "lucide-react";
 
 // Interactive bento-style gallery: a variable-span grid of real trip photos
@@ -84,9 +85,11 @@ function MediaItem({ item, className = "", onClick }) {
   }
 
   return (
-    <img
+    <Image
       src={item.url}
       alt={item.title}
+      fill
+      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
       className={`${className} object-cover cursor-pointer`}
       onClick={onClick}
       loading="lazy"

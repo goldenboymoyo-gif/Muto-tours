@@ -7,27 +7,38 @@ import { galleryPhotos } from "@/data/gallery";
 const CATEGORIES = [
   "All",
   "Wildlife",
+  "Adventure",
+  "Boat Cruises",
   "Destinations",
   "Nature",
+  "Experiences",
 ];
 
 const SPAN_PATTERN = [
+  "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
+  "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
   "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
-  "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
-  "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
 ];
 
 const videos = [
   {
     type: "video",
+    title: "Zambezi Sunset Cruise",
+    desc: "Drifting along the Zambezi River as the sun sets over Victoria Falls.",
+    url: "/videos/sunset-boat-cruise.mp4",
+    category: "Boat Cruises",
+    span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
+  },
+  {
+    type: "video",
     title: "Elephant in the Wild",
     desc: "An African elephant roaming freely in its natural habitat.",
     url: "/videos/elephant-wildlife.mp4",
     category: "Wildlife",
-    span: "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
+    span: "col-span-1 row-span-3 md:col-span-1 md:row-span-3",
   },
   {
     type: "video",
@@ -35,7 +46,31 @@ const videos = [
     desc: "A hippopotamus wading through a river in Southern Africa.",
     url: "/videos/hippo-water.mp4",
     category: "Wildlife",
+    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+  },
+  {
+    type: "video",
+    title: "Boat Cruise at Dusk",
+    desc: "A boat cruise gliding along the river as daylight fades.",
+    url: "/videos/boats-sunset.mp4",
+    category: "Boat Cruises",
     span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
+  },
+  {
+    type: "video",
+    title: "Safari Game Drive",
+    desc: "A game drive across the open savanna in search of wildlife.",
+    url: "/videos/safari-drive.mp4",
+    category: "Adventure",
+    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+  },
+  {
+    type: "video",
+    title: "Safari Vehicle",
+    desc: "A safari vehicle traversing the Southern African bush.",
+    url: "/videos/safari-suv.mp4",
+    category: "Adventure",
+    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
   },
   {
     type: "video",
@@ -51,7 +86,7 @@ const videos = [
     desc: "The African savanna bathed in golden light as the sun sets.",
     url: "/videos/savanna-sunset-mixkit.mp4",
     category: "Nature",
-    span: "col-span-1 row-span-2 md:col-span-1 md:row-span-2",
+    span: "col-span-2 row-span-2 md:col-span-2 md:row-span-2",
   },
 ];
 
