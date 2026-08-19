@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme("colors.sand.DEFAULT");
+  color: theme("colors.ink");
+}
+
+::selection {
+  background-color: theme("colors.clay.DEFAULT");
+  color: theme("colors.ivory");
+}
+
+/* Visible, on-brand focus ring for keyboard navigation — never removed. */
+:focus-visible {
+  outline: 2px solid theme("colors.clay.DEFAULT");
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Editorial rule / divider used instead of card borders + shadows */
+.hr-rule {
+  height: 1px;
+  background: linear-gradient(to right, theme("colors.ink") 0%, transparent 100%);
+  opacity: 0.15;
+}
+
+@layer utilities {
+  .container-editorial {
+    @apply mx-auto w-full max-w-content px-6 sm:px-10 lg:px-16;
+  }
+}
+
+/* Registers --r as an animatable <angle> so the conic-gradient below can be
+   smoothly rotated via a keyframe animation rather than jumping instantly.
+   Unsupported browsers (pre-2023 roughly) just get a static, unrotated
+   gradient ring — a harmless fallback, not a broken one. */
+@property --r {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Slow-rotating gold/clay gradient used as the primary button's ring (see
+   components/Button.js). Sits only in the ~2.5px padding around the
+   button's solid-clay inner pill, so it reads as a subtle glowing rim
+   rather than replacing the fill — this keeps it legible regardless of
+   what's behind the button (sand page background, a photo, the clay
+   CTABand, ...). */
+.rotating-gradient {
+  background: conic-gradient(
+    from var(--r),
+    theme("colors.gold") 0%,
+    theme("colors.clay.DEFAULT") 35%,
+    theme("colors.clay.dark") 60%,
+    theme("colors.gold") 100%
+  );
+  animation: rotating-ring 5s linear infinite;
+}
+
+@keyframes rotating-ring {
+  to {
+    --r: 360deg;
+  }
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 20s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotating-gradient {
+    animation: none;
+  }
+  .animate-kenburns {
+    animation: none;
+  }
+}
