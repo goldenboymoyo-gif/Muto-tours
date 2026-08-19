@@ -24,7 +24,7 @@ const searchItems = [
 ];
 
 const GooeyFilter = () => (
-  <svg aria-hidden="true" style={{ position: "absolute", width: 0, height: 0 }}>
+  <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
     <defs>
       <filter id="goo-effect">
         <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
@@ -61,6 +61,20 @@ const SearchIcon = ({ isUnsupported }) => (
   </motion.svg>
 );
 
+const LoadingIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 256 256" className="gooey-loading-icon" aria-label="Loading" role="status">
+    <rect width="256" height="256" fill="none" />
+    <line x1="128" y1="32" x2="128" y2="64" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="195.88" y1="60.12" x2="173.25" y2="82.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="224" y1="128" x2="192" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="195.88" y1="195.88" x2="173.25" y2="173.25" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="128" y1="224" x2="128" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="60.12" y1="195.88" x2="82.75" y2="173.25" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="32" y1="128" x2="64" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+    <line x1="60.12" y1="60.12" x2="82.75" y2="82.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
+  </svg>
+);
+
 const InfoIcon = ({ index }) => (
   <motion.svg
     initial={{ opacity: 0 }}
@@ -68,7 +82,7 @@ const InfoIcon = ({ index }) => (
     exit={{ opacity: 0 }}
     transition={{ delay: index * 0.12 + 0.3 }}
     viewBox="0 0 20.2832 19.9316"
-    className="search-info-icon"
+    className="gooey-info-icon"
     aria-hidden="true"
     fill="none"
     width="14"
@@ -105,21 +119,6 @@ export const isUnsupportedBrowser = () => {
   return isSafari || isChromeOniOS;
 };
 
-const getResultItemVariants = (index, isUnsupported) => ({
-  initial: { y: 0, scale: 0.3, filter: isUnsupported ? "none" : "blur(10px)" },
-  animate: { y: (index + 1) * 44, scale: 1, filter: "blur(0px)" },
-  exit: { y: isUnsupported ? 0 : -4, scale: 0.8 },
-});
-
-const getResultItemTransition = (index) => ({
-  duration: 0.75,
-  delay: index * 0.1,
-  type: "spring",
-  bounce: 0.35,
-  exit: { duration: index * 0.1 },
-  filter: { ease: "easeInOut" },
-});
-
 const buttonVariants = {
   initial: { x: 0, width: 100 },
   step1: { x: 0, width: 100 },
@@ -130,6 +129,32 @@ const iconVariants = {
   hidden: { x: -50, opacity: 0 },
   visible: { x: 16, opacity: 1 },
 };
+
+const getResultItemVariants = (index, isUnsupported) => ({
+  initial: {
+    y: 0,
+    scale: 0.3,
+    filter: isUnsupported ? "none" : "blur(10px)",
+  },
+  animate: {
+    y: (index + 1) * 46,
+    scale: 1,
+    filter: "blur(0px)",
+  },
+  exit: {
+    y: isUnsupported ? 0 : -4,
+    scale: 0.8,
+  },
+});
+
+const getResultItemTransition = (index) => ({
+  duration: 0.75,
+  delay: index * 0.12,
+  type: "spring",
+  bounce: 0.35,
+  exit: { duration: index * 0.1 },
+  filter: { ease: "easeInOut" },
+});
 
 export default function GooeySearchBar({ transparent = false }) {
   const inputRef = useRef(null);
@@ -144,7 +169,7 @@ export default function GooeySearchBar({ transparent = false }) {
     isLoading: false,
   });
 
-  const debouncedSearchText = useDebounce(state.searchText, 300);
+  const debouncedSearchText = useDebounce(state.searchText, 500);
 
   const handleButtonClick = () => {
     setState((prev) => ({ ...prev, step: 2 }));
@@ -159,30 +184,47 @@ export default function GooeySearchBar({ transparent = false }) {
     router.push(href);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape") {
-      setState({ step: 1, searchData: [], searchText: "", isLoading: false });
-    }
-  };
-
   useEffect(() => {
     if (state.step === 2) {
       inputRef.current?.focus();
     } else {
-      setState((prev) => ({ ...prev, searchText: "", searchData: [], isLoading: false }));
+      setState((prev) => ({
+        ...prev,
+        searchText: "",
+        searchData: [],
+        isLoading: false,
+      }));
     }
   }, [state.step]);
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (debouncedSearchText) {
       setState((prev) => ({ ...prev, isLoading: true }));
+
       const filtered = searchItems.filter((item) =>
         item.label.toLowerCase().includes(debouncedSearchText.trim().toLowerCase())
       );
-      setState((prev) => ({ ...prev, searchData: filtered, isLoading: false }));
+
+      if (!isCancelled) {
+        setState((prev) => ({
+          ...prev,
+          searchData: filtered,
+          isLoading: false,
+        }));
+      }
     } else {
-      setState((prev) => ({ ...prev, searchData: [], isLoading: false }));
+      setState((prev) => ({
+        ...prev,
+        searchData: [],
+        isLoading: false,
+      }));
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [debouncedSearchText]);
 
   useEffect(() => {
@@ -198,56 +240,60 @@ export default function GooeySearchBar({ transparent = false }) {
   }, [state.step]);
 
   return (
-    <div ref={wrapperRef} className={clsx("gooey-search-wrapper", isUnsupported && "no-goo")}>
+    <div
+      ref={wrapperRef}
+      className={clsx("gooey-wrapper", isUnsupported && "no-goo")}
+    >
       <GooeyFilter />
 
-      <div className="gooey-search-inner">
+      <div className="gooey-button-content">
         <motion.div
-          className="gooey-search-content"
+          className="gooey-button-content-inner"
           initial="initial"
           animate={state.step === 1 ? "step1" : "step2"}
           transition={{ duration: 0.75, type: "spring", bounce: 0.15 }}
         >
           <AnimatePresence mode="popLayout">
-            {state.step === 2 && state.searchData.length > 0 && (
-              <motion.div
-                key="search-results"
-                className="gooey-search-results"
-                role="listbox"
-                aria-label="Search results"
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ delay: isUnsupported ? 0.5 : 1.25, duration: 0.5 }}
-              >
-                <AnimatePresence mode="popLayout">
-                  {state.searchData.slice(0, 6).map((item, index) => (
-                    <motion.div
-                      key={item.href}
-                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                      variants={getResultItemVariants(index, isUnsupported)}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      transition={getResultItemTransition(index)}
-                      className="gooey-search-result"
-                      role="option"
-                      onClick={() => handleResultClick(item.href)}
-                    >
-                      <div className="gooey-search-result-title">
-                        <InfoIcon index={index} />
-                        <motion.span
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: index * 0.1 + 0.3 }}
-                        >
-                          {item.label}
-                        </motion.span>
-                      </div>
-                      <span className="gooey-search-result-category">{item.category}</span>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </motion.div>
-            )}
+            <motion.div
+              key="search-results-wrapper"
+              className="gooey-search-results"
+              role="listbox"
+              aria-label="Search results"
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{
+                delay: isUnsupported ? 0.5 : 1.25,
+                duration: 0.5,
+              }}
+            >
+              <AnimatePresence mode="popLayout">
+                {state.searchData.map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    variants={getResultItemVariants(index, isUnsupported)}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={getResultItemTransition(index)}
+                    className="gooey-result-item"
+                    role="option"
+                    onClick={() => handleResultClick(item.href)}
+                  >
+                    <div className="gooey-result-title">
+                      <InfoIcon index={index} />
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.12 + 0.3 }}
+                      >
+                        {item.label}
+                      </motion.span>
+                    </div>
+                    <span className="gooey-result-category">{item.category}</span>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
           </AnimatePresence>
 
           <motion.div
@@ -268,7 +314,6 @@ export default function GooeySearchBar({ transparent = false }) {
                 placeholder="Type to search..."
                 aria-label="Search input"
                 onChange={handleSearch}
-                onKeyDown={handleKeyDown}
               />
             )}
           </motion.div>
@@ -277,27 +322,22 @@ export default function GooeySearchBar({ transparent = false }) {
             {state.step === 2 && (
               <motion.div
                 key="icon"
-                className="gooey-search-icon"
+                className="gooey-separate-element"
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
                 variants={iconVariants}
-                transition={{ delay: 0.1, duration: 0.85, type: "spring", bounce: 0.15 }}
+                transition={{
+                  delay: 0.1,
+                  duration: 0.85,
+                  type: "spring",
+                  bounce: 0.15,
+                }}
               >
                 {!state.isLoading ? (
                   <SearchIcon isUnsupported={isUnsupported} />
                 ) : (
-                  <svg className="loading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="15" height="15">
-                    <rect width="256" height="256" fill="none" />
-                    <line x1="128" y1="32" x2="128" y2="64" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="195.88" y1="60.12" x2="173.25" y2="82.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="224" y1="128" x2="192" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="195.88" y1="195.88" x2="173.25" y2="173.25" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="128" y1="224" x2="128" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="60.12" y1="195.88" x2="82.75" y2="173.25" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="32" y1="128" x2="64" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                    <line x1="60.12" y1="60.12" x2="82.75" y2="82.75" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="16" />
-                  </svg>
+                  <LoadingIcon />
                 )}
               </motion.div>
             )}

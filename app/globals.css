@@ -107,24 +107,24 @@ body {
    GooeySearchBar
    ========================================================================== */
 
-.gooey-search-wrapper {
+.gooey-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-.gooey-search-inner {
+.gooey-button-content {
   position: relative;
 }
 
-.gooey-search-content {
+.gooey-button-content-inner {
   display: flex;
   align-items: center;
   position: relative;
   filter: url(#goo-effect);
 }
 
-.no-goo .gooey-search-content {
+.no-goo .gooey-button-content-inner {
   filter: none;
 }
 
@@ -184,7 +184,7 @@ body {
   opacity: 0.5;
 }
 
-.gooey-search-icon {
+.gooey-separate-element {
   position: absolute;
   left: 0;
   top: 50%;
@@ -197,19 +197,17 @@ body {
 .gooey-search-results {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   margin-top: 8px;
-  min-width: 260px;
+  min-width: 280px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(33, 29, 24, 0.2), 0 4px 16px rgba(33, 29, 24, 0.1);
   padding: 6px;
   z-index: 100;
-  overflow: hidden;
 }
 
-.gooey-search-result {
+.gooey-result-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -220,11 +218,11 @@ body {
   color: #211D18;
 }
 
-.gooey-search-result:hover {
+.gooey-result-item:hover {
   background: #F6F1E7;
 }
 
-.gooey-search-result-title {
+.gooey-result-title {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -232,12 +230,12 @@ body {
   font-weight: 500;
 }
 
-.search-info-icon {
+.gooey-info-icon {
   color: #B5502B;
   flex-shrink: 0;
 }
 
-.gooey-search-result-category {
+.gooey-result-category {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -248,8 +246,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.gooey-search-icon svg.loading-icon {
+.gooey-loading-icon {
   animation: loading-spin 1s linear infinite;
-  width: 15px;
-  height: 15px;
 }
