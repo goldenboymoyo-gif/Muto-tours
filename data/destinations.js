@@ -63,8 +63,8 @@ export const destinations = [
       "A short border crossing from Victoria Falls, Chobe trades bush tracks for a boat deck — game viewing from the water, elephant and buffalo herds thick along the banks.",
     description:
       "Chobe is often paired with Victoria Falls on a Muto Tours itinerary, and the pairing works because the two destinations show Africa from opposite angles — one on foot and by vehicle, the other from a flat-bottomed boat gliding along the Chobe River. The park holds one of the continent's densest elephant populations — estimates for the wider Chobe ecosystem run well into six figures — and a late-afternoon cruise puts you close enough to hear them drink.\n\nThe crossing from Victoria Falls into Chobe (via Kazungula, at the point where Zimbabwe, Zambia, Botswana, and Namibia meet) is typically a half-day affair by road, which is why Chobe works well as a single overnight extension or as the first leg of a longer Botswana route toward Maun and the Okavango Delta. Game viewing here splits naturally into two rhythms: a vehicle-based game drive through the riverfront and woodland, and a river cruise where hippos, crocodiles, and the birdlife along the banks come into much closer range than they would from a vehicle.",
-    image: "/images/makgadikgadi-palms-sunset.jpg",
-    imageAlt: "Palm-lined river sunset near Chobe, Botswana",
+    image: "/images/chobe.jpeg",
+    imageAlt: "Scenic view of Chobe National Park, Botswana",
     highlights: [
       "River cruise game viewing along the Chobe River",
       "Dense elephant and buffalo populations",
