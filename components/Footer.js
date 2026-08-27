@@ -40,7 +40,7 @@ function MailingListForm() {
   }
 
   if (status === "success") {
-    return <p className="text-sm text-gold">You're on the list — thank you.</p>;
+    return <p className="text-sm text-gold">You're on the list — a welcome email is on its way.</p>;
   }
 
   return (

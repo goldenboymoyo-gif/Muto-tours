@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { append } = require('../lib/store');
-const { sendEnquiryEmail } = require('../lib/mailer');
+const { sendEnquiryEmail, sendEnquiryConfirmationEmail } = require('../lib/mailer');
 
 const router = express.Router();
 
@@ -71,6 +71,12 @@ router.post('/', contactLimiter, async (req, res) => {
   } catch (err) {
     // The enquiry is already saved — email is best-effort on top.
     console.error('[contact] failed to send notification email:', err.message);
+  }
+
+  try {
+    await sendEnquiryConfirmationEmail(enquiry);
+  } catch (err) {
+    console.error('[contact] failed to send confirmation email:', err.message);
   }
 
   res.status(201).json({ ok: true });

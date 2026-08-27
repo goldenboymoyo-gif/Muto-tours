@@ -17,6 +17,34 @@ body {
   overflow-x: hidden;
 }
 
+/* Browser autofill (and Chrome's saved-value highlight) paints its own
+   yellow/blue background by default, which clashes with the site's palette.
+   The huge inset box-shadow is the standard trick to override it, since
+   background-color itself can't win against the browser's autofill styles. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: theme("colors.ink");
+  caret-color: theme("colors.ink");
+  -webkit-box-shadow: 0 0 0px 1000px theme("colors.ivory") inset;
+  box-shadow: 0 0 0px 1000px theme("colors.ivory") inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* Same trick, tuned for inputs on dark backgrounds (e.g. the footer's
+   mailing-list field), so autofill doesn't paint a bright box on ink. */
+footer input:-webkit-autofill,
+footer input:-webkit-autofill:hover,
+footer input:-webkit-autofill:focus {
+  -webkit-text-fill-color: theme("colors.ivory");
+  caret-color: theme("colors.ivory");
+  -webkit-box-shadow: 0 0 0px 1000px theme("colors.ink") inset;
+  box-shadow: 0 0 0px 1000px theme("colors.ink") inset;
+}
+
 ::selection {
   background-color: theme("colors.clay.DEFAULT");
   color: theme("colors.ivory");

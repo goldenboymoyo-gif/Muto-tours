@@ -63,9 +63,11 @@ export default function ContactForm() {
   if (status === "success") {
     return (
       <div className="border border-clay/30 bg-clay/5 p-8">
-        <h3 className="font-display text-2xl text-ink">Thank you — that's on its way.</h3>
+        <h3 className="font-display text-2xl text-ink">Thank you for your enquiry.</h3>
         <p className="mt-3 text-sm text-ink/70 leading-relaxed">
-          We've received your enquiry and will reply from {brand.contact.email} shortly.
+          A member of the Muto Tours team will review your trip details and respond from{" "}
+          {brand.contact.email} within one business day. A confirmation has also been sent to
+          your inbox.
         </p>
         <button
           type="button"
