@@ -53,13 +53,11 @@ export const galleryPhotos = [
   // ── Safari Wildlife ───────────────────────────────────────────────────
   { src: "/images/safari-elephants-hq.jpg", alt: "A herd of elephants on a game drive in Southern Africa", caption: "Elephant Herd, Safari", category: "Wildlife" },
   { src: "/images/elephants-watering-hole.jpg", alt: "Elephants gathered at a watering hole in the African bush", caption: "Elephants at Watering Hole", category: "Wildlife" },
-  { src: "/images/lion-sunset-savanna.jpg", alt: "A lion resting on the savanna during golden hour", caption: "Lion at Golden Hour", category: "Wildlife" },
   { src: "/images/giraffe-acacia.jpg", alt: "A giraffe feeding from an acacia tree on the African plains", caption: "Giraffe at Acacia Tree", category: "Wildlife" },
   { src: "/images/zebra-herd-savanna.jpg", alt: "A herd of zebras grazing on the Southern African savanna", caption: "Zebra Herd, Savanna", category: "Wildlife" },
 
   // ── Safari Drives & Adventure ─────────────────────────────────────────
   { src: "/images/safari-jeep-road.jpg", alt: "A safari vehicle on a dirt road through the African bush", caption: "Safari Game Drive", category: "Adventure" },
-  { src: "/images/safari-sunset-drive.jpg", alt: "A sunset game drive across the Southern African savanna", caption: "Sunset Game Drive", category: "Adventure" },
   { src: "/images/acacia-safari-vehicle.jpg", alt: "A safari vehicle parked beneath a lone acacia tree on a game drive", caption: "Acacia Safari Stop", category: "Adventure" },
   { src: "/images/road-trip-africa.jpg", alt: "A scenic road stretching through the Southern African landscape", caption: "Southern Africa Road Trip", category: "Adventure" },
 

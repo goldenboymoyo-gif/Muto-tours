@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 import { brand } from "@/data/brand";
 import Button from "./Button";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 const initialState = {
   full_name: "",
@@ -27,36 +28,36 @@ export default function ContactForm() {
     e.preventDefault();
     setStatus("submitting");
 
-    if (isSupabaseConfigured) {
-      const { error } = await supabase.from("contact_submissions").insert([form]);
-      if (error) {
-        setStatus("error");
-        return;
-      }
+    try {
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error("request failed");
+
       setStatus("success");
       setForm(initialState);
-      return;
+    } catch {
+      // Backend unreachable (not deployed yet, offline, etc.) — fall back to
+      // a pre-filled mailto so the form is still usable either way.
+      const body = [
+        `Name: ${form.full_name}`,
+        `Email: ${form.email}`,
+        `Phone: ${form.phone}`,
+        `Interested in: ${form.destination_interest}`,
+        `Travel dates: ${form.travel_dates}`,
+        `Party size: ${form.party_size}`,
+        "",
+        form.message,
+      ].join("\n");
+      window.location.href = `mailto:${brand.contact.email}?subject=${encodeURIComponent(
+        "Trip enquiry via mutotours.africa"
+      )}&body=${encodeURIComponent(body)}`;
+      setStatus("success");
+      setForm(initialState);
     }
-
-    // No Supabase project wired up yet — fall back to a pre-filled mailto so
-    // the form is fully usable the moment the site ships, before backend
-    // setup happens. Swap this branch out once NEXT_PUBLIC_SUPABASE_URL /
-    // NEXT_PUBLIC_SUPABASE_ANON_KEY are set (see .env.example).
-    const body = [
-      `Name: ${form.full_name}`,
-      `Email: ${form.email}`,
-      `Phone: ${form.phone}`,
-      `Interested in: ${form.destination_interest}`,
-      `Travel dates: ${form.travel_dates}`,
-      `Party size: ${form.party_size}`,
-      "",
-      form.message,
-    ].join("\n");
-    window.location.href = `mailto:${brand.contact.email}?subject=${encodeURIComponent(
-      "Trip enquiry via mutotours.africa"
-    )}&body=${encodeURIComponent(body)}`;
-    setStatus("success");
-    setForm(initialState);
   }
 
   if (status === "success") {
@@ -64,11 +65,7 @@ export default function ContactForm() {
       <div className="border border-clay/30 bg-clay/5 p-8">
         <h3 className="font-display text-2xl text-ink">Thank you — that's on its way.</h3>
         <p className="mt-3 text-sm text-ink/70 leading-relaxed">
-          {isSupabaseConfigured
-            ? "We've received your enquiry and will reply from " + brand.contact.email + " shortly."
-            : "Your email app should have opened with your message ready to send. If it didn't, email us directly at " +
-              brand.contact.email +
-              "."}
+          We've received your enquiry and will reply from {brand.contact.email} shortly.
         </p>
         <button
           type="button"
@@ -83,6 +80,19 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Honeypot — hidden from sighted users and screen readers, but a
+          field simple bots that auto-fill every input will still find.
+          The backend silently drops any submission where this is filled. */}
+      <input
+        type="text"
+        name="website"
+        value={form.website || ""}
+        onChange={(e) => update("website", e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
       <div className="grid sm:grid-cols-2 gap-6">
         <Field label="Full name" required>
           <input

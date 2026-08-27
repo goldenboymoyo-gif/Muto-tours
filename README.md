@@ -7,7 +7,7 @@ A tour operator website for Muto Tours, specializing in travel experiences acros
 - Next.js 14 (App Router)
 - React 18
 - Tailwind CSS
-- Supabase (contact form)
+- Express (contact form API — see `backend/`)
 - Leaflet / React-Leaflet (interactive maps)
 - Framer Motion (animations)
 
@@ -51,13 +51,13 @@ public/images/        # Static images
 - Interactive destination map (Leaflet)
 - Experience/activity pages
 - Photo gallery with video support
-- Contact form (Supabase)
+- Contact form (Express API)
 - Responsive design
 - SEO (sitemap, robots)
 
 ## Deployment
 
-Deployed on Vercel. Requires `.npmrc` with `legacy-peer-deps=true`.
+Frontend deployed on Vercel (requires `.npmrc` with `legacy-peer-deps=true`). Backend (`backend/`) deployed separately as a Node web service (e.g. Render) — see `backend/.env.example`.
 
 Build command:
 
