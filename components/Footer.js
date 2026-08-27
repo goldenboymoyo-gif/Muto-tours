@@ -1,6 +1,69 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { brand } from "@/data/brand";
 import Logo from "./Logo";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+function MailingListForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    try {
+      const res = await fetch(`${API_URL}/api/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const body = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setStatus("error");
+        setError(body?.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+      setError("Couldn't reach the server. Please try again shortly.");
+    }
+  }
+
+  if (status === "success") {
+    return <p className="text-sm text-gold">You're on the list — thank you.</p>;
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+      <input
+        type="email"
+        required
+        placeholder="Your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="bg-ivory/10 border border-ivory/20 rounded-sm px-4 py-2.5 text-sm text-ivory placeholder:text-ivory/40 flex-1 min-w-0 focus:outline-none focus:border-gold"
+      />
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="bg-clay text-ivory px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest2 hover:bg-clay-dark transition-colors shrink-0 disabled:opacity-60"
+      >
+        {status === "submitting" ? "Joining\u2026" : "Subscribe"}
+      </button>
+      {status === "error" && <p className="text-xs text-clay sm:hidden">{error}</p>}
+    </form>
+  );
+}
 
 export default function Footer() {
   return (
@@ -14,16 +77,7 @@ export default function Footer() {
             <p className="text-sm text-ivory/60 leading-relaxed mb-5">
               Travel ideas, inspiration, and wonderful places to stay, delivered to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="bg-ivory/10 border border-ivory/20 rounded-sm px-4 py-2.5 text-sm text-ivory placeholder:text-ivory/40 flex-1 min-w-0 focus:outline-none focus:border-gold"
-              />
-              <button className="bg-clay text-ivory px-5 py-2.5 rounded-sm text-xs uppercase tracking-widest2 hover:bg-clay-dark transition-colors shrink-0">
-                Subscribe
-              </button>
-            </div>
+            <MailingListForm />
           </div>
 
           {/* Travel Partners */}

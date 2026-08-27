@@ -10,8 +10,7 @@ export const galleryPhotos = [
 
   // ── Zambezi River Cruises ─────────────────────────────────────────────
   { src: "/images/zambezi-sunset-cruise.jpg", alt: "Golden-hour sunset cruise on the Zambezi River near Victoria Falls", caption: "Zambezi Sunset Cruise", category: "Boat Cruises" },
-  { src: "/images/zambezi-cruise-hq.jpg", alt: "A boat cruise gliding along the Zambezi River at dusk", caption: "Zambezi River Cruise", category: "Boat Cruises" },
-  { src: "/images/river-cruise-boat.jpg", alt: "A river cruise boat on the Chobe River with wildlife along the banks", caption: "Chobe River Cruise", category: "Boat Cruises" },
+  { src: "/images/chobe.jpeg", alt: "A herd of elephants at a waterhole in Chobe National Park", caption: "Elephants, Chobe", category: "Wildlife" },
 
   // ── Okavango Delta, Botswana ──────────────────────────────────────────
   { src: "/images/okavango-delta-aerial.jpg", alt: "Aerial view of the Okavango Delta's winding waterways and floodplain", caption: "Okavango Delta Aerial", category: "Destinations" },

@@ -10,7 +10,7 @@ export const metadata = {
     "Victoria Falls, Hwange, Chobe, the Okavango Delta, Namibia, South Africa, and the Matobo Hills — where Muto Tours builds Southern Africa routes.",
 };
 
-const aspects = ["aspect-[4/5]", "aspect-[4/3]", "aspect-[4/5]", "aspect-[4/3]", "aspect-[4/5]", "aspect-[4/3]", "aspect-[4/5]"];
+const aspects = ["aspect-[4/5]"]; // uniform ratio — the alternating 4/5/4/3 mix left cards visibly misaligned within each grid row
 
 export default function DestinationsPage() {
   return (

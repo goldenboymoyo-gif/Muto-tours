@@ -12,8 +12,8 @@ const posts = [
   {
     title: "Chobe National Park: A Day Trip Guide",
     excerpt: "Everything you need to know about crossing from Victoria Falls into Botswana for a Chobe safari day.",
-    image: "/images/river-cruise-boat.jpg",
-    imageAlt: "Chobe River cruise",
+    image: "/images/chobe.jpeg",
+    imageAlt: "Elephants at a waterhole in Chobe National Park",
     date: "2025",
   },
   {

@@ -59,12 +59,17 @@ router.post('/', contactLimiter, async (req, res) => {
     receivedAt: new Date().toISOString(),
   };
 
-  append(enquiry);
+  try {
+    await append(enquiry);
+  } catch (err) {
+    console.error('[contact] failed to save enquiry:', err.message);
+    return res.status(500).json({ error: 'Something went wrong saving your enquiry. Please try again.' });
+  }
 
   try {
     await sendEnquiryEmail(enquiry);
   } catch (err) {
-    // The enquiry is already saved to disk — email is best-effort on top.
+    // The enquiry is already saved — email is best-effort on top.
     console.error('[contact] failed to send notification email:', err.message);
   }
 
