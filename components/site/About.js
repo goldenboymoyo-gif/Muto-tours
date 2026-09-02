@@ -144,12 +144,12 @@ export default function About({ brandName }) {
       <div className="two-grid">
         <div className="two-images">
           <ClipGridImage
-            src="/images/safari-elephants-hq.jpg"
+            src="/images/slide2.jpg"
             className="two-image-box-big"
             initial
           />
           <ClipGridImage
-            src="/images/okavango-mokoro-sunset.jpg"
+            src="/images/maun.jpg"
             className="two-image-box-small"
             initial
           />

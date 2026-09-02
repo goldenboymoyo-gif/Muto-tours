@@ -9,7 +9,7 @@ export default function CTABand({
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="/images/bushveld-sunset.jpg"
+          src="/images/slide2.jpg"
           alt=""
           className="w-full h-full object-cover"
           aria-hidden="true"

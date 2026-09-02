@@ -4,10 +4,9 @@ import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 const SLIDES = [
-  { img: "/images/safari-elephants-hq.jpg", mob: "/images/safari-elephants-hq.jpg" },
-  { img: "/images/okavango-mokoro-sunset.jpg", mob: "/images/okavango-mokoro-sunset.jpg" },
-  { img: "/images/savanna-sunset-hq.jpg", mob: "/images/savanna-sunset-hq.jpg" },
-  { img: "/images/giraffe-acacia.jpg", mob: "/images/giraffe-acacia.jpg" },
+  { img: "/images/slide1.jpg", mob: "/images/slide1.jpg" },
+  { img: "/images/slide2.jpg", mob: "/images/slide2.jpg" },
+  { img: "/images/slide3.jpg", mob: "/images/slide3.jpg" },
 ];
 
 function splitChars(text) {

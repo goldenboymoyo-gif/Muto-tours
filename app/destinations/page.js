@@ -16,7 +16,7 @@ export default function DestinationsPage() {
   return (
     <div>
       <PageHero
-        src="/images/fish-river-canyon.jpg"
+        src="/images/namibia.jpg"
         alt="The vast Fish River Canyon in Namibia"
         kicker="Destinations"
         title="Four countries, one continuous route."

@@ -27,7 +27,7 @@ export default function AboutPage() {
   return (
     <div>
       <PageHero
-        src="/images/quiver-tree.jpg"
+        src="/images/zimtour.jpg"
         alt="A quiver tree against a clear blue Southern African sky"
         kicker="About"
         title={brand.name}

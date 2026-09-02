@@ -9,9 +9,7 @@ const CATEGORIES = [
   "Wildlife",
   "Adventure",
   "Boat Cruises",
-  "Destinations",
-  "Nature",
-  "Experiences",
+  "Gallery",
 ];
 
 const SPAN_PATTERN = [

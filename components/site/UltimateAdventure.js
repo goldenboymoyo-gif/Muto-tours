@@ -80,7 +80,7 @@ export default function UltimateAdventure() {
   return (
     <section ref={rootRef} className="ultimate-section ess-section">
       <div ref={maskRef} className="ultimate-sticky-mask">
-        <img ref={imgRef} src="/images/safari-elephants-hq.jpg" alt="Southern African safari" />
+        <img ref={imgRef} src="/images/slide2.jpg" alt="Southern African safari" />
         <div className="ultimate-overlay">
           <div ref={contentRef} className="ultimate-sticky-content">
             <p className="ultimate-kicker">Embark on the ultimate African safari adventure</p>

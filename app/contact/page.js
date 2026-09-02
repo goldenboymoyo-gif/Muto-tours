@@ -13,7 +13,7 @@ export default function ContactPage() {
   return (
     <div>
       <PageHero
-        src="/images/namibia-rock-arch.jpg"
+        src="/images/namibia.jpg"
         alt="A natural rock arch in the Namibian desert"
         kicker="Get in Touch"
         title="Let's plan your route."
@@ -56,7 +56,7 @@ export default function ContactPage() {
 
             <div className="relative mt-10 aspect-[4/3] hidden lg:block">
               <MediaFrame
-                src="/images/acacia-safari-vehicle.jpg"
+                src="/images/hwange.jpg"
                 alt="A safari vehicle under an acacia tree"
                 label="On the road"
                 className="h-full w-full"

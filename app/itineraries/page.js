@@ -13,7 +13,7 @@ export default function ItinerariesPage() {
   return (
     <div>
       <PageHero
-        src="/images/savanna-sunset-hq.jpg"
+        src="/images/slide1.jpg"
         alt="A golden sunset over the Southern African savanna"
         kicker="Multi-Day Routes"
         title="Tour Itineraries"

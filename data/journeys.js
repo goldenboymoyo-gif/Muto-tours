@@ -20,7 +20,7 @@ export const journeys = [
     stops: ["Windhoek", "Sossusvlei", "Swakopmund", "Damaraland", "Etosha National Park"],
     blurb:
       "A west-to-north arc through the Namib: the dunes of Sossusvlei, the ghost forest at Deadvlei, the coast road to Swakopmund, and Etosha's floodlit waterholes to close it out.",
-    image: "/images/deadvlei-dunes.jpg",
+    image: "/images/namibia.jpg",
     imageAlt: "Namib desert dunes above the white clay pan at Deadvlei, Namibia",
     destinationSlug: "namibia",
   },
@@ -31,7 +31,7 @@ export const journeys = [
     stops: ["Windhoek", "Sossusvlei", "Swakopmund", "Damaraland", "Etosha", "Okavango Delta / Chobe", "Victoria Falls"],
     blurb:
       "The full multi-country circuit — Namibia's desert and coast, Botswana's Delta and river game viewing, closing at the falls themselves. Runs just as well in reverse.",
-    image: "/images/okavango-mokoro-sunset.jpg",
+    image: "/images/windhoek-vicfalls-15.jpg",
     imageAlt: "Mokoro dugout canoes on the Okavango Delta at sunset",
     destinationSlug: "okavango-delta",
   },
@@ -42,7 +42,7 @@ export const journeys = [
     stops: ["Victoria Falls", "Hwange National Park", "Matobo Hills"],
     blurb:
       "Home ground, in full: the falls and the Zambezi, Hwange's elephant herds, and Matobo's granite kopjes with rhino tracking on foot.",
-    image: "/images/zambezi-sunset-cruise.jpg",
+    image: "/images/zimtour.jpg",
     imageAlt: "Golden-hour river cruise on the Zambezi near Victoria Falls",
     destinationSlug: "victoria-falls",
   },

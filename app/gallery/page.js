@@ -11,7 +11,7 @@ export default function GalleryPage() {
   return (
     <div>
       <PageHero
-        src="/images/giraffe-acacia.jpg"
+        src="/images/slide3.jpg"
         alt="A giraffe under an acacia tree in the African savanna"
         kicker="Gallery"
         title="What it actually looks like out there."

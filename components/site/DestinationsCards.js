@@ -15,9 +15,9 @@ function splitChars(text) {
 }
 
 const PLACES = [
-  { slug: "/destinations/victoria-falls", title: "Victoria Falls", img: "/images/zambezi-sunset-cruise.jpg" },
-  { slug: "/destinations/okavango-delta", title: "Okavango Delta", img: "/images/okavango-mokoro-sunset.jpg" },
-  { slug: "/destinations/namibia", title: "Namibia", img: "/images/deadvlei-dunes.jpg" },
+  { slug: "/destinations/victoria-falls", title: "Victoria Falls", img: "/images/vicfalls.jpg" },
+  { slug: "/destinations/okavango-delta", title: "Okavango Delta", img: "/images/maun.jpg" },
+  { slug: "/destinations/namibia", title: "Namibia", img: "/images/namibia.jpg" },
 ];
 
 export default function DestinationsCards() {

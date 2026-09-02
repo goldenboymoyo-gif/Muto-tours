@@ -5,12 +5,12 @@ import { gsap } from "@/lib/gsap";
 
 const FACTS = [
   {
-    img: "/images/victoria-falls-mist.jpg",
+    img: "/images/vicfalls.jpg",
     title: "Victoria Falls — the smoke that thunders",
     body: "One of the Seven Natural Wonders of the World — the world's largest sheet of falling water, straddling the border of Zimbabwe and Zambia.",
   },
   {
-    img: "/images/etosha-elephant.jpg",
+    img: "/images/hwange.jpg",
     title: "Etosha's wildlife",
     body: "The Namibian salt pan hosts some of Southern Africa's greatest concentrations of game, with floodlit waterholes for after-dark viewing.",
   },

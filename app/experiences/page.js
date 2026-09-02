@@ -14,7 +14,7 @@ export default function ExperiencesPage() {
   return (
     <div>
       <PageHero
-        src="/images/zambezi-sunset-cruise.jpg"
+        src="/images/vicfalls.jpg"
         alt="A boat cruise on the Zambezi River"
         kicker="Experiences"
         title="What a day on route actually looks like."
