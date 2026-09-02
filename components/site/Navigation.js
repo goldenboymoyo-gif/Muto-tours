@@ -13,6 +13,7 @@ function scrollToId(id) {
 export default function Navigation({ heroReady, soundOn, onToggleSound }) {
   const barRef = useRef(null);
   const menuRef = useRef(null);
+  const audioRef = useRef(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,27 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
     }, 1300);
     return () => clearTimeout(t);
   }, [heroReady]);
+
+  useEffect(() => {
+    if (!audioRef.current) {
+      const a = new Audio("/audio/nature.mp3");
+      a.loop = true;
+      a.volume = 0.5;
+      audioRef.current = a;
+    }
+    const a = audioRef.current;
+    if (soundOn) {
+      a.play().catch(() => {});
+    } else {
+      a.pause();
+    }
+  }, [soundOn]);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -98,7 +120,11 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
             className="navigation-contact-button"
             onClick={() => scrollToId("contact")}
           >
-            <img className="navigation-contact-button-image" src="/images/favimage2.png" alt="" />
+            <img
+              className="navigation-contact-button-image"
+              src="/images/muto-logo.png"
+              alt={brand.name}
+            />
             <h1 className="navigation-title">Enquire</h1>
           </button>
           <span className="navigation-title" style={{ marginLeft: "1vw", opacity: 0.8 }}>

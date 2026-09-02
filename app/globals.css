@@ -600,8 +600,17 @@ body {
   position: relative;
 }
 .explore-viewport {
-  overflow: hidden;
+  display: flex;
+  gap: 2vw;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
   cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 2px 1px;
+}
+.explore-viewport::-webkit-scrollbar {
+  display: none;
 }
 .explore-track {
   display: flex;
@@ -610,6 +619,7 @@ body {
 .three-slider-item {
   flex: 0 0 auto;
   width: 24vw;
+  scroll-snap-align: start;
 }
 .three-slider-item-wrapper {
   position: relative;
@@ -714,7 +724,7 @@ body {
    ULTIMATE ADVENTURE — paw mask scroll reveal (section five)
 ---------------------------------------------------------------------------- */
 .ultimate-section {
-  height: 300vh !important;
+  height: 160vh !important;
   background-color: var(--cream);
   background-image: var(--noise);
   width: 100%;

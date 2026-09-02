@@ -32,7 +32,14 @@ export default function VideoSection() {
   return (
     <section ref={rootRef} className="video-section ess-section">
       <div className="seven-video-content">
-        <video src="/videos/hero.mp4" autoPlay muted loop playsInline preload="auto" />
+        <video
+          src="/videos/vic-falls.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
       </div>
     </section>
   );

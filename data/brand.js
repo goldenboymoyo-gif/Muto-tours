@@ -13,14 +13,11 @@ const brand = {
     "Expertly guided tours across Zimbabwe and beyond — crafted for comfort, discovery, and unforgettable moments.",
   founded: "Victoria Falls, Zimbabwe",
 
-  // Swap this for the finished logo mark when it's ready. Until then the
-  // wordmark component (components/Logo.js) renders a typographic mark
-  // built from the palette below, so the site never depends on a missing
-  // image file.
+  // Official Muto Tours logo (from mutotours.africa/assets/logo.png).
   logo: {
-    src: "/images/logo-placeholder.svg",
-    width: 168,
-    height: 40,
+    src: "/images/muto-logo.png",
+    width: 400,
+    height: 400,
   },
 
   contact: {

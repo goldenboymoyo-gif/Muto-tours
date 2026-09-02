@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { experiences } from "@/data/experiences";
-import "flickity/dist/flickity.min.css";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -26,34 +25,7 @@ const CARDS = experiences.map((e) => ({
 
 export default function Explore() {
   const rootRef = useRef(null);
-  const viewportRef = useRef(null);
-  const flktyRef = useRef(null);
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-
-    let destroyed = false;
-    import("flickity").then(({ default: Flickity }) => {
-      if (destroyed || !viewportRef.current) return;
-      const flkty = new Flickity(viewportRef.current, {
-        freeScroll: true,
-        draggable: true,
-        wrapAround: false,
-        contain: true,
-        prevNextButtons: false,
-        pageDots: false,
-        cellAlign: "left",
-      });
-      flktyRef.current = flkty;
-    });
-
-    return () => {
-      destroyed = true;
-      flktyRef.current?.destroy();
-      flktyRef.current = null;
-    };
-  }, []);
+  const trackRef = useRef(null);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -76,7 +48,11 @@ export default function Explore() {
   }, []);
 
   const move = (dir) => {
-    flktyRef.current?.shift(dir === "next" ? 1 : -1);
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector(".three-slider-item");
+    const step = card ? card.offsetWidth + 28 : 400;
+    track.scrollBy({ left: dir === "next" ? step : -step, behavior: "smooth" });
   };
 
   return (
@@ -96,7 +72,7 @@ export default function Explore() {
         >
           &#8249;
         </button>
-        <div className="explore-viewport" ref={viewportRef}>
+        <div className="explore-viewport" ref={trackRef}>
           {CARDS.map((c) => (
             <Link href={`/experiences/${c.slug}`} className="three-slider-item" key={c.slug}>
               <div className="three-slider-item-wrapper">
