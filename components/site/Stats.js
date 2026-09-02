@@ -5,8 +5,7 @@ import { gsap } from "@/lib/gsap";
 
 const STATS = [
   { value: 4, suffix: "", label: "Countries" },
-  { value: 2, suffix: "k+", label: "Satisfied Clients" },
-  { value: 10, suffix: "+", label: "Years of Experience" },
+  { value: 12, suffix: "", label: "Tour Packages" },
 ];
 
 export default function Stats() {

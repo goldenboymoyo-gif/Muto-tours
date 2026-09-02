@@ -769,7 +769,7 @@ body {
    ULTIMATE ADVENTURE — paw mask scroll reveal (section five)
 ---------------------------------------------------------------------------- */
 .ultimate-section {
-  height: 160vh !important;
+  height: 125vh !important;
   background-color: var(--cream);
   background-image: var(--noise);
   width: 100%;

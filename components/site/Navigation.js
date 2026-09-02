@@ -11,7 +11,7 @@ function scrollToId(id) {
   el.scrollIntoView({ behavior: "smooth" });
 }
 
-export default function Navigation({ heroReady, soundOn, onToggleSound }) {
+export default function Navigation({ heroReady }) {
   const barRef = useRef(null);
   const menuRef = useRef(null);
   const audioRef = useRef(null);
@@ -37,23 +37,12 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
   }, []);
 
   useEffect(() => {
-    if (!audioRef.current) {
-      const a = new Audio("/audio/nature.mp3");
-      a.loop = true;
-      a.volume = 0.5;
-      audioRef.current = a;
-    }
-    const a = audioRef.current;
-    if (soundOn) {
-      a.play().catch(() => {});
-    } else {
-      a.pause();
-    }
-  }, [soundOn]);
-
-  useEffect(() => {
+    const audio = audioRef.current ?? (audioRef.current = new Audio("/audio/nature.mp3"));
+    audio.loop = true;
+    audio.volume = 0.5;
+    audio.play().catch(() => {});
     return () => {
-      audioRef.current?.pause();
+      audio.pause();
     };
   }, []);
 
@@ -119,19 +108,6 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
           </button>
         </div>
         <div className="navigation-bar-left">
-          <button
-            type="button"
-            aria-label="Toggle sound"
-            className="navigation-logobox"
-            onClick={onToggleSound}
-          >
-            {soundOn && (
-              <img className="navigation-logobox-icon" src="/images/vol.svg" alt="" />
-            )}
-            {!soundOn && (
-              <img className="navigation-logobox-icon" src="/images/volx.svg" alt="" />
-            )}
-          </button>
           <button
             type="button"
             className="navigation-contact-button"

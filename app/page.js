@@ -19,12 +19,11 @@ import { brand } from "@/data/brand";
 
 export default function HomePage() {
   const [ready, setReady] = useState(false);
-  const [soundOn, setSoundOn] = useState(true);
 
   return (
     <>
       <LoadingScreen onDone={() => setReady(true)} />
-      <Navigation heroReady={ready} soundOn={soundOn} onToggleSound={() => setSoundOn((s) => !s)} />
+      <Navigation heroReady={ready} />
 
       <div className="fixed-position">
         <Hero ready={ready} />
