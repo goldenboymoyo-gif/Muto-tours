@@ -92,6 +92,24 @@ body {
   background-image: var(--noise);
 }
 
+/* Sub-page editorial container — same comfortable reading width and
+   breathing room as the homepage sections, so the older sub-pages sit on
+   the same grid. */
+.container-editorial {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+@media (max-width: 768px) {
+  .container-editorial {
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+}
+
 /* ----------------------------------------------------------------------------
    Loading screen
 ---------------------------------------------------------------------------- */

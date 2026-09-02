@@ -131,7 +131,7 @@ function GalleryModal({ selectedItem, onClose, setSelectedItem, mediaItems }) {
               >
                 <MediaItem item={selectedItem} className="w-full h-full object-contain bg-ink" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 bg-gradient-to-t from-ink/85 to-transparent">
-                  <h3 className="text-ivory text-base sm:text-lg md:text-xl font-display italic">{selectedItem.title}</h3>
+                  <h3 className="text-ivory text-base sm:text-lg md:text-xl font-archivo uppercase">{selectedItem.title}</h3>
                   <p className="text-ivory/80 text-xs sm:text-sm mt-1">{selectedItem.desc}</p>
                 </div>
               </motion.div>

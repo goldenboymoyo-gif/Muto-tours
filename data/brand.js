@@ -52,27 +52,23 @@ const brand = {
 // ---------------------------------------------------------------------------
 // COLOR SYSTEM
 // ---------------------------------------------------------------------------
-// The Muto Tours logo asset could not be programmatically retrieved during
-// this build (mutotours.africa/assets/logo.png did not resolve from this
-// environment), so this palette was composed by hand from the destination
-// photography supplied for the project and the brand's Zimbabwe / Zambezi
-// setting — a warm, earthen safari-and-river system, deliberately far from
-// generic SaaS blue/purple gradients. When the real logo file is available,
-// re-sample its dominant hues and drop replacement hex values in here; every
-// component below reads color only from this object or the Tailwind tokens
-// generated from it (see tailwind.config.js), so a palette swap is a
-// one-file change.
+// Aligned to the Essentia-style homepage palette so every sub-page matches
+// the single-page aesthetic: a warm cream canvas with coffee text, Archivo
+// Black headlines and an orange accent. The Tailwind tokens generated from
+// this object (see tailwind.config.js) are the only color source used by the
+// legacy sub-page components, so this one-file swap re-skins them all to the
+// homepage look.
 const colors = {
-  clay: "#B5502B", // primary — sunset clay / terracotta, the brand's warm anchor
-  clayDark: "#8F3D20",
-  river: "#16302C", // secondary — deep river-teal, used for dark sections & header
-  riverDark: "#0E211E",
-  gold: "#D9A441", // accent — savanna gold, used sparingly for highlights
+  clay: "#4b3621", // primary — coffee, the dark anchor (buttons / strong text)
+  clayDark: "#181919", // hover — near-black
+  river: "#4b3621", // secondary — also coffee for dark sections & text
+  riverDark: "#181919",
+  gold: "#fc6d42", // accent — orange highlight (kickers, hover)
   sage: "#71785C", // supporting — muted sage for tags / quiet UI
-  sand: "#F6F1E7", // background — warm sand / ivory
-  sandDeep: "#EDE3D0",
-  ink: "#211D18", // primary text — warm charcoal, not pure black
-  ivory: "#FBF8F2",
+  sand: "#ece5d5", // background — cream (matches --cream)
+  sandDeep: "#e2dabd", // slightly deeper cream for image placeholders
+  ink: "#4b3621", // primary text — coffee
+  ivory: "#f4efe3", // light cream — text over dark imagery & secondary bg
 };
 
 module.exports = { brand, colors };

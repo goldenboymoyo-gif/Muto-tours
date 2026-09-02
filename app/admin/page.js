@@ -106,7 +106,7 @@ export default function AdminDashboardPage() {
     <main className="mx-auto max-w-content px-6 py-12">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl text-ink">Enquiries</h1>
+          <h1 className="font-archivo uppercase text-2xl text-ink">Enquiries</h1>
           <p className="mt-1 text-sm text-ink/60">
             {enquiries.length} total · {enquiries.filter((e) => e.status === "new").length} new
           </p>

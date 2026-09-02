@@ -74,7 +74,7 @@ export default function RouteMap({ stops = [], className = "" }) {
 
     // Draw route line
     L.polyline(latlngs, {
-      color: "#B5502B",
+      color: "#fc6d42",
       weight: 3,
       opacity: 0.8,
       dashArray: "8, 6",
@@ -86,11 +86,11 @@ export default function RouteMap({ stops = [], className = "" }) {
         className: "route-map-marker",
         html: `<div style="
           width:28px;height:28px;border-radius:50%;
-          background:#B5502B;color:#FBF8F2;
+          background:#4b3621;color:#ece5d5;
           display:flex;align-items:center;justify-content:center;
           font-size:12px;font-weight:600;font-family:Inter,sans-serif;
           box-shadow:0 2px 8px rgba(0,0,0,0.25);
-          border:2px solid #FBF8F2;
+          border:2px solid #ece5d5;
         ">${i + 1}</div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 14],
@@ -99,8 +99,8 @@ export default function RouteMap({ stops = [], className = "" }) {
       L.marker(c.ll, { icon })
         .addTo(map)
         .bindPopup(
-          `<div style="font-family:Inter,sans-serif;font-size:13px;font-weight:500;color:#211D18;white-space:nowrap;">
-            <span style="color:#B5502B;font-weight:700;">${i + 1}.</span> ${c.stop}
+          `<div style="font-family:Inter,sans-serif;font-size:13px;font-weight:500;color:#4b3621;white-space:nowrap;">
+            <span style="color:#fc6d42;font-weight:700;">${i + 1}.</span> ${c.stop}
           </div>`,
           { closeButton: false, offset: [0, -8] }
         );

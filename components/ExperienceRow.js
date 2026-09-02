@@ -8,7 +8,7 @@ export default function ExperienceRow({ experience, reverse = false, index }) {
       className="group grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center py-10"
     >
       <div
-        className={`md:col-span-5 relative aspect-[4/3] ${
+        className={`md:col-span-5 relative aspect-[4/3] rounded-[25px] overflow-hidden ${
           reverse ? "md:col-start-8" : ""
         }`}
       >
@@ -21,10 +21,10 @@ export default function ExperienceRow({ experience, reverse = false, index }) {
         />
       </div>
       <div className={`md:col-span-6 ${reverse ? "md:col-start-1 md:row-start-1" : "md:col-start-7"}`}>
-        <p className="text-[11px] uppercase tracking-widest2 text-clay mb-3">
+        <p className="text-[11px] uppercase tracking-widest2 text-gold mb-3">
           {String(index).padStart(2, "0")} &mdash; {experience.category}
         </p>
-        <h3 className="font-display text-2xl sm:text-3xl leading-tight text-ink group-hover:text-clay transition-colors">
+        <h3 className="font-archivo uppercase text-2xl sm:text-3xl leading-tight text-ink group-hover:text-gold transition-colors">
           {experience.name}
         </h3>
         <p className="mt-4 text-sm sm:text-base text-ink/70 leading-relaxed max-w-lg">

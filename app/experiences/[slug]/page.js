@@ -41,7 +41,7 @@ export default function ExperiencePage({ params }) {
           <div className="container-editorial pb-14">
             <BackLink fallbackHref="/experiences" fallbackLabel="All Experiences" className="text-gold hover:text-ivory" />
             <p className="mt-4 text-ivory/80 text-sm uppercase tracking-widest2">{experience.category}</p>
-            <h1 className="mt-3 font-display italic text-4xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
+            <h1 className="mt-3 font-archivo uppercase text-4xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
               {experience.name}
             </h1>
           </div>
@@ -51,7 +51,7 @@ export default function ExperiencePage({ params }) {
       <section className="bg-sand">
         <div className="container-editorial py-16 md:py-24 grid md:grid-cols-12 gap-12">
           <div className="md:col-span-7">
-            <p className="font-display italic text-xl sm:text-2xl text-clay leading-snug mb-6 text-balance">
+            <p className="font-archivo uppercase text-xl sm:text-2xl text-clay leading-snug mb-6 text-balance">
               {experience.tagline}
             </p>
             {experience.description.split("\n\n").map((para, i) => (
@@ -69,7 +69,7 @@ export default function ExperiencePage({ params }) {
                 <ol className="mt-6 space-y-2.5">
                   {experience.sampleRoute.stops.map((stop, i) => (
                     <li key={stop} className="flex gap-3 text-sm text-ink/80 leading-relaxed">
-                      <span className="text-clay shrink-0 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="text-gold shrink-0 tabular-nums font-archivo">{String(i + 1).padStart(2, "0")}</span>
                       {stop}
                     </li>
                   ))}
@@ -81,7 +81,7 @@ export default function ExperiencePage({ params }) {
             {experience.gallery?.length > 0 && (
               <div className="mt-10 grid grid-cols-3 gap-3">
                 {experience.gallery.map((src) => (
-                  <div key={src} className="relative aspect-square">
+                  <div key={src} className="relative aspect-square rounded-[25px] overflow-hidden">
                     <MediaFrame src={src} alt={`${experience.name} gallery photo`} label={experience.name} sizes="(min-width: 768px) 33vw, 100vw" className="h-full w-full" />
                   </div>
                 ))}

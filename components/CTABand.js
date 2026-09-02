@@ -18,14 +18,14 @@ export default function CTABand({
       </div>
 
       <div className="relative container-editorial py-20 md:py-28 text-center">
-        <h2 className="font-display italic text-3xl sm:text-4xl md:text-5xl text-ivory leading-[1.1] text-balance max-w-3xl mx-auto">
+        <h2 className="font-archivo uppercase text-3xl sm:text-4xl md:text-5xl text-ivory leading-[1.1] text-balance max-w-3xl mx-auto">
           {title}
         </h2>
         <p className="mt-5 text-ivory/80 max-w-lg mx-auto leading-relaxed">{dek}</p>
         <div className="mt-8">
           <Link
             href="/contact"
-            className="inline-block text-xs uppercase tracking-widest2 px-10 py-3.5 rounded-sm bg-clay text-ivory hover:bg-clay-dark transition-colors"
+            className="inline-block text-xs uppercase tracking-widest2 px-10 py-3.5 rounded-full bg-clay text-ivory hover:bg-clay-dark transition-colors"
           >
             Book Now
           </Link>

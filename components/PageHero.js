@@ -33,7 +33,7 @@ export default function PageHero({
               {kicker}
             </p>
           )}
-          <h1 className="font-display italic text-4xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
+          <h1 className="font-archivo uppercase text-3xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
             {title}
           </h1>
           {subtitle && (

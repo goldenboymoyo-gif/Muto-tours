@@ -105,7 +105,7 @@ export default function DestinationPage({ params }) {
             <p className="mt-4 text-ivory/80 text-sm uppercase tracking-widest2">
               {destination.country} &middot; {destination.region}
             </p>
-            <h1 className="mt-3 font-display italic text-4xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
+            <h1 className="mt-3 font-archivo uppercase text-4xl sm:text-5xl md:text-6xl text-ivory max-w-3xl text-balance">
               {destination.name}
             </h1>
           </div>
@@ -115,7 +115,7 @@ export default function DestinationPage({ params }) {
       {/* ── Tagline ──────────────────────────────────────────────── */}
       <section className="bg-ivory">
         <div className="container-editorial py-14 md:py-20 text-center">
-          <p className="font-display italic text-2xl sm:text-3xl md:text-4xl text-clay leading-snug max-w-2xl mx-auto text-balance">
+          <p className="font-archivo uppercase text-2xl sm:text-3xl md:text-4xl text-clay leading-snug max-w-2xl mx-auto text-balance">
             {destination.tagline}
           </p>
         </div>
@@ -164,7 +164,7 @@ export default function DestinationPage({ params }) {
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {route.stops.map((stop, i) => (
                 <div key={stop} className="flex items-start gap-3 bg-sand rounded-lg px-4 py-3">
-                  <span className="text-clay font-display text-lg leading-none mt-0.5 shrink-0">
+                  <span className="text-gold font-archivo text-lg leading-none mt-0.5 shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="text-sm text-ink/80 leading-snug">{stop}</span>
@@ -181,7 +181,7 @@ export default function DestinationPage({ params }) {
       {destination.gallery?.length > 0 && (
         <section className="bg-sand">
           <div className="container-editorial py-16 md:py-24">
-            <h2 className="font-display text-2xl sm:text-3xl text-ink mb-8 text-center">Gallery</h2>
+            <h2 className="font-archivo uppercase text-2xl sm:text-3xl text-ink mb-8 text-center">Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               {destination.gallery.map((src, i) => (
                 <div
@@ -200,14 +200,14 @@ export default function DestinationPage({ params }) {
       {pairedDestinations.length > 0 && (
         <section className="bg-ivory">
           <div className="container-editorial py-16 md:py-24">
-            <h2 className="font-display text-2xl sm:text-3xl text-ink mb-3 text-center">Pairs well with</h2>
+            <h2 className="font-archivo uppercase text-2xl sm:text-3xl text-ink mb-3 text-center">Pairs well with</h2>
             <p className="text-sm text-ink/60 text-center mb-10">Continue the journey</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {pairedDestinations.map((p) => (
                 <Link
                   key={p.slug}
                   href={`/destinations/${p.slug}`}
-                  className="group relative aspect-[16/9] rounded-xl overflow-hidden"
+                  className="group relative aspect-[16/9] rounded-[25px] overflow-hidden"
                 >
                   <MediaFrame
                     src={p.image}
@@ -219,7 +219,7 @@ export default function DestinationPage({ params }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 p-6">
                     <p className="text-xs uppercase tracking-widest2 text-ivory/70 mb-1">{p.country}</p>
-                    <h3 className="font-display italic text-xl sm:text-2xl text-ivory group-hover:text-gold transition-colors">
+                    <h3 className="font-archivo uppercase text-2xl text-ivory group-hover:text-gold transition-colors">
                       {p.name}
                     </h3>
                   </div>
@@ -234,7 +234,7 @@ export default function DestinationPage({ params }) {
       {relatedExperiences.length > 0 && (
         <section className="bg-sand">
           <div className="container-editorial py-16 md:py-20">
-            <h2 className="font-display text-2xl sm:text-3xl text-ink mb-2">Experiences here</h2>
+            <h2 className="font-archivo uppercase text-2xl sm:text-3xl text-ink mb-2">Experiences here</h2>
             <div className="divide-y divide-ink/10">
               {relatedExperiences.map((exp, i) => (
                 <ExperienceRow key={exp.slug} experience={exp} reverse={i % 2 === 1} index={i + 1} />

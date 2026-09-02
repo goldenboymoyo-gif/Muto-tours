@@ -7,7 +7,7 @@ export default function SectionIntro({ kicker, title, dek, align = "left", light
         </p>
       )}
       <h2
-        className={`font-display text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.1] text-balance ${
+        className={`font-archivo uppercase text-3xl sm:text-4xl md:text-[2.75rem] leading-[1.1] text-balance ${
           light ? "text-ivory" : "text-ink"
         }`}
       >

@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">
-      <h1 className="font-display text-2xl text-ink">Muto Tours Admin</h1>
+      <h1 className="font-archivo uppercase text-2xl text-ink">Muto Tours Admin</h1>
       <p className="mt-2 text-sm text-ink/60">Sign in to manage enquiries.</p>
 
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">

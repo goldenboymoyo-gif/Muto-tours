@@ -7,7 +7,7 @@ import MediaFrame from "./MediaFrame";
 export default function DestinationTile({ destination, aspect = "aspect-[4/5]", eager = false }) {
   return (
     <Link href={`/destinations/${destination.slug}`} className="group block">
-      <div className={`relative ${aspect}`}>
+      <div className={`relative ${aspect} rounded-[25px] overflow-hidden`}>
         <MediaFrame
           src={destination.image}
           alt={destination.imageAlt}
@@ -21,7 +21,7 @@ export default function DestinationTile({ destination, aspect = "aspect-[4/5]", 
           <p className="text-[11px] uppercase tracking-widest2 text-gold mb-1.5">
             {destination.country}
           </p>
-          <h3 className="font-display italic text-2xl text-ivory">{destination.name}</h3>
+          <h3 className="font-archivo uppercase text-xl text-ivory">{destination.name}</h3>
         </div>
       </div>
       <p className="mt-4 text-sm text-ink/70 leading-relaxed max-w-md">{destination.tagline}</p>
