@@ -140,7 +140,7 @@ export const experiences = [
       "A traditional open-air boma dinner with a broad spread of Southern African dishes, followed by local dance and drumming around the fire.",
     description:
       "The boma format is built for a group at the end of a long day of activity — an open-air dining area, a wide-ranging menu that runs from local specialties to more familiar dishes, and a live show of traditional dance and drumming once the plates are cleared. It's one of the more social evenings on a Muto Tours itinerary, and usually pairs well with a Zambezi sunset cruise or a falls tour earlier the same day.\n\n\"Boma\" refers to the enclosed open-air gathering space itself, a format used across several Southern African countries for exactly this kind of communal evening. Dietary requirements are easy to accommodate given the range on offer — worth mentioning when you book so the venue can plan for it.",
-    image: "/images/zimtour.jpg",
+    image: "/images/gallery/g147.jpg",
     imageAlt: "An open-air cultural evening around a fire in Southern Africa",
     gallery: ["/images/gallery/g147.jpg", "/images/gallery/g123.jpg", "/images/gallery/g61.jpg"],
     highlights: [

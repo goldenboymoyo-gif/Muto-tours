@@ -26,21 +26,33 @@ export default function Stats() {
           duration: 1,
           stagger: { amount: 0.75 },
           ease: "power4.out",
-          scrollTrigger: { trigger: root, start: "top 80%" },
+          scrollTrigger: { trigger: root, start: "top 80%", once: true },
         }
       );
 
       boxes.forEach((box, i) => {
         const stat = STATS[i];
         const numEl = box.querySelector(".six-number-num");
+        if (!numEl) return;
+        const final = stat.value;
         const obj = { n: 0 };
         gsap.to(obj, {
-          n: stat.value,
+          n: final,
           duration: 2,
           ease: "power2.out",
-          scrollTrigger: { trigger: box, start: "top 85%" },
+          overwrite: "auto",
+          scrollTrigger: {
+            trigger: root,
+            start: "top 80%",
+            once: true,
+            onEnter: () => {},
+            onEnterBack: () => {},
+          },
           onUpdate: () => {
             numEl.textContent = Math.round(obj.n);
+          },
+          onComplete: () => {
+            numEl.textContent = final;
           },
         });
       });

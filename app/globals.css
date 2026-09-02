@@ -181,6 +181,30 @@ body {
   opacity: 1;
   pointer-events: auto;
 }
+.navigation-bar.scrolled {
+  background-color: rgba(236, 229, 213, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(75, 54, 33, 0.15);
+  color: var(--coffee);
+}
+.navigation-bar.scrolled .menu span,
+.navigation-bar.scrolled .menu span::before,
+.navigation-bar.scrolled .menu span::after {
+  background-color: var(--coffee);
+}
+.navigation-bar.scrolled .navigation-logobox {
+  border-color: var(--coffee);
+}
+.navigation-bar.scrolled .navigation-logobox-icon {
+  filter: invert(0);
+}
+.navigation-bar.scrolled .navigation-contact-button,
+.navigation-bar.scrolled .navigation-title {
+  color: var(--coffee);
+}
+.navigation-bar.scrolled .menu.menu-open span {
+  background: transparent;
+}
 .navigation-bar-left {
   display: flex;
   align-items: center;
@@ -213,13 +237,13 @@ body {
   padding: 0;
 }
 .navigation-contact-button-image {
-  width: 1.4vw;
-  height: 1.4vw;
+  width: 2.2vw;
+  height: 2.2vw;
   border-radius: 50%;
   object-fit: cover;
 }
 .navigation-title {
-  font-size: 1vw;
+  font-size: 1.2vw;
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -318,6 +342,9 @@ body {
   position: relative;
   cursor: pointer;
   padding: 1.6vh 0;
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 .menu-text {
   position: relative;
@@ -588,7 +615,7 @@ body {
 ---------------------------------------------------------------------------- */
 .explore-section {
   height: fit-content !important;
-  padding: 14vh 5vw 18vh;
+  padding: 10vh 5vw 12vh;
   background-color: var(--cream);
   background-image: var(--noise);
 }
@@ -610,7 +637,7 @@ body {
   color: var(--coffee);
   text-align: center;
   max-width: 52vw;
-  margin: 0 auto 8vh auto;
+  margin: 0 auto 4.5vh auto;
 }
 .explore-carousel {
   max-width: 1500px;
@@ -1008,36 +1035,6 @@ body {
   border-radius: 10px;
   transform: translateX(-110%);
 }
-.four-center {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5vw;
-  margin-bottom: 8vh;
-}
-.four-content-center-box {
-  background-color: var(--blackish);
-  background-image: var(--noise);
-  color: var(--cream);
-  border-radius: 15px;
-  padding: 3vh 2vw;
-  text-align: center;
-  transition: background 0.4s ease;
-}
-.four-content-center-box:hover {
-  background-color: var(--coffee);
-}
-.four-center-score {
-  font-family: var(--font-archivo);
-  font-size: 2vw;
-  margin-bottom: 1vh;
-}
-.four-center-label {
-  font-size: 0.9vw;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.85;
-}
 .four-review-list {
   display: flex;
   flex-direction: column;
@@ -1277,6 +1274,15 @@ body {
 .footer-row a:hover {
   color: var(--orange);
 }
+.footer-copyright {
+  text-align: center;
+  margin-top: 8vh;
+  font-size: 0.85vw;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(75, 54, 33, 0.6);
+}
 
 /* ----------------------------------------------------------------------------
    Reduced motion safety
@@ -1314,6 +1320,10 @@ body {
   .navigation-logobox-icon {
     width: 4vw;
     height: 4vw;
+  }
+  .navigation-contact-button-image {
+    width: 6vw;
+    height: 6vw;
   }
   .navigation-title {
     font-size: 2.6vw;

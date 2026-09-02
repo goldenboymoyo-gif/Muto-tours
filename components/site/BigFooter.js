@@ -50,6 +50,9 @@ export default function BigFooter() {
         </a>
         <a href={brand.contact.phoneHref}>{brand.contact.phone}</a>
       </div>
+      <div className="footer-copyright">
+        &copy; {new Date().getFullYear()} {brand.name}. All rights reserved.
+      </div>
     </footer>
   );
 }

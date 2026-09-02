@@ -61,6 +61,9 @@ export default function SubFooter() {
         <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>
           {brand.contact.address.line1}, {brand.contact.address.line2}, {brand.contact.address.line3}
         </p>
+        <p style={{ margin: 0, fontSize: 12, opacity: 0.6 }}>
+          &copy; {new Date().getFullYear()} {brand.name}. All rights reserved.
+        </p>
       </div>
     </footer>
   );

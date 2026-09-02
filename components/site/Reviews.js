@@ -48,13 +48,6 @@ const BARS = [
   { label: "1", pct: 0 },
 ];
 
-const SCORES = [
-  { score: "5.0", label: "Experience" },
-  { score: "4.9", label: "Scenery" },
-  { score: "4.8", label: "Location" },
-  { score: "4.9", label: "Guides" },
-];
-
 export default function Reviews() {
   const rootRef = useRef(null);
 
@@ -77,17 +70,12 @@ export default function Reviews() {
         "-=0.1"
       );
       tl.fromTo(
-        root.querySelectorAll(".four-content-center-box"),
-        { opacity: 0, yPercent: 20 },
-        { opacity: 1, yPercent: 0, duration: 0.5, stagger: 0.2, ease: "power2.out" },
-        "-=0.6"
-      );
-      tl.fromTo(
         root.querySelectorAll(".four-review-row"),
         { yPercent: 25, opacity: 0 },
         { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" },
         "-=0.4"
       );
+
     }, root);
     return () => ctx.revert();
   }, []);
@@ -125,15 +113,6 @@ export default function Reviews() {
                   style={{ width: `${b.pct}%` }}
                 />
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="four-center">
-          {SCORES.map((s) => (
-            <div className="four-content-center-box" key={s.label}>
-              <div className="four-center-score">{s.score}</div>
-              <div className="four-center-label">{s.label}</div>
             </div>
           ))}
         </div>

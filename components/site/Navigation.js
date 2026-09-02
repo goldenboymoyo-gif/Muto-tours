@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { brand } from "@/data/brand";
 
@@ -23,6 +24,17 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
     }, 1300);
     return () => clearTimeout(t);
   }, [heroReady]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const bar = barRef.current;
+      if (!bar) return;
+      bar.classList.toggle("scrolled", window.scrollY > window.innerHeight * 0.7);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -77,14 +89,19 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
 
   const items = [
     { label: "Home", target: "top" },
-    { label: "About", target: "about" },
     { label: "Explore", target: "explore" },
     { label: "Reviews", target: "reviews" },
-    { label: "Contact", target: "contact" },
+    { label: "About", href: "/about" },
+    { label: "Destinations", href: "/destinations" },
+    { label: "Activities", href: "/experiences" },
+    { label: "Itineraries", href: "/itineraries" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Contact", href: "/contact" },
   ];
 
   const handleNavigate = (item) => {
     setOpen(false);
+    if (item.href) return;
     item.target === "top" ? window.scrollTo({ top: 0, behavior: "smooth" }) : scrollToId(item.target);
   };
 
@@ -140,20 +157,36 @@ export default function Navigation({ heroReady, soundOn, onToggleSound }) {
           ))}
         </div>
         <div className="navigation-menu-content">
-          {items.map((item) => (
-            <div
-              key={item.label}
-              className="menu-button"
-              onClick={() => handleNavigate(item)}
-            >
-              <div className="menu-text">
-                <span>
-                  {item.label}
-                  <span className="menu-text-copy">{item.label}</span>
-                </span>
+          {items.map((item) =>
+            item.href ? (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="menu-button"
+                onClick={() => setOpen(false)}
+              >
+                <div className="menu-text">
+                  <span>
+                    {item.label}
+                    <span className="menu-text-copy">{item.label}</span>
+                  </span>
+                </div>
+              </Link>
+            ) : (
+              <div
+                key={item.label}
+                className="menu-button"
+                onClick={() => handleNavigate(item)}
+              >
+                <div className="menu-text">
+                  <span>
+                    {item.label}
+                    <span className="menu-text-copy">{item.label}</span>
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
     </>
