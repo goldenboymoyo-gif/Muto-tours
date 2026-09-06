@@ -6,8 +6,8 @@ import CTABand from "@/components/CTABand";
 import ExperienceRow from "@/components/ExperienceRow";
 import Button from "@/components/Button";
 import BackLink from "@/components/BackLink";
-import { destinations, getDestinationBySlug } from "@/data/destinations";
-import { experiences } from "@/data/experiences";
+import { destinations as defaultDestinations } from "@/data/destinations";
+import { getContent } from "@/lib/content";
 
 const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
@@ -57,11 +57,12 @@ const ROUTE_MAP = {
 };
 
 export function generateStaticParams() {
-  return destinations.map((d) => ({ slug: d.slug }));
+  return defaultDestinations.map((d) => ({ slug: d.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const destination = getDestinationBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const { destinations } = await getContent();
+  const destination = destinations.find((d) => d.slug === params.slug);
   if (!destination) return {};
   return {
     title: destination.name,
@@ -70,8 +71,10 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function DestinationPage({ params }) {
-  const destination = getDestinationBySlug(params.slug);
+export default async function DestinationPage({ params }) {
+  const content = await getContent();
+  const { destinations, experiences } = content;
+  const destination = destinations.find((d) => d.slug === params.slug);
   if (!destination) notFound();
 
   const relatedExperiences = experiences
@@ -82,7 +85,7 @@ export default function DestinationPage({ params }) {
   const next = destinations[(currentIndex + 1) % destinations.length];
 
   const pairedDestinations = (destination.pairsWith || [])
-    .map((slug) => getDestinationBySlug(slug))
+    .map((slug) => destinations.find((d) => d.slug === slug))
     .filter(Boolean);
 
   const route = ROUTE_MAP[destination.slug];

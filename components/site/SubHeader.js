@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 const NAV = [
   { label: "Home", href: "/" },
@@ -13,6 +13,8 @@ const NAV = [
 ];
 
 export default function SubHeader() {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const pathname = usePathname();
 
   return (

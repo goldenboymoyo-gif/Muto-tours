@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
-import { experiences } from "@/data/experiences";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -15,15 +15,16 @@ function splitChars(text) {
   );
 }
 
-const CARDS = experiences.map((e) => ({
-  slug: e.slug,
-  name: e.name,
-  desc: e.blurb,
-  img: e.image,
-  destination: e.location.split(",")[0].trim(),
-}));
-
 export default function Explore() {
+  const { content } = useSiteContent();
+  const CARDS = content.experiences.map((e) => ({
+    slug: e.slug,
+    name: e.name,
+    desc: e.blurb,
+    img: e.image,
+    destination: e.location?.split(",")[0].trim() || "",
+  }));
+
   const rootRef = useRef(null);
   const trackRef = useRef(null);
 

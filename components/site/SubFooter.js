@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function SubFooter() {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   return (
     <footer
       style={{

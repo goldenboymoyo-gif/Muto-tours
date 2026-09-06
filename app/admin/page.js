@@ -1,53 +1,90 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { mergeContent, fetchStoredContent, saveContentSection, resetContentSection } from "@/lib/content";
+import BrandForm from "@/components/admin/BrandForm";
+import CollectionForm from "@/components/admin/CollectionForm";
+import GalleryForm from "@/components/admin/GalleryForm";
+import EnquiriesTable from "@/components/admin/EnquiriesTable";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 const TOKEN_KEY = "muto_admin_token";
 
-const STATUS_STYLES = {
-  new: "bg-clay/10 text-clay-dark",
-  contacted: "bg-gold/20 text-ink",
-  closed: "bg-ink/10 text-ink/60",
-};
+const DESTINATION_FIELDS = [
+  { key: "name", label: "Name", type: "text", required: true },
+  { key: "country", label: "Country", type: "text" },
+  { key: "region", label: "Region", type: "text" },
+  { key: "slug", label: "Slug (URL path)", type: "text", hint: "e.g. victoria-falls" },
+  { key: "tagline", label: "Tagline", type: "text" },
+  { key: "blurb", label: "Blurb (card summary)", type: "textarea", rows: 3 },
+  { key: "description", label: "Full description", type: "textarea", rows: 9, hint: "Blank lines become paragraphs." },
+  { key: "image", label: "Hero image", type: "image" },
+  { key: "imageAlt", label: "Image alt text", type: "text" },
+  { key: "highlights", label: "Highlights", type: "list" },
+  { key: "pairsWith", label: "Pairs with (destination slugs)", type: "list" },
+  { key: "gallery", label: "Gallery image paths", type: "list" },
+];
+
+const EXPERIENCE_FIELDS = [
+  { key: "name", label: "Name", type: "text", required: true },
+  { key: "slug", label: "Slug (URL path)", type: "text", hint: "e.g. zambezi-sunset-cruise" },
+  { key: "category", label: "Category", type: "text", hint: "e.g. Wildlife, Boat Cruise, Adventure" },
+  { key: "tagline", label: "Tagline", type: "text" },
+  { key: "location", label: "Location", type: "text" },
+  { key: "duration", label: "Duration", type: "text", hint: "e.g. Half day, 2–3 hours" },
+  { key: "blurb", label: "Blurb (card summary)", type: "textarea", rows: 3 },
+  { key: "description", label: "Full description", type: "textarea", rows: 9 },
+  { key: "image", label: "Image", type: "image" },
+  { key: "imageAlt", label: "Image alt text", type: "text" },
+  {
+    key: "sampleRoute",
+    label: "Sample route (optional)",
+    type: "group",
+    fields: [
+      { key: "label", label: "Label", type: "text" },
+      { key: "stops", label: "Stops", type: "list" },
+      { key: "note", label: "Note", type: "textarea", rows: 2 },
+    ],
+  },
+  { key: "highlights", label: "Highlights", type: "list" },
+  { key: "included", label: "Included", type: "list" },
+  { key: "excluded", label: "Not included", type: "list" },
+  { key: "pricingNote", label: "Pricing note", type: "textarea", rows: 2 },
+];
+
+const JOURNEY_FIELDS = [
+  { key: "name", label: "Name", type: "text", required: true },
+  { key: "slug", label: "Slug (URL path)", type: "text", hint: "e.g. namibia-explorer" },
+  { key: "countries", label: "Countries", type: "list" },
+  { key: "stops", label: "Route stops", type: "list" },
+  { key: "blurb", label: "Blurb", type: "textarea", rows: 4 },
+  { key: "image", label: "Image", type: "image" },
+  { key: "imageAlt", label: "Image alt text", type: "text" },
+  { key: "destinationSlug", label: "Destination slug (button link)", type: "text", hint: "e.g. namibia" },
+];
+
+const TABS = [
+  { id: "enquiries", label: "Enquiries" },
+  { id: "brand", label: "Brand" },
+  { id: "destinations", label: "Destinations" },
+  { id: "experiences", label: "Activities" },
+  { id: "journeys", label: "Itineraries" },
+  { id: "gallery", label: "Gallery" },
+];
 
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [token, setToken] = useState(null);
-  const [enquiries, setEnquiries] = useState([]);
-  const [status, setStatus] = useState("loading"); // loading | ready | error
-  const [error, setError] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [content, setContent] = useState(null);
+  const [tab, setTab] = useState("enquiries");
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState(null);
 
-  const logout = useCallback(() => {
-    window.localStorage.removeItem(TOKEN_KEY);
-    router.push("/admin/login");
-  }, [router]);
-
-  const loadEnquiries = useCallback(
-    async (authToken) => {
-      try {
-        const res = await fetch(`${API_URL}/api/admin/enquiries`, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
-
-        if (res.status === 401) {
-          logout();
-          return;
-        }
-        if (!res.ok) throw new Error("Failed to load enquiries.");
-
-        const body = await res.json();
-        setEnquiries(body.enquiries || []);
-        setStatus("ready");
-      } catch {
-        setStatus("error");
-        setError("Couldn't load enquiries. Is the backend running?");
-      }
-    },
-    [logout]
-  );
+  const flash = useCallback((msg) => {
+    setNotice(msg);
+    const t = setTimeout(() => setNotice(null), 5000);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(TOKEN_KEY);
@@ -56,138 +93,157 @@ export default function AdminDashboardPage() {
       return;
     }
     setToken(stored);
-    loadEnquiries(stored);
-  }, [router, loadEnquiries]);
+  }, [router]);
 
-  async function updateStatus(id, newStatus) {
-    // Optimistic update — snap back on failure.
-    const prev = enquiries;
-    setEnquiries((es) => es.map((e) => (e.id === id ? { ...e, status: newStatus } : e)));
+  const reload = useCallback(async () => {
+    const stored = await fetchStoredContent();
+    setContent(mergeContent(stored));
+  }, []);
 
-    try {
-      const res = await fetch(`${API_URL}/api/admin/enquiries/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+  useEffect(() => {
+    if (token) reload();
+  }, [token, reload]);
 
-      if (res.status === 401) {
-        logout();
-        return;
+  const save = useCallback(
+    async (section, data) => {
+      setSaving(true);
+      const ok = await saveContentSection(section, data, token);
+      setSaving(false);
+      if (ok) {
+        await reload();
+        flash(`${TABS.find((t) => t.id === section)?.label || section} saved — live on the site.`);
+      } else {
+        flash("Save failed — is the backend running?");
       }
-      if (!res.ok) throw new Error("update failed");
-    } catch {
-      setEnquiries(prev);
-    }
-  }
+      return ok;
+    },
+    [token, reload, flash]
+  );
 
-  if (status === "loading") {
-    return (
-      <main className="mx-auto max-w-content px-6 py-16">
-        <p className="text-sm text-ink/60">Loading enquiries…</p>
-      </main>
-    );
-  }
+  const reset = useCallback(
+    async (section) => {
+      const label = TABS.find((t) => t.id === section)?.label || section;
+      if (!window.confirm(`Restore ${label} to the site's built-in defaults? This discards all CMS edits for this section.`)) {
+        return false;
+      }
+      const ok = await resetContentSection(section, token);
+      if (ok) {
+        await reload();
+        flash(`${label} reset to defaults.`);
+      }
+      return ok;
+    },
+    [token, reload, flash]
+  );
 
-  if (status === "error") {
-    return (
-      <main className="mx-auto max-w-content px-6 py-16">
-        <p className="text-sm text-clay-dark">{error}</p>
-      </main>
-    );
+  if (!content) {
+    return <p className="text-sm text-ink/60">Loading workspace…</p>;
   }
-
-  const visible = filter === "all" ? enquiries : enquiries.filter((e) => e.status === filter);
 
   return (
-    <main className="mx-auto max-w-content px-6 py-12">
+    <div className="container-editorial py-10 md:py-14">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-archivo uppercase text-2xl text-ink">Enquiries</h1>
+          <h1 className="font-archivo text-2xl uppercase text-ink">Muto Tours Admin</h1>
           <p className="mt-1 text-sm text-ink/60">
-            {enquiries.length} total · {enquiries.filter((e) => e.status === "new").length} new
+            Manage enquiries and the content shown across the live site.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={logout}
+        <a
+          href="/"
           className="text-sm text-ink/50 underline decoration-ink/20 underline-offset-4 hover:text-ink"
         >
-          Sign out
-        </button>
+          View site →
+        </a>
       </div>
 
-      <div className="mt-6 flex gap-2">
-        {["all", "new", "contacted", "closed"].map((f) => (
+      <div className="mt-8 flex flex-wrap gap-2 border-b border-ink/10 pb-px">
+        {TABS.map((t) => (
           <button
-            key={f}
+            key={t.id}
             type="button"
-            onClick={() => setFilter(f)}
-            className={`rounded-full px-4 py-1.5 text-xs uppercase tracking-widest2 transition ${
-              filter === f ? "bg-ink text-ivory" : "bg-ink/5 text-ink/60 hover:bg-ink/10"
+            onClick={() => setTab(t.id)}
+            className={`rounded-t-lg px-4 py-2.5 text-xs uppercase tracking-widest2 transition ${
+              tab === t.id
+                ? "bg-clay text-ivory"
+                : "text-ink/55 hover:bg-ink/5 hover:text-ink"
             }`}
           >
-            {f}
+            {t.label}
           </button>
         ))}
       </div>
 
-      {visible.length === 0 ? (
-        <p className="mt-10 text-sm text-ink/50">No enquiries here yet.</p>
-      ) : (
-        <div className="mt-8 overflow-x-auto">
-          <table className="w-full min-w-[900px] border-collapse text-left text-sm">
-            <thead>
-              <tr className="border-b border-ink/10 text-xs uppercase tracking-widest2 text-ink/40">
-                <th className="py-3 pr-4 font-normal">Received</th>
-                <th className="py-3 pr-4 font-normal">Name</th>
-                <th className="py-3 pr-4 font-normal">Contact</th>
-                <th className="py-3 pr-4 font-normal">Interest</th>
-                <th className="py-3 pr-4 font-normal">Message</th>
-                <th className="py-3 pr-4 font-normal">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {visible.map((e) => (
-                <tr key={e.id} className="border-b border-ink/5 align-top">
-                  <td className="py-4 pr-4 whitespace-nowrap text-ink/60">
-                    {new Date(e.receivedAt).toLocaleDateString(undefined, {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="py-4 pr-4 font-medium text-ink">{e.full_name}</td>
-                  <td className="py-4 pr-4 text-ink/70">
-                    <div>{e.email}</div>
-                    {e.phone && <div className="text-ink/50">{e.phone}</div>}
-                  </td>
-                  <td className="py-4 pr-4 text-ink/70">
-                    {e.destination_interest || "—"}
-                    {e.travel_dates && <div className="text-ink/50">{e.travel_dates}</div>}
-                    {e.party_size && <div className="text-ink/50">{e.party_size}</div>}
-                  </td>
-                  <td className="py-4 pr-4 max-w-xs text-ink/70">{e.message}</td>
-                  <td className="py-4 pr-4">
-                    <select
-                      value={e.status}
-                      onChange={(ev) => updateStatus(e.id, ev.target.value)}
-                      className={`rounded-full border-0 px-3 py-1.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-clay ${STATUS_STYLES[e.status] || ""}`}
-                    >
-                      <option value="new">New</option>
-                      <option value="contacted">Contacted</option>
-                      <option value="closed">Closed</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {notice && (
+        <div className="mt-6 rounded-xl border border-gold/40 bg-gold/10 px-4 py-3 text-sm text-ink">
+          {notice}
         </div>
       )}
-    </main>
+
+      <div className={`mt-8 ${saving ? "opacity-70" : ""}`}>
+        {tab === "enquiries" && <EnquiriesTable token={token} />}
+
+        {tab === "brand" && (
+          <BrandForm
+            value={content.brand}
+            onSave={(v) => save("brand", v)}
+            onReset={() => reset("brand")}
+          />
+        )}
+
+        {tab === "destinations" && (
+          <CollectionForm
+            section="destinations"
+            kicker="Destinations"
+            title="Destinations"
+            dek="Where Muto Tours can build a route. Edits appear on /destinations and across the homepage."
+            newItemLabel="destination"
+            identify={(d) => d.name || d.slug}
+            fields={DESTINATION_FIELDS}
+            value={content.destinations}
+            onSave={(v) => save("destinations", v)}
+            onReset={() => reset("destinations")}
+          />
+        )}
+
+        {tab === "experiences" && (
+          <CollectionForm
+            section="experiences"
+            kicker="Activities"
+            title="Activities & Experiences"
+            dek="The activities shown on /experiences and the homepage carousel."
+            newItemLabel="experience"
+            identify={(e) => e.name || e.slug}
+            fields={EXPERIENCE_FIELDS}
+            value={content.experiences}
+            onSave={(v) => save("experiences", v)}
+            onReset={() => reset("experiences")}
+          />
+        )}
+
+        {tab === "journeys" && (
+          <CollectionForm
+            section="journeys"
+            kicker="Itineraries"
+            title="Featured Itineraries"
+            dek="The multi-day route highlights on /itineraries."
+            newItemLabel="itinerary"
+            identify={(j) => j.name || j.slug}
+            fields={JOURNEY_FIELDS}
+            value={content.journeys}
+            onSave={(v) => save("journeys", v)}
+            onReset={() => reset("journeys")}
+          />
+        )}
+
+        {tab === "gallery" && (
+          <GalleryForm
+            value={content.gallery}
+            onSave={(v) => save("gallery", v)}
+            onReset={() => reset("gallery")}
+          />
+        )}
+      </div>
+    </div>
   );
 }

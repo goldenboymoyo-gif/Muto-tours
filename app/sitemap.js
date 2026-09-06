@@ -1,9 +1,10 @@
-import { destinations } from "@/data/destinations";
-import { experiences } from "@/data/experiences";
+import { getContent } from "@/lib/content";
 
 const BASE_URL = "https://mutotours.africa";
 
-export default function sitemap() {
+export default async function sitemap() {
+  const { destinations, experiences } = await getContent();
+
   const staticRoutes = ["", "/destinations", "/experiences", "/gallery", "/about", "/contact"].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified: new Date(),

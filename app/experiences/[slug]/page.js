@@ -4,16 +4,18 @@ import MediaFrame from "@/components/MediaFrame";
 import CTABand from "@/components/CTABand";
 import Button from "@/components/Button";
 import BackLink from "@/components/BackLink";
-import { experiences, getExperienceBySlug } from "@/data/experiences";
+import { experiences as defaultExperiences } from "@/data/experiences";
+import { getContent } from "@/lib/content";
 
 const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
 export function generateStaticParams() {
-  return experiences.map((e) => ({ slug: e.slug }));
+  return defaultExperiences.map((e) => ({ slug: e.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const experience = getExperienceBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const { experiences } = await getContent();
+  const experience = experiences.find((e) => e.slug === params.slug);
   if (!experience) return {};
   return {
     title: experience.name,
@@ -22,8 +24,9 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function ExperiencePage({ params }) {
-  const experience = getExperienceBySlug(params.slug);
+export default async function ExperiencePage({ params }) {
+  const { experiences } = await getContent();
+  const experience = experiences.find((e) => e.slug === params.slug);
   if (!experience) notFound();
 
   return (

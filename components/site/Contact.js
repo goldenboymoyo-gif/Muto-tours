@@ -3,9 +3,11 @@
 import { useEffect, useRef } from "react";
 import { MessageCircle, Mail, Phone } from "lucide-react";
 import { gsap } from "@/lib/gsap";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function Contact() {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const rootRef = useRef(null);
 
   useEffect(() => {

@@ -2,14 +2,16 @@ import Link from "next/link";
 import MediaFrame from "@/components/MediaFrame";
 import PageHero from "@/components/PageHero";
 import CTABand from "@/components/CTABand";
-import { journeys } from "@/data/journeys";
+import { getContent } from "@/lib/content";
 
 export const metadata = {
   title: "Itineraries",
   description: "Multi-day tour routes across Zimbabwe, Botswana, Namibia, and South Africa — custom-built and quoted around your dates and pace.",
 };
 
-export default function ItinerariesPage() {
+export default async function ItinerariesPage() {
+  const { journeys } = await getContent();
+
   return (
     <div>
       <PageHero

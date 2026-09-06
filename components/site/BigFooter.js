@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -15,6 +15,8 @@ function splitChars(text) {
 }
 
 export default function BigFooter() {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const rootRef = useRef(null);
 
   useEffect(() => {

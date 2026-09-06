@@ -2,15 +2,7 @@
 
 import { useState } from "react";
 import BentoGallery from "@/components/BentoGallery";
-import { galleryPhotos } from "@/data/gallery";
-
-const CATEGORIES = [
-  "All",
-  "Wildlife",
-  "Adventure",
-  "Boat Cruises",
-  "Gallery",
-];
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 const SPAN_PATTERN = [
   "col-span-2 row-span-3 md:col-span-2 md:row-span-3",
@@ -89,6 +81,8 @@ const videos = [
 ];
 
 export default function GallerySection() {
+  const { content } = useSiteContent();
+  const galleryPhotos = content.gallery.photos;
   const [activeCategory, setActiveCategory] = useState("All");
 
   const allItems = [
@@ -103,6 +97,8 @@ export default function GallerySection() {
       span: SPAN_PATTERN[i % SPAN_PATTERN.length],
     })),
   ];
+
+  const CATEGORIES = ["All", ...Array.from(new Set(allItems.map((i) => i.category).filter(Boolean)))];
 
   const filteredItems =
     activeCategory === "All"

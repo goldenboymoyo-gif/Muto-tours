@@ -2,7 +2,7 @@ import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import ExperienceRow from "@/components/ExperienceRow";
 import CTABand from "@/components/CTABand";
-import { experiences } from "@/data/experiences";
+import { getContent } from "@/lib/content";
 
 export const metadata = {
   title: "Experiences",
@@ -10,7 +10,9 @@ export const metadata = {
     "Guided game drives, the Zambezi sunset cruise, mokoro excursions in the Okavango, Sossusvlei dune climbs, and fully custom multi-day safari itineraries.",
 };
 
-export default function ExperiencesPage() {
+export default async function ExperiencesPage() {
+  const { experiences } = await getContent();
+
   return (
     <div>
       <PageHero

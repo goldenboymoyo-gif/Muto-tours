@@ -2,7 +2,7 @@ import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import DestinationTile from "@/components/DestinationTile";
 import CTABand from "@/components/CTABand";
-import { destinations } from "@/data/destinations";
+import { getContent } from "@/lib/content";
 
 export const metadata = {
   title: "Destinations",
@@ -12,7 +12,9 @@ export const metadata = {
 
 const aspects = ["aspect-[4/5]"]; // uniform ratio — the alternating 4/5/4/3 mix left cards visibly misaligned within each grid row
 
-export default function DestinationsPage() {
+export default async function DestinationsPage() {
+  const { destinations } = await getContent();
+
   return (
     <div>
       <PageHero

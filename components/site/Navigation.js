@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function scrollToId(id) {
   const el = document.getElementById(id);
@@ -12,6 +12,8 @@ function scrollToId(id) {
 }
 
 export default function Navigation({ heroReady }) {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const barRef = useRef(null);
   const menuRef = useRef(null);
   const [open, setOpen] = useState(false);

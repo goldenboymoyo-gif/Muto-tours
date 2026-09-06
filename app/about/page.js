@@ -1,7 +1,7 @@
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import CTABand from "@/components/CTABand";
-import { brand } from "@/data/brand";
+import { getContent } from "@/lib/content";
 
 export const metadata = {
   title: "About",
@@ -23,7 +23,9 @@ const approach = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { brand } = await getContent();
+
   return (
     <div>
       <PageHero

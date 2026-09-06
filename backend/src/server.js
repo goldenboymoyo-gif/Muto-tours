@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 const contactRouter = require('./routes/contact');
 const adminRouter = require('./routes/admin');
 const subscribeRouter = require('./routes/subscribe');
+const contentRouter = require('./routes/content');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -44,6 +45,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/contact', contactRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/subscribe', subscribeRouter);
+app.use(contentRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });

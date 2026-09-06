@@ -1,6 +1,11 @@
-import { brand } from "@/data/brand";
+"use client";
+
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function WhatsAppButton({ label = "Chat on WhatsApp", className = "" }) {
+  const { content } = useSiteContent();
+  const brand = content.brand;
+
   return (
     <a
       href={brand.contact.whatsappHref}

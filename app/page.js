@@ -15,9 +15,10 @@ import VideoSection from "@/components/site/VideoSection";
 import Contact from "@/components/site/Contact";
 import Facts from "@/components/site/Facts";
 import BigFooter from "@/components/site/BigFooter";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function HomePage() {
+  const { content } = useSiteContent();
   const [ready, setReady] = useState(false);
 
   return (
@@ -30,7 +31,7 @@ export default function HomePage() {
       </div>
 
       <div className="relative-position">
-        <About brandName={brand.name} />
+        <About brandName={content.brand.name} />
         <Stats />
         <Explore />
         <UltimateAdventure />

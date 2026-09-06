@@ -2,14 +2,16 @@ import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import MediaFrame from "@/components/MediaFrame";
-import { brand } from "@/data/brand";
+import { getContent } from "@/lib/content";
 
 export const metadata = {
   title: "Contact",
   description: "Plan a trip with Muto Tours — reach us by WhatsApp, phone, email, or the enquiry form below.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { brand } = await getContent();
+
   return (
     <div>
       <PageHero

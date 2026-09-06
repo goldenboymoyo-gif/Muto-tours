@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { brand } from "@/data/brand";
+import { useSiteContent } from "@/components/site/ContentProvider";
 import Button from "./Button";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
@@ -17,6 +17,8 @@ const initialState = {
 };
 
 export default function ContactForm() {
+  const { content } = useSiteContent();
+  const brand = content.brand;
   const [form, setForm] = useState(initialState);
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
 
