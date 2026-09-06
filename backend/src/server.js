@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// Persistence check marker (no behavior change).
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
