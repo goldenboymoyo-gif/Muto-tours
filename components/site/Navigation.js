@@ -14,7 +14,6 @@ function scrollToId(id) {
 export default function Navigation({ heroReady }) {
   const barRef = useRef(null);
   const menuRef = useRef(null);
-  const audioRef = useRef(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -34,16 +33,6 @@ export default function Navigation({ heroReady }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const audio = audioRef.current ?? (audioRef.current = new Audio("/audio/nature.mp3"));
-    audio.loop = true;
-    audio.volume = 0.5;
-    audio.play().catch(() => {});
-    return () => {
-      audio.pause();
-    };
   }, []);
 
   useEffect(() => {
