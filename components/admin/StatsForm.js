@@ -1,33 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Field, Savebar, SectionIntro } from "./ui";
-import { inputClass } from "./ui";
+import { Field, Savebar, SectionIntro, TextInput, btnGhost, inputClass } from "./ui";
+import { normalizeStats } from "@/lib/content";
 
-const STAT_FIELDS = [
-  { key: "countries", label: "Countries", hint: "Number shown on the homepage in bold." },
-  { key: "tourPackages", label: "Tour packages", hint: "Number of packages shown on the homepage in bold." },
-];
+function emptyRow() {
+  return { label: "", value: "0" };
+}
 
 export default function StatsForm({ value, onSave, onReset }) {
-  const [draft, setDraft] = useState(value);
+  const [draft, setDraft] = useState(() => normalizeStats(value).map((r) => ({ ...r, value: String(r.value) })));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [base, setBase] = useState(value);
+  const [base, setBase] = useState(() => normalizeStats(value).map((r) => ({ ...r, value: String(r.value) })));
 
   useEffect(() => {
-    setDraft(value);
-    setBase(value);
+    const rows = normalizeStats(value).map((r) => ({ ...r, value: String(r.value) }));
+    setDraft(rows);
+    setBase(rows);
     setSaved(false);
   }, [value]);
 
   const dirty = JSON.stringify(draft) !== JSON.stringify(base);
 
-  const setValue = (key, v) => setDraft((d) => ({ ...d, [key]: v }));
+  const setRow = (i, key, v) =>
+    setDraft((d) => d.map((r, idx) => (idx === i ? { ...r, [key]: v } : r)));
+
+  const addRow = () => setDraft((d) => [...d, emptyRow()]);
+
+  const removeRow = (i) => setDraft((d) => d.filter((_, idx) => idx !== i));
 
   async function handleSave() {
     setSaving(true);
-    const ok = await onSave(draft);
+    const ok = await onSave({ rows: draft });
     setSaving(false);
     if (ok) setSaved(true);
   }
@@ -37,24 +42,50 @@ export default function StatsForm({ value, onSave, onReset }) {
       <SectionIntro
         kicker="Stats"
         title="Homepage Stats"
-        dek="The two big numbers on the homepage. Set them to match your latest offering."
+        dek="The big numbers on the homepage. Rename, renumber, add or remove rows — changes save straight to the live site."
       />
 
-      <div className="max-w-md rounded-2xl border border-ink/10 bg-[#fffdf8] p-6">
-        <div className="space-y-5">
-          {STAT_FIELDS.map((field) => (
-            <Field label={field.label} hint={field.hint} key={field.key}>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                className={inputClass}
-                value={draft?.[field.key] ?? ""}
-                onChange={(e) => setValue(field.key, e.target.value)}
-              />
-            </Field>
+      <div className="max-w-2xl rounded-2xl border border-ink/10 bg-[#fffdf8] p-6">
+        <div className="space-y-4">
+          {draft.map((row, i) => (
+            <div
+              key={i}
+              className="flex flex-wrap items-end gap-4 rounded-xl border border-ink/10 bg-sand/40 p-4"
+            >
+              <div className="min-w-[180px] flex-1">
+                <Field label="Label">
+                  <TextInput value={row.label} onChange={(v) => setRow(i, "label", v)} placeholder="e.g. Countries" />
+                </Field>
+              </div>
+              <div className="w-32">
+                <Field label="Number">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    className={inputClass}
+                    value={row.value}
+                    onChange={(e) => setRow(i, "value", e.target.value)}
+                  />
+                </Field>
+              </div>
+              <button
+                type="button"
+                onClick={() => removeRow(i)}
+                disabled={draft.length <= 1}
+                className="rounded-md border border-ink/10 px-3 py-2 text-sm text-ink/50 transition hover:border-clay/40 hover:text-clay disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Delete
+              </button>
+            </div>
           ))}
         </div>
+
+        {draft.length < 6 && (
+          <button type="button" className={`${btnGhost} mt-4`} onClick={addRow}>
+            + Add stat
+          </button>
+        )}
       </div>
 
       <Savebar onSave={handleSave} onReset={onReset} saving={saving} saved={saved} dirty={dirty} />
