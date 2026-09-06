@@ -3,12 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { mergeContent, fetchStoredContent, saveContentSection, resetContentSection } from "@/lib/content";
+import { checkAdminSession } from "@/lib/admin";
 import BrandForm from "@/components/admin/BrandForm";
 import CollectionForm from "@/components/admin/CollectionForm";
 import GalleryForm from "@/components/admin/GalleryForm";
 import EnquiriesTable from "@/components/admin/EnquiriesTable";
-
-const TOKEN_KEY = "muto_admin_token";
 
 const DESTINATION_FIELDS = [
   { key: "name", label: "Name", type: "text", required: true },
@@ -74,7 +73,7 @@ const TABS = [
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [token, setToken] = useState(null);
+  const [sessionOk, setSessionOk] = useState(null); // null = checking
   const [content, setContent] = useState(null);
   const [tab, setTab] = useState("enquiries");
   const [saving, setSaving] = useState(false);
@@ -87,12 +86,19 @@ export default function AdminDashboardPage() {
   }, []);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(TOKEN_KEY);
-    if (!stored) {
-      router.push("/admin/login");
-      return;
-    }
-    setToken(stored);
+    let active = true;
+    (async () => {
+      const ok = await checkAdminSession();
+      if (!active) return;
+      if (!ok) {
+        router.push("/admin/login");
+        return;
+      }
+      setSessionOk(true);
+    })();
+    return () => {
+      active = false;
+    };
   }, [router]);
 
   const reload = useCallback(async () => {
@@ -101,13 +107,13 @@ export default function AdminDashboardPage() {
   }, []);
 
   useEffect(() => {
-    if (token) reload();
-  }, [token, reload]);
+    if (sessionOk) reload();
+  }, [sessionOk, reload]);
 
   const save = useCallback(
     async (section, data) => {
       setSaving(true);
-      const ok = await saveContentSection(section, data, token);
+      const ok = await saveContentSection(section, data);
       setSaving(false);
       if (ok) {
         await reload();
@@ -117,7 +123,7 @@ export default function AdminDashboardPage() {
       }
       return ok;
     },
-    [token, reload, flash]
+    [reload, flash]
   );
 
   const reset = useCallback(
@@ -126,17 +132,17 @@ export default function AdminDashboardPage() {
       if (!window.confirm(`Restore ${label} to the site's built-in defaults? This discards all CMS edits for this section.`)) {
         return false;
       }
-      const ok = await resetContentSection(section, token);
+      const ok = await resetContentSection(section);
       if (ok) {
         await reload();
         flash(`${label} reset to defaults.`);
       }
       return ok;
     },
-    [token, reload, flash]
+    [reload, flash]
   );
 
-  if (!content) {
+  if (sessionOk === null || !content) {
     return <p className="text-sm text-ink/60">Loading workspace…</p>;
   }
 
@@ -181,7 +187,7 @@ export default function AdminDashboardPage() {
       )}
 
       <div className={`mt-8 ${saving ? "opacity-70" : ""}`}>
-        {tab === "enquiries" && <EnquiriesTable token={token} />}
+        {tab === "enquiries" && <EnquiriesTable />}
 
         {tab === "brand" && (
           <BrandForm

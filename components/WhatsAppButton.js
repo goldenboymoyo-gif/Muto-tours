@@ -1,14 +1,18 @@
 "use client";
 
 import { useSiteContent } from "@/components/site/ContentProvider";
+import { safeUrl } from "@/lib/safeUrl";
 
 export default function WhatsAppButton({ label = "Chat on WhatsApp", className = "" }) {
   const { content } = useSiteContent();
   const brand = content.brand;
+  const href = safeUrl(brand.contact.whatsappHref);
+
+  if (!href) return null;
 
   return (
     <a
-      href={brand.contact.whatsappHref}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       className={`inline-flex items-center gap-2 text-sm font-medium text-river hover:text-clay transition-colors ${className}`}

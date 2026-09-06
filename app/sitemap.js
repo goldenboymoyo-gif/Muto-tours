@@ -5,7 +5,17 @@ const BASE_URL = "https://mutotours.africa";
 export default async function sitemap() {
   const { destinations, experiences } = await getContent();
 
-  const staticRoutes = ["", "/destinations", "/experiences", "/gallery", "/about", "/contact"].map((path) => ({
+  const staticRoutes = [
+    "",
+    "/destinations",
+    "/experiences",
+    "/gallery",
+    "/about",
+    "/contact",
+    "/privacy",
+    "/cookies",
+    "/terms",
+  ].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified: new Date(),
     changeFrequency: "monthly",

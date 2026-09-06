@@ -2,6 +2,8 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { append } = require('../lib/store');
 const { sendEnquiryEmail, sendEnquiryConfirmationEmail } = require('../lib/mailer');
+const { sanitizeField, isValidEmail } = require('../lib/validate');
+const { log } = require('../lib/securityLog');
 
 const router = express.Router();
 
@@ -13,14 +15,6 @@ const contactLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
-
-function validate(body) {
-  const errors = [];
-  if (!body.full_name || !String(body.full_name).trim()) errors.push('Name is required.');
-  if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) errors.push('A valid email is required.');
-  if (!body.message || !String(body.message).trim()) errors.push('A message is required.');
-  return errors;
-}
 
 router.post('/', contactLimiter, async (req, res) => {
   const {
@@ -38,23 +32,34 @@ router.post('/', contactLimiter, async (req, res) => {
   // in the form), but simple bots that auto-fill every input will. Silently
   // accept-and-drop rather than erroring, so bots don't learn to skip it.
   if (website) {
+    log('enquiry_honeypot_triggered', { ip: req.ip });
     return res.status(201).json({ ok: true });
   }
 
-  const errors = validate({ full_name, email, message });
+  // Server-side sanitization is the enforcement boundary — everything that
+  // gets stored or emailed passes through here (length caps + markup stripped).
+  const safe = {
+    full_name: sanitizeField(full_name, 'full_name'),
+    email: sanitizeField(email, 'email'),
+    phone: sanitizeField(phone, 'phone'),
+    party_size: sanitizeField(party_size, 'party_size'),
+    destination_interest: sanitizeField(destination_interest, 'destination_interest'),
+    travel_dates: sanitizeField(travel_dates, 'travel_dates'),
+    message: sanitizeField(message, 'message'),
+  };
+
+  const errors = [];
+  if (!safe.full_name) errors.push('Name is required.');
+  if (!safe.email || !isValidEmail(safe.email)) errors.push('A valid email is required.');
+  if (!safe.message) errors.push('A message is required.');
   if (errors.length) {
     return res.status(400).json({ error: errors.join(' ') });
   }
 
   const enquiry = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-    full_name: String(full_name).trim(),
-    email: String(email).trim(),
-    phone: phone ? String(phone).trim() : '',
-    party_size: party_size ? String(party_size).trim() : '',
-    destination_interest: destination_interest ? String(destination_interest).trim() : '',
-    travel_dates: travel_dates ? String(travel_dates).trim() : '',
-    message: String(message).trim(),
+    ...safe,
+    email: safe.email.toLowerCase(),
     status: 'new',
     receivedAt: new Date().toISOString(),
   };
@@ -65,6 +70,8 @@ router.post('/', contactLimiter, async (req, res) => {
     console.error('[contact] failed to save enquiry:', err.message);
     return res.status(500).json({ error: 'Something went wrong saving your enquiry. Please try again.' });
   }
+
+  log('enquiry_received', { id: enquiry.id }); // intentionally no PII in the log
 
   try {
     await sendEnquiryEmail(enquiry);

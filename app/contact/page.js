@@ -3,6 +3,7 @@ import ContactForm from "@/components/ContactForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import MediaFrame from "@/components/MediaFrame";
 import { getContent } from "@/lib/content";
+import { safeUrl } from "@/lib/safeUrl";
 
 export const metadata = {
   title: "Contact",
@@ -11,6 +12,8 @@ export const metadata = {
 
 export default async function ContactPage() {
   const { brand } = await getContent();
+  const phoneHref = safeUrl(brand.contact.phoneHref);
+  const mailtoHref = safeUrl(`mailto:${brand.contact.email}`);
 
   return (
     <div>
@@ -30,9 +33,13 @@ export default async function ContactPage() {
             <div className="space-y-5 text-sm">
               <div>
                 <p className="text-ink/50 uppercase tracking-widest2 text-[11px] mb-1">Phone</p>
-                <a href={brand.contact.phoneHref} className="text-ink hover:text-clay transition-colors">
-                  {brand.contact.phone}
-                </a>
+                {phoneHref ? (
+                  <a href={phoneHref} className="text-ink hover:text-clay transition-colors">
+                    {brand.contact.phone}
+                  </a>
+                ) : (
+                  <p className="text-ink">{brand.contact.phone}</p>
+                )}
               </div>
               <div>
                 <p className="text-ink/50 uppercase tracking-widest2 text-[11px] mb-1">WhatsApp</p>
@@ -40,9 +47,13 @@ export default async function ContactPage() {
               </div>
               <div>
                 <p className="text-ink/50 uppercase tracking-widest2 text-[11px] mb-1">Email</p>
-                <a href={`mailto:${brand.contact.email}`} className="text-ink hover:text-clay transition-colors">
-                  {brand.contact.email}
-                </a>
+                {mailtoHref ? (
+                  <a href={mailtoHref} className="text-ink hover:text-clay transition-colors">
+                    {brand.contact.email}
+                  </a>
+                ) : (
+                  <p className="text-ink">{brand.contact.email}</p>
+                )}
               </div>
               <div>
                 <p className="text-ink/50 uppercase tracking-widest2 text-[11px] mb-1">Based in</p>

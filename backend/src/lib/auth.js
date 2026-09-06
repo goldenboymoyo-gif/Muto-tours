@@ -11,6 +11,9 @@ const SECRET = process.env.JWT_SECRET || (() => {
   return require('crypto').randomBytes(32).toString('hex');
 })();
 
+const COOKIE_NAME = 'muto_admin_session';
+const IS_PROD = process.env.NODE_ENV === 'production';
+
 function signAdminToken() {
   return jwt.sign({ role: 'admin' }, SECRET, { expiresIn: '7d' });
 }
@@ -24,13 +27,59 @@ function verifyAdminToken(token) {
   }
 }
 
-function requireAdmin(req, res, next) {
+// The admin session lives in an HttpOnly + Secure + SameSite=None cookie so
+// JavaScript can never read it (XSS can't exfiltrate it) while still working
+// across the separate frontend (Vercel) and API (Render) origins.
+// SameSite=None is required for a cross-site cookie; CSRF is mitigated by
+// Origin validation (see lib/origin.js).
+function cookieOptions() {
+  return {
+    httpOnly: true,
+    secure: IS_PROD,          // local dev is http:// so Secure is skipped there
+    sameSite: IS_PROD ? 'none' : 'lax',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // matches the JWT's 7-day lifetime
+  };
+}
+
+function setAdminCookie(res, token) {
+  res.cookie(COOKIE_NAME, token, cookieOptions());
+}
+
+function clearAdminCookie(res) {
+  // maxAge must not be passed to clearCookie (Express deprecation): clearing
+  // expires the cookie immediately regardless.
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    secure: IS_PROD,
+    sameSite: IS_PROD ? 'none' : 'lax',
+    path: '/',
+  });
+}
+
+// Accepts the session cookie, or a Bearer token in the Authorization header
+// (used by non-browser clients / tooling). Never falls back to a value that
+// JavaScript can read.
+function getToken(req) {
   const header = req.headers.authorization || '';
-  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (header.startsWith('Bearer ')) return header.slice(7).trim();
+  if (req.cookies && req.cookies[COOKIE_NAME]) return req.cookies[COOKIE_NAME];
+  return null;
+}
+
+function requireAdmin(req, res, next) {
+  const token = getToken(req);
   if (!token || !verifyAdminToken(token)) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  next();
+  return next();
 }
 
-module.exports = { signAdminToken, requireAdmin };
+module.exports = {
+  COOKIE_NAME,
+  signAdminToken,
+  verifyAdminToken,
+  setAdminCookie,
+  clearAdminCookie,
+  requireAdmin,
+};

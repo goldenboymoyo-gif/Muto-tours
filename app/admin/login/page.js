@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-const TOKEN_KEY = "muto_admin_token";
+import { adminLogin } from "@/lib/admin";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -18,11 +16,7 @@ export default function AdminLoginPage() {
     setError("");
 
     try {
-      const res = await fetch(`${API_URL}/api/admin/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
+      const res = await adminLogin(password);
       const body = await res.json().catch(() => ({}));
 
       if (!res.ok) {
@@ -31,7 +25,8 @@ export default function AdminLoginPage() {
         return;
       }
 
-      window.localStorage.setItem(TOKEN_KEY, body.token);
+      // The session is set as an HttpOnly cookie by the backend; nothing secret
+      // is stored in JavaScript.
       router.push("/admin");
     } catch {
       setStatus("error");

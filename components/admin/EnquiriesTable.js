@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { adminLogout } from "@/lib/admin";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-const TOKEN_KEY = "muto_admin_token";
 
 const STATUS_STYLES = {
   new: "bg-clay/10 text-clay-dark",
@@ -12,49 +12,48 @@ const STATUS_STYLES = {
   closed: "bg-ink/10 text-ink/60",
 };
 
-export default function EnquiriesTable({ token }) {
+export default function EnquiriesTable() {
   const router = useRouter();
   const [enquiries, setEnquiries] = useState([]);
   const [status, setStatus] = useState("loading"); // loading | ready | error
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
 
-  const logout = useCallback(() => {
-    window.localStorage.removeItem(TOKEN_KEY);
+  // The session is a cookie the browser attaches automatically; 401 means it's
+  // expired, so clear it server-side and send the admin back to the login page.
+  const logout = useCallback(async () => {
+    try {
+      await adminLogout();
+    } catch {
+      // best-effort — the cookie may already be gone
+    }
     router.push("/admin/login");
   }, [router]);
 
-  const loadEnquiries = useCallback(
-    async (authToken) => {
-      try {
-        const res = await fetch(`${API_URL}/api/admin/enquiries`, {
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
+  const loadEnquiries = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/admin/enquiries`, {
+        credentials: "include",
+      });
 
-        if (res.status === 401) {
-          logout();
-          return;
-        }
-        if (!res.ok) throw new Error("Failed to load enquiries.");
-
-        const body = await res.json();
-        setEnquiries(body.enquiries || []);
-        setStatus("ready");
-      } catch {
-        setStatus("error");
-        setError("Couldn't load enquiries. Is the backend running?");
+      if (res.status === 401) {
+        logout();
+        return;
       }
-    },
-    [logout]
-  );
+      if (!res.ok) throw new Error("Failed to load enquiries.");
+
+      const body = await res.json();
+      setEnquiries(body.enquiries || []);
+      setStatus("ready");
+    } catch {
+      setStatus("error");
+      setError("Couldn't load enquiries. Is the backend running?");
+    }
+  }, [logout]);
 
   useEffect(() => {
-    if (!token) {
-      router.push("/admin/login");
-      return;
-    }
-    loadEnquiries(token);
-  }, [token, router, loadEnquiries]);
+    loadEnquiries();
+  }, [loadEnquiries]);
 
   async function updateStatus(id, newStatus) {
     const prev = enquiries;
@@ -63,10 +62,8 @@ export default function EnquiriesTable({ token }) {
     try {
       const res = await fetch(`${API_URL}/api/admin/enquiries/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
 

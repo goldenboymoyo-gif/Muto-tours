@@ -2,6 +2,8 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { addSubscriber } = require('../lib/subscribers');
 const { sendSubscribeWelcomeEmail } = require('../lib/mailer');
+const { sanitizeText, isValidEmail } = require('../lib/validate');
+const { log } = require('../lib/securityLog');
 
 const router = express.Router();
 
@@ -17,18 +19,21 @@ router.post('/', subscribeLimiter, async (req, res) => {
 
   // Honeypot, same pattern as /api/contact.
   if (website) {
+    log('subscribe_honeypot_triggered', { ip: req.ip });
     return res.status(201).json({ ok: true });
   }
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const cleanEmail = sanitizeText(email).toLowerCase();
+
+  if (!cleanEmail || !isValidEmail(cleanEmail) || cleanEmail.length > 254) {
     return res.status(400).json({ error: 'A valid email is required.' });
   }
-
-  const cleanEmail = String(email).trim().toLowerCase();
 
   try {
     const isNew = await addSubscriber(cleanEmail);
     res.status(201).json({ ok: true });
+
+    log('subscriber_added', { isNew }); // intentionally no email address in the log
 
     // Only welcome genuinely new subscribers — resubmitting the same email
     // shouldn't re-send it. Fired after the response so a slow/misconfigured

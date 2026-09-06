@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 import { useSiteContent } from "@/components/site/ContentProvider";
+import { openCookiePreferences } from "@/components/site/CookieConsent";
+import { safeUrl, externalLinkProps } from "@/lib/safeUrl";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -39,18 +42,35 @@ export default function BigFooter() {
     return () => ctx.revert();
   }, []);
 
+  const emailHref = safeUrl(`mailto:${brand.contact.email}`);
+  const phoneHref = safeUrl(brand.contact.phoneHref);
+  const instagramHref = safeUrl(brand.social.instagram);
+  const facebookHref = safeUrl(brand.social.facebook);
+
   return (
     <footer ref={rootRef} className="site-footer">
       <div className="footer-cover-headline">{splitChars("MUTO TOURS")}</div>
       <div className="footer-row">
-        <a href={`mailto:${brand.contact.email}`}>{brand.contact.email}</a>
-        <a href={brand.social.instagram} target="_blank" rel="noreferrer">
-          Instagram
-        </a>
-        <a href={brand.social.facebook} target="_blank" rel="noreferrer">
-          Facebook
-        </a>
-        <a href={brand.contact.phoneHref}>{brand.contact.phone}</a>
+        {emailHref && <a href={emailHref}>{brand.contact.email}</a>}
+        {instagramHref && (
+          <a href={instagramHref} {...externalLinkProps(instagramHref)}>
+            Instagram
+          </a>
+        )}
+        {facebookHref && (
+          <a href={facebookHref} {...externalLinkProps(facebookHref)}>
+            Facebook
+          </a>
+        )}
+        {phoneHref && <a href={phoneHref}>{brand.contact.phone}</a>}
+      </div>
+      <div className="footer-legal-nav">
+        <Link href="/privacy">Privacy Policy</Link>
+        <Link href="/cookies">Cookie Policy</Link>
+        <Link href="/terms">Terms of Use</Link>
+        <button type="button" onClick={openCookiePreferences}>
+          Cookie Preferences
+        </button>
       </div>
       <div className="footer-copyright">
         &copy; {new Date().getFullYear()} {brand.name}. All rights reserved.

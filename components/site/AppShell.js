@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import ContentProvider from "@/components/site/ContentProvider";
 import SubHeader from "@/components/site/SubHeader";
 import SubFooter from "@/components/site/SubFooter";
+import CookieConsent from "@/components/site/CookieConsent";
 
 export default function AppShell({ children }) {
   const pathname = usePathname();
@@ -14,6 +15,7 @@ export default function AppShell({ children }) {
       {!isHome && <SubHeader />}
       <main>{children}</main>
       {!isHome && <SubFooter />}
+      <CookieConsent />
     </ContentProvider>
   );
 }

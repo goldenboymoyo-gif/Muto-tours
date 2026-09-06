@@ -1178,6 +1178,27 @@ body {
   padding: 0 1.4vw;
   line-height: 1.4;
 }
+.contact-enquiry-panel {
+  max-width: 720px;
+  margin: 8vh auto 0;
+  background-color: var(--cream);
+  border: 1px solid rgba(75, 54, 33, 0.18);
+  border-radius: 25px;
+  padding: clamp(20px, 4vw, 44px);
+  box-shadow: 0 24px 60px -30px rgba(75, 54, 33, 0.35);
+}
+.contact-enquiry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4vh;
+}
+.contact-enquiry-alt {
+  margin: 4vh 0 0;
+  font-size: 0.9vw;
+  color: rgba(75, 54, 33, 0.7);
+  text-align: center;
+}
 
 /* ----------------------------------------------------------------------------
    FACTS (section nine)
@@ -1282,6 +1303,31 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(75, 54, 33, 0.6);
+}
+.footer-legal-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2.5vw;
+  flex-wrap: wrap;
+  margin-top: 5vh;
+}
+.footer-legal-nav a,
+.footer-legal-nav button {
+  font-size: 0.85vw;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(75, 54, 33, 0.7);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.footer-legal-nav a:hover,
+.footer-legal-nav button:hover {
+  color: var(--orange);
 }
 
 /* ----------------------------------------------------------------------------

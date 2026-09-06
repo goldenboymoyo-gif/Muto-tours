@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { useSiteContent } from "@/components/site/ContentProvider";
+import { openCookiePreferences } from "@/components/site/CookieConsent";
+import { safeUrl } from "@/lib/safeUrl";
 
 export default function SubFooter() {
   const { content } = useSiteContent();
   const brand = content.brand;
+  const emailHref = safeUrl(`mailto:${brand.contact.email}`);
+  const phoneHref = safeUrl(brand.contact.phoneHref);
   return (
     <footer
       style={{
@@ -44,12 +48,16 @@ export default function SubFooter() {
             textTransform: "uppercase",
           }}
         >
-          <a href={`mailto:${brand.contact.email}`} style={{ color: "#ece5d5", textDecoration: "none" }}>
-            {brand.contact.email}
-          </a>
-          <a href={brand.contact.phoneHref} style={{ color: "#ece5d5", textDecoration: "none" }}>
-            {brand.contact.phone}
-          </a>
+          {emailHref && (
+            <a href={emailHref} style={{ color: "#ece5d5", textDecoration: "none" }}>
+              {brand.contact.email}
+            </a>
+          )}
+          {phoneHref && (
+            <a href={phoneHref} style={{ color: "#ece5d5", textDecoration: "none" }}>
+              {brand.contact.phone}
+            </a>
+          )}
           <Link href="/destinations" style={{ color: "#ece5d5", textDecoration: "none" }}>
             Destinations
           </Link>
@@ -59,6 +67,43 @@ export default function SubFooter() {
           <Link href="/contact" style={{ color: "#ece5d5", textDecoration: "none" }}>
             Contact
           </Link>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: 24,
+            flexWrap: "wrap",
+            fontSize: 12,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            opacity: 0.8,
+          }}
+        >
+          <Link href="/privacy" style={{ color: "#ece5d5", textDecoration: "none" }}>
+            Privacy Policy
+          </Link>
+          <Link href="/cookies" style={{ color: "#ece5d5", textDecoration: "none" }}>
+            Cookie Policy
+          </Link>
+          <Link href="/terms" style={{ color: "#ece5d5", textDecoration: "none" }}>
+            Terms of Use
+          </Link>
+          <button
+            type="button"
+            onClick={openCookiePreferences}
+            style={{
+              color: "#ece5d5",
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              font: "inherit",
+              letterSpacing: "inherit",
+              textTransform: "inherit",
+            }}
+          >
+            Cookie Preferences
+          </button>
         </div>
         <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>
           {brand.contact.address.line1}, {brand.contact.address.line2}, {brand.contact.address.line3}
