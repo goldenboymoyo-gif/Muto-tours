@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-// Persistence check marker (no behavior change).
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -43,9 +42,10 @@ app.use(
   })
 );
 
-// Small cap: this API only ever needs to accept a short contact form body,
-// so there's no reason to accept large payloads.
-app.use(express.json({ limit: '20kb' }));
+// The API accepts small contact forms but also whole CMS content sections —
+// a full destinations/experiences/gallery section routinely runs 50–150 KB.
+// 1 MB comfortably fits the largest section while staying well below abuse.
+app.use(express.json({ limit: '1mb' }));
 
 // Required for the HttpOnly admin session cookie (SameSite=None; Secure).
 app.use(cookieParser());
