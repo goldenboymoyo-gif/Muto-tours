@@ -8,7 +8,7 @@ const router = express.Router();
 
 // The sections a given site knows how to merge. Anything else is rejected so
 // a stray (or malicious) section can't be written to the store.
-const VALID_SECTIONS = ['brand', 'destinations', 'experiences', 'journeys', 'gallery'];
+const VALID_SECTIONS = ['brand', 'destinations', 'experiences', 'journeys', 'gallery', 'media', 'reviews', 'stats'];
 
 // Admin content writes are low-frequency but destructive — cap them above
 // the login limit but well below abuse.

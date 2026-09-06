@@ -10,12 +10,12 @@ export const metadata = {
 };
 
 export default async function ItinerariesPage() {
-  const { journeys } = await getContent();
+  const { journeys, media } = await getContent();
 
   return (
     <div>
       <PageHero
-        src="/images/slide1.jpg"
+        src={media?.pageHero?.itineraries || "/images/slide1.jpg"}
         alt="A golden sunset over the Southern African savanna"
         kicker="Multi-Day Routes"
         title="Tour Itineraries"
@@ -110,7 +110,7 @@ export default async function ItinerariesPage() {
         </div>
       </section>
 
-      <CTABand />
+      <CTABand image={media?.homepage?.ctaBand} />
     </div>
   );
 }

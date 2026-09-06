@@ -4,12 +4,13 @@ export default function CTABand({
   kicker = "Start Planning",
   title = "Your African Safari Experience Begins Here",
   dek = "From exclusive accommodations to curated experiences, we tailor every detail to ensure an unparalleled journey that transcends expectations. Elevate your travel aspirations with our commitment to excellence and seamless service.",
+  image = "/images/slide2.jpg",
 }) {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="/images/slide2.jpg"
+          src={image}
           alt=""
           className="w-full h-full object-cover"
           aria-hidden="true"

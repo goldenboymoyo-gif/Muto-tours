@@ -2,14 +2,17 @@
 
 import { Fragment, useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
-
-const STATS = [
-  { value: 4, suffix: "", label: "Countries" },
-  { value: 12, suffix: "", label: "Tour Packages" },
-];
+import { stats as defaultStats } from "@/data/stats";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function Stats() {
   const rootRef = useRef(null);
+  const { content } = useSiteContent();
+  const saved = content.stats || {};
+  const STATS = [
+    { value: Number(saved.countries ?? defaultStats.countries) || 0, suffix: "", label: "Countries" },
+    { value: Number(saved.tourPackages ?? defaultStats.tourPackages) || 0, suffix: "", label: "Tour Packages" },
+  ];
 
   useEffect(() => {
     const root = rootRef.current;

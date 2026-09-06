@@ -7,6 +7,9 @@ import { checkAdminSession } from "@/lib/admin";
 import BrandForm from "@/components/admin/BrandForm";
 import CollectionForm from "@/components/admin/CollectionForm";
 import GalleryForm from "@/components/admin/GalleryForm";
+import MediaForm from "@/components/admin/MediaForm";
+import ReviewsForm from "@/components/admin/ReviewsForm";
+import StatsForm from "@/components/admin/StatsForm";
 import EnquiriesTable from "@/components/admin/EnquiriesTable";
 
 const DESTINATION_FIELDS = [
@@ -69,6 +72,9 @@ const TABS = [
   { id: "experiences", label: "Activities" },
   { id: "journeys", label: "Itineraries" },
   { id: "gallery", label: "Gallery" },
+  { id: "media", label: "Media" },
+  { id: "reviews", label: "Reviews" },
+  { id: "stats", label: "Stats" },
 ];
 
 export default function AdminDashboardPage() {
@@ -119,7 +125,7 @@ export default function AdminDashboardPage() {
         await reload();
         flash(`${TABS.find((t) => t.id === section)?.label || section} saved — live on the site.`);
       } else {
-        flash("Save failed — is the backend running?");
+        flash("Save failed — the backend may be waking up. Wait a moment and try again.");
       }
       return ok;
     },
@@ -247,6 +253,30 @@ export default function AdminDashboardPage() {
             value={content.gallery}
             onSave={(v) => save("gallery", v)}
             onReset={() => reset("gallery")}
+          />
+        )}
+
+        {tab === "media" && (
+          <MediaForm
+            value={content.media}
+            onSave={(v) => save("media", v)}
+            onReset={() => reset("media")}
+          />
+        )}
+
+        {tab === "reviews" && (
+          <ReviewsForm
+            value={content.reviews}
+            onSave={(v) => save("reviews", v)}
+            onReset={() => reset("reviews")}
+          />
+        )}
+
+        {tab === "stats" && (
+          <StatsForm
+            value={content.stats}
+            onSave={(v) => save("stats", v)}
+            onReset={() => reset("stats")}
           />
         )}
       </div>

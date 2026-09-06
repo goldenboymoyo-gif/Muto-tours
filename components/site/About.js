@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Drama, Leaf, Heart } from "lucide-react";
 import { gsap } from "@/lib/gsap";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function ClipGridImage({ src, className, initial }) {
   const ref = useRef(null);
@@ -106,6 +107,8 @@ const ITEMS = [
 
 export default function About({ brandName }) {
   const rootRef = useRef(null);
+  const { content } = useSiteContent();
+  const hp = content.media?.homepage || {};
 
   useEffect(() => {
     const root = rootRef.current;
@@ -144,12 +147,12 @@ export default function About({ brandName }) {
       <div className="two-grid">
         <div className="two-images">
           <ClipGridImage
-            src="/images/slide2.jpg"
+            src={hp.about1 || "/images/slide2.jpg"}
             className="two-image-box-big"
             initial
           />
           <ClipGridImage
-            src="/images/maun.jpg"
+            src={hp.about2 || "/images/maun.jpg"}
             className="two-image-box-small"
             initial
           />

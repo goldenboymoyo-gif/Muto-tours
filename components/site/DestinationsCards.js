@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/gsap";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -22,6 +23,15 @@ const PLACES = [
 
 export default function DestinationsCards() {
   const rootRef = useRef(null);
+  const { content } = useSiteContent();
+  const hp = content.media?.homepage || {};
+  const places =
+    hp.cardVictoriaFalls || hp.cardOkavangoDelta || hp.cardNamibia
+      ? PLACES.map((p, i) => ({
+          ...p,
+          img: [hp.cardVictoriaFalls, hp.cardOkavangoDelta, hp.cardNamibia][i] || p.img,
+        }))
+      : PLACES;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -44,7 +54,7 @@ export default function DestinationsCards() {
       <h1 className="two-thin-headline">Discover some of our favourite places</h1>
       <div className="two-big-headline">{splitChars("Signature Destinations")}</div>
       <div className="accommodation-cards">
-        {PLACES.map((p) => (
+        {places.map((p) => (
           <Link href={p.slug} className="twelve-content-bottom-item" key={p.title}>
             <div className="twelve-image-blur" style={{ backgroundImage: `url(${p.img})` }} />
             <div className="twelve-title">{p.title}</div>

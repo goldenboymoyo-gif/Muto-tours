@@ -73,7 +73,7 @@ export async function generateMetadata({ params }) {
 
 export default async function DestinationPage({ params }) {
   const content = await getContent();
-  const { destinations, experiences } = content;
+  const { destinations, experiences, media } = content;
   const destination = destinations.find((d) => d.slug === params.slug);
   if (!destination) notFound();
 
@@ -252,6 +252,7 @@ export default async function DestinationPage({ params }) {
         kicker="Next stop"
         title={`Pair it with ${next.name}`}
         dek={next.tagline}
+        image={media?.homepage?.ctaBand}
       />
     </div>
   );

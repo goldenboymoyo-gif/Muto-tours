@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { reviews as defaultReviews } from "@/data/reviews";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 function splitChars(text) {
   return text.split("").map((ch, i) =>
@@ -13,43 +15,15 @@ function splitChars(text) {
   );
 }
 
-const TESTIMONIALS = [
-  {
-    name: "Sarah M.",
-    location: "United Kingdom",
-    initials: "SM",
-    text: "Muto Tours handled all my tours for my stay in Victoria Falls. Not only were they very communicative prior to our arrival, but they were great to deal with on-site — both their representative as well as their guides and drivers for every activity we planned.",
-  },
-  {
-    name: "James K.",
-    location: "Australia",
-    initials: "JK",
-    text: "Thank you Muto Tours for a fabulous day trip to Chobe. From the start right to the end we were looked after. Everything ran smoothly, the pick-up, the border crossing, the ferry into Botswana. Our guide was a good driver. The afternoon cruise along the Chobe River was superb!",
-  },
-  {
-    name: "Maria L.",
-    location: "Germany",
-    initials: "ML",
-    text: "Muto Tours went above and beyond our expectations. They were always on time to pick us up, staff were friendly, their tours and airport transfers well organised. The transport was always clean and the drivers friendly.",
-  },
-  {
-    name: "David W.",
-    location: "United States",
-    initials: "DW",
-    text: "We used Muto Tours for a walking tour of the falls and a sunset cruise. Our guide was absolutely amazing, very friendly and so knowledgeable. The sunset cruise was beautiful and one of the highlights of our entire trip here in Africa.",
-  },
-];
-
-const BARS = [
-  { label: "5", pct: 85 },
-  { label: "4", pct: 12.5 },
-  { label: "3", pct: 2.5 },
-  { label: "2", pct: 0 },
-  { label: "1", pct: 0 },
-];
+const DEFAULT_BARS = [85, 12.5, 2.5, 0, 0];
 
 export default function Reviews() {
   const rootRef = useRef(null);
+  const { content } = useSiteContent();
+  const saved = content.reviews || {};
+  const rating = (saved.rating && String(saved.rating).trim()) || defaultReviews.rating;
+  const bars = DEFAULT_BARS.map((d, i) => Number(saved.bars?.[i] ?? d));
+  const testimonials = saved.testimonials && saved.testimonials.length ? saved.testimonials : defaultReviews.testimonials;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -88,7 +62,7 @@ export default function Reviews() {
 
         <div className="four-top">
           <div>
-            <div className="four-number-text">5.0</div>
+            <div className="four-number-text">{rating}</div>
           </div>
           <div className="four-vertical-divider" />
           <div>
@@ -104,13 +78,13 @@ export default function Reviews() {
         </div>
 
         <div className="four-bars">
-          {BARS.map((b) => (
-            <div className="four-bar-row" key={b.label}>
-              <span className="four-bar-label">{b.label}</span>
+          {bars.map((pct, i) => (
+            <div className="four-bar-row" key={`${5 - i}`}>
+              <span className="four-bar-label">{5 - i}</span>
               <div className="four-content-slider">
                 <div
                   className="four-content-slider-filled"
-                  style={{ width: `${b.pct}%` }}
+                  style={{ width: `${pct}%` }}
                 />
               </div>
             </div>
@@ -118,7 +92,7 @@ export default function Reviews() {
         </div>
 
         <div className="four-review-list">
-          {TESTIMONIALS.map((t) => (
+          {testimonials.map((t) => (
             <div className="four-review-row" key={t.name}>
               <div
                 className="four-review-profile"

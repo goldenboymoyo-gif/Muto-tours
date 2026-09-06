@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ExperiencePage({ params }) {
-  const { experiences } = await getContent();
+  const { experiences, media } = await getContent();
   const experience = experiences.find((e) => e.slug === params.slug);
   if (!experience) notFound();
 
@@ -152,7 +152,7 @@ export default async function ExperiencePage({ params }) {
         </div>
       </section>
 
-      <CTABand />
+      <CTABand image={media?.homepage?.ctaBand} />
     </div>
   );
 }

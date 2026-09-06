@@ -13,12 +13,12 @@ export const metadata = {
 const aspects = ["aspect-[4/5]"]; // uniform ratio — the alternating 4/5/4/3 mix left cards visibly misaligned within each grid row
 
 export default async function DestinationsPage() {
-  const { destinations } = await getContent();
+  const { destinations, media } = await getContent();
 
   return (
     <div>
       <PageHero
-        src="/images/namibia.jpg"
+        src={media?.pageHero?.destinations || "/images/namibia.jpg"}
         alt="The vast Fish River Canyon in Namibia"
         kicker="Destinations"
         title="Four countries, one continuous route."
@@ -47,6 +47,7 @@ export default async function DestinationsPage() {
         kicker="Not sure where to start?"
         title="We'll help you pick the right combination."
         dek="Tell us how much time you have and what you want to feel on this trip — wildlife-heavy, water-and-relaxation, adventure-forward — and we'll suggest a route."
+        image={media?.homepage?.ctaBand}
       />
     </div>
   );

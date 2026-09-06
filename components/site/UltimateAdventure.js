@@ -2,12 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 export default function UltimateAdventure() {
   const rootRef = useRef(null);
   const maskRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
+  const hp = useSiteContent().content.media?.homepage || {};
+  const imgSrc = hp.ultimateAdventure || "/images/slide2.jpg";
 
   useEffect(() => {
     const root = rootRef.current;
@@ -80,7 +83,7 @@ export default function UltimateAdventure() {
   return (
     <section ref={rootRef} className="ultimate-section ess-section">
       <div ref={maskRef} className="ultimate-sticky-mask">
-        <img ref={imgRef} src="/images/slide2.jpg" alt="Southern African safari" />
+        <img ref={imgRef} src={imgSrc} alt="Southern African safari" />
         <div className="ultimate-overlay">
           <div ref={contentRef} className="ultimate-sticky-content">
             <p className="ultimate-kicker">Embark on the ultimate African safari adventure</p>

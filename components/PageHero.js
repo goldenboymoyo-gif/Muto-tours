@@ -26,7 +26,7 @@ export default function PageHero({
           <BackLink
             fallbackHref={backHref}
             fallbackLabel={backLabel}
-            className={backLight ? "text-gold hover:text-ivory mb-4" : "text-clay hover:text-clay-dark mb-4"}
+            className="text-gold hover:text-ivory mb-3"
           />
           {kicker && (
             <p className={`text-xs uppercase tracking-widest2 mb-4 ${backLight ? "text-gold" : "text-clay"}`}>

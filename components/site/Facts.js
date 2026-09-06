@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 const FACTS = [
   {
@@ -18,6 +19,12 @@ const FACTS = [
 
 export default function Facts() {
   const rootRef = useRef(null);
+  const { content } = useSiteContent();
+  const hp = content.media?.homepage || {};
+  const facts = FACTS.map((f, i) => ({
+    ...f,
+    img: (i === 0 ? hp.facts1 : hp.facts2) || f.img,
+  }));
 
   useEffect(() => {
     const root = rootRef.current;
@@ -42,7 +49,7 @@ export default function Facts() {
   return (
     <section className="facts-section ess-section">
       <div className="facts-grid">
-        {FACTS.map((f) => (
+        {facts.map((f) => (
           <div className="fact-card" key={f.title}>
             <div className="fact-image" style={{ backgroundImage: `url(${f.img})` }} />
             <div className="nine-textbox">

@@ -1284,12 +1284,14 @@ body {
   flex-wrap: wrap;
 }
 .footer-row a {
-  font-size: 1vw;
-  font-weight: 300;
+  font-size: 1.05vw;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--coffee);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: rgba(75, 54, 33, 0.35);
+  text-underline-offset: 3px;
   transition: color 0.3s ease;
 }
 .footer-row a:hover {
@@ -1313,12 +1315,14 @@ body {
 }
 .footer-legal-nav a,
 .footer-legal-nav button {
-  font-size: 0.85vw;
-  font-weight: 300;
+  font-size: 1vw;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(75, 54, 33, 0.7);
-  text-decoration: none;
+  color: var(--coffee);
+  text-decoration: underline;
+  text-decoration-color: rgba(75, 54, 33, 0.4);
+  text-underline-offset: 3px;
   background: none;
   border: none;
   padding: 0;
@@ -1635,5 +1639,9 @@ body {
   }
   .footer-row a {
     font-size: 3vw;
+  }
+  .footer-legal-nav a,
+  .footer-legal-nav button {
+    font-size: 2.6vw;
   }
 }

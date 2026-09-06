@@ -20,7 +20,7 @@ export default function BackLink({ fallbackHref = "/", fallbackLabel = "Home", c
   }, []);
 
   const classes =
-    `inline-flex items-center gap-1.5 text-xs uppercase tracking-widest2 transition-colors ${className}`.trim();
+    `inline-flex items-center gap-1.5 rounded-full bg-black/30 px-3 py-1.5 text-xs uppercase tracking-widest2 underline underline-offset-4 backdrop-blur-sm transition-colors ${className}`.trim();
 
   if (canGoBack) {
     return (

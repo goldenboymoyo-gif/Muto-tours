@@ -11,12 +11,12 @@ export const metadata = {
 };
 
 export default async function ExperiencesPage() {
-  const { experiences } = await getContent();
+  const { experiences, media } = await getContent();
 
   return (
     <div>
       <PageHero
-        src="/images/vicfalls.jpg"
+        src={media?.pageHero?.experiences || "/images/vicfalls.jpg"}
         alt="A boat cruise on the Zambezi River"
         kicker="Experiences"
         title="What a day on route actually looks like."
@@ -41,7 +41,7 @@ export default async function ExperiencesPage() {
         </div>
       </div>
 
-      <CTABand />
+      <CTABand image={media?.homepage?.ctaBand} />
     </div>
   );
 }

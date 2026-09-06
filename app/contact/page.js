@@ -11,14 +11,14 @@ export const metadata = {
 };
 
 export default async function ContactPage() {
-  const { brand } = await getContent();
+  const { brand, media } = await getContent();
   const phoneHref = safeUrl(brand.contact.phoneHref);
   const mailtoHref = safeUrl(`mailto:${brand.contact.email}`);
 
   return (
     <div>
       <PageHero
-        src="/images/namibia.jpg"
+        src={media?.pageHero?.contact || "/images/namibia.jpg"}
         alt="A natural rock arch in the Namibian desert"
         kicker="Get in Touch"
         title="Let's plan your route."
@@ -69,7 +69,7 @@ export default async function ContactPage() {
 
             <div className="relative mt-10 aspect-[4/3] hidden lg:block">
               <MediaFrame
-                src="/images/hwange.jpg"
+                src={media?.pageHero?.contactSide || "/images/hwange.jpg"}
                 alt="A safari vehicle under an acacia tree"
                 label="On the road"
                 className="h-full w-full"

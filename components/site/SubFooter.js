@@ -73,10 +73,10 @@ export default function SubFooter() {
             display: "flex",
             gap: 24,
             flexWrap: "wrap",
-            fontSize: 12,
+            fontSize: 13,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            opacity: 0.8,
+            opacity: 1,
           }}
         >
           <Link href="/privacy" style={{ color: "#ece5d5", textDecoration: "none" }}>

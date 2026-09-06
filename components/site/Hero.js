@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { useSiteContent } from "@/components/site/ContentProvider";
 
 const SLIDES = [
   { img: "/images/slide1.jpg", mob: "/images/slide1.jpg" },
@@ -23,6 +24,13 @@ export default function Hero({ ready }) {
   const rootRef = useRef(null);
   const slideIndex = useRef(0);
   const intervalRef = useRef(null);
+
+  const { content } = useSiteContent();
+  const rawSlides = content.media?.heroSlides;
+  const slides = SLIDES.map((def, i) => {
+    const s = rawSlides && rawSlides[i];
+    return { img: (s && s.img) || def.img, mob: (s && s.mob) || def.mob };
+  });
 
   useEffect(() => {
     const root = rootRef.current;
@@ -103,7 +111,7 @@ export default function Hero({ ready }) {
       <div className="one-contents">
         <div className="one-image-container">
           <div className="slider">
-            {SLIDES.map((s, i) => (
+            {slides.map((s, i) => (
               <div
                 key={i}
                 className={`slider-item ${i === 0 ? "active" : ""}`}
@@ -117,7 +125,7 @@ export default function Hero({ ready }) {
             {splitChars("MUTO")}
           </h1>
           <div className="progress-wrapper">
-            {SLIDES.map((_, i) => (
+            {slides.map((_, i) => (
               <div className="carousel-progress" key={i}>
                 <div className="progress" />
               </div>

@@ -24,12 +24,12 @@ const approach = [
 ];
 
 export default async function AboutPage() {
-  const { brand } = await getContent();
+  const { brand, media } = await getContent();
 
   return (
     <div>
       <PageHero
-        src="/images/zimtour.jpg"
+        src={media?.pageHero?.about || "/images/zimtour.jpg"}
         alt="A quiver tree against a clear blue Southern African sky"
         kicker="About"
         title={brand.name}
@@ -81,7 +81,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <CTABand />
+      <CTABand image={media?.homepage?.ctaBand} />
     </div>
   );
 }
