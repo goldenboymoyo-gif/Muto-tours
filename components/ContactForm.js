@@ -21,6 +21,7 @@ export default function ContactForm() {
   const brand = content.brand;
   const [form, setForm] = useState(initialState);
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [confirmationEmailed, setConfirmationEmailed] = useState(false);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -39,7 +40,9 @@ export default function ContactForm() {
 
       if (!res.ok) throw new Error("request failed");
 
+      const data = await res.json().catch(() => ({}));
       setStatus("success");
+      setConfirmationEmailed(data.emailSent === true);
       setForm(initialState);
     } catch {
       // Backend unreachable (not deployed yet, offline, etc.) — fall back to
@@ -58,6 +61,7 @@ export default function ContactForm() {
         "Trip enquiry via mutotours.africa"
       )}&body=${encodeURIComponent(body)}`;
       setStatus("success");
+      setConfirmationEmailed(false);
       setForm(initialState);
     }
   }
@@ -68,8 +72,10 @@ export default function ContactForm() {
         <h3 className="font-archivo uppercase text-2xl text-ink">Thank you for your enquiry.</h3>
         <p className="mt-3 text-sm text-ink/70 leading-relaxed">
           A member of the Muto Tours team will review your trip details and respond from{" "}
-          {brand.contact.email} within one business day. A confirmation has also been sent to
-          your inbox.
+          {brand.contact.email} within one business day.
+          {confirmationEmailed
+            ? " A confirmation copy has also been emailed to your inbox."
+            : " Your enquiry has been saved and is with our team."}
         </p>
         <button
           type="button"

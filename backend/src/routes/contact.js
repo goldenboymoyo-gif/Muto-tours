@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { append } = require('../lib/store');
-const { sendEnquiryEmail, sendEnquiryConfirmationEmail } = require('../lib/mailer');
+const { sendEnquiryEmail, sendEnquiryConfirmationEmail, isEmailConfigured } = require('../lib/mailer');
 const { sanitizeField, isValidEmail } = require('../lib/validate');
 const { log } = require('../lib/securityLog');
 
@@ -73,8 +73,19 @@ router.post('/', contactLimiter, async (req, res) => {
 
   log('enquiry_received', { id: enquiry.id }); // intentionally no PII in the log
 
+  const emailConfigured = isEmailConfigured();
+  if (!emailConfigured) {
+    console.warn(
+      '[contact] SMTP not configured — enquiry saved but no email will be sent. ' +
+        'Set SMTP_HOST/SMTP_PORT/SMTP_USER/SMTP_PASS (and SMTP_FROM, NOTIFY_EMAIL) to enable email.'
+    );
+  }
+
+  let anyEmailSent = false;
+
   try {
     await sendEnquiryEmail(enquiry);
+    anyEmailSent = true;
   } catch (err) {
     // The enquiry is already saved — email is best-effort on top.
     console.error('[contact] failed to send notification email:', err.message);
@@ -82,11 +93,12 @@ router.post('/', contactLimiter, async (req, res) => {
 
   try {
     await sendEnquiryConfirmationEmail(enquiry);
+    anyEmailSent = true;
   } catch (err) {
     console.error('[contact] failed to send confirmation email:', err.message);
   }
 
-  res.status(201).json({ ok: true });
+  res.status(201).json({ ok: true, emailConfigured, emailSent: anyEmailSent });
 });
 
 module.exports = router;

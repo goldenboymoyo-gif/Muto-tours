@@ -4,9 +4,14 @@ const nodemailer = require('nodemailer');
 // below is a silent no-op so the API still works — enquiries are always
 // saved to the database/disk and subscribers always saved, regardless of
 // whether email is configured.
+function isEmailConfigured() {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  return Boolean(SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS);
+}
+
 function getTransport() {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) return null;
+  if (!isEmailConfigured()) return null;
 
   return nodemailer.createTransport({
     host: SMTP_HOST,
@@ -174,4 +179,9 @@ function renderEmail({ heading, body }) {
   `;
 }
 
-module.exports = { sendEnquiryEmail, sendEnquiryConfirmationEmail, sendSubscribeWelcomeEmail };
+module.exports = {
+  isEmailConfigured,
+  sendEnquiryEmail,
+  sendEnquiryConfirmationEmail,
+  sendSubscribeWelcomeEmail,
+};
