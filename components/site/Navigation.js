@@ -75,7 +75,6 @@ export default function Navigation({ heroReady }) {
     { label: "Destinations", href: "/destinations" },
     { label: "Activities", href: "/experiences" },
     { label: "Itineraries", href: "/itineraries" },
-    { label: "Gallery", href: "/gallery" },
     { label: "Contact", href: "/contact" },
   ];
 
