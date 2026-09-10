@@ -3,11 +3,15 @@ import MediaFrame from "@/components/MediaFrame";
 import PageHero from "@/components/PageHero";
 import CTABand from "@/components/CTABand";
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/itineraries",
   title: "Itineraries",
-  description: "Multi-day tour routes across Zimbabwe, Botswana, Namibia, and South Africa — custom-built and quoted around your dates and pace.",
-};
+  description:
+    "Multi-day tour routes across Zimbabwe, Botswana, Namibia, and South Africa — custom-built and quoted around your dates and pace.",
+  image: "/images/slide1.jpg",
+});
 
 export default async function ItinerariesPage() {
   const { journeys, media } = await getContent();

@@ -26,6 +26,9 @@ export async function generateMetadata() {
       template: `%s — ${brand.name}`,
     },
     description: brand.shortStatement,
+    alternates: {
+      canonical: "/",
+    },
     keywords: [
       "Victoria Falls tours",
       "Zimbabwe safari",
@@ -43,11 +46,20 @@ export async function generateMetadata() {
       siteName: brand.name,
       locale: "en_US",
       type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/images/slide2.jpg`,
+          width: 1200,
+          height: 800,
+          alt: `${brand.name} — ${brand.tagline}`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${brand.name} — ${brand.tagline}`,
       description: brand.shortStatement,
+      images: [`${SITE_URL}/images/slide2.jpg`],
     },
   };
 }
@@ -100,6 +112,9 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" as="image" href="/images/slide1.jpg" fetchPriority="high" />
+      </head>
       <body>
         <script
           type="application/ld+json"

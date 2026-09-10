@@ -3,12 +3,15 @@ import SectionIntro from "@/components/SectionIntro";
 import ExperienceRow from "@/components/ExperienceRow";
 import CTABand from "@/components/CTABand";
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/experiences",
   title: "Experiences",
   description:
     "Guided game drives, the Zambezi sunset cruise, mokoro excursions in the Okavango, Sossusvlei dune climbs, and fully custom multi-day safari itineraries.",
-};
+  image: "/images/vicfalls.jpg",
+});
 
 export default async function ExperiencesPage() {
   const { experiences, media } = await getContent();

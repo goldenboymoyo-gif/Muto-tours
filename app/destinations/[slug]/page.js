@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import BackLink from "@/components/BackLink";
 import { destinations as defaultDestinations } from "@/data/destinations";
 import { getContent } from "@/lib/content";
+import { SITE_URL } from "@/lib/seo";
 
 const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
@@ -67,7 +68,25 @@ export async function generateMetadata({ params }) {
   return {
     title: destination.name,
     description: destination.blurb,
-    openGraph: destination.image ? { images: [{ url: destination.image }] } : undefined,
+    alternates: { canonical: `${SITE_URL}/destinations/${destination.slug}` },
+    openGraph: destination.image
+      ? {
+          images: [
+            {
+              url: `${SITE_URL}${destination.image}`,
+              width: 1200,
+              height: 800,
+              alt: destination.imageAlt || destination.name,
+            },
+          ],
+        }
+      : undefined,
+    twitter: destination.image
+      ? {
+          card: "summary_large_image",
+          images: [`${SITE_URL}${destination.image}`],
+        }
+      : undefined,
   };
 }
 

@@ -1,10 +1,12 @@
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/terms",
   title: "Terms of Use",
   description:
     "The terms that apply when you use the Muto Tours website and enquire about or book a trip.",
-};
+});
 
 export default async function TermsPage() {
   const { brand } = await getContent();

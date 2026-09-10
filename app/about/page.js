@@ -2,11 +2,15 @@ import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import CTABand from "@/components/CTABand";
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/about",
   title: "About",
-  description: "Muto Tours is a Victoria Falls-based operator running custom-built tours across Southern Africa.",
-};
+  description:
+    "Muto Tours is a Victoria Falls-based operator running custom-built tours across Southern Africa.",
+  image: "/images/zimtour.jpg",
+});
 
 const approach = [
   {

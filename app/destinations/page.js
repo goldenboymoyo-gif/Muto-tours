@@ -3,12 +3,15 @@ import SectionIntro from "@/components/SectionIntro";
 import DestinationTile from "@/components/DestinationTile";
 import CTABand from "@/components/CTABand";
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/destinations",
   title: "Destinations",
   description:
     "Victoria Falls, Hwange, Chobe, the Okavango Delta, Namibia, South Africa, and the Matobo Hills — where Muto Tours builds Southern Africa routes.",
-};
+  image: "/images/namibia.jpg",
+});
 
 const aspects = ["aspect-[4/5]"]; // uniform ratio — the alternating 4/5/4/3 mix left cards visibly misaligned within each grid row
 

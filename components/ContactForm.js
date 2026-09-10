@@ -38,14 +38,20 @@ export default function ContactForm() {
         body: JSON.stringify(form),
       });
 
-      if (!res.ok) throw new Error("request failed");
+      if (!res.ok) {
+        // The backend received the request but rejected it (validation, spam
+        // filter, rate limit, 5xx). Keep the visitor's input on screen and
+        // show a retry message — don't silently drop their enquiry.
+        setStatus("error");
+        return;
+      }
 
       const data = await res.json().catch(() => ({}));
       setStatus("success");
       setConfirmationEmailed(data.emailSent === true);
       setForm(initialState);
     } catch {
-      // Backend unreachable (not deployed yet, offline, etc.) — fall back to
+      // Network failure: backend unreachable, offline, blocked — fall back to
       // a pre-filled mailto so the form is still usable either way.
       const body = [
         `Name: ${form.full_name}`,
@@ -68,7 +74,7 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-clay/30 bg-clay/5 p-8 rounded-[25px]">
+      <div role="status" className="border border-clay/30 bg-clay/5 p-8 rounded-[25px]">
         <h3 className="font-archivo uppercase text-2xl text-ink">Thank you for your enquiry.</h3>
         <p className="mt-3 text-sm text-ink/70 leading-relaxed">
           A member of the Muto Tours team will review your trip details and respond from{" "}
@@ -176,7 +182,7 @@ export default function ContactForm() {
       </Field>
 
       {status === "error" && (
-        <p className="text-sm text-clay-dark">
+        <p role="status" className="text-sm text-clay-dark">
           Something went wrong sending that — please try again, or email {brand.contact.email} directly.
         </p>
       )}

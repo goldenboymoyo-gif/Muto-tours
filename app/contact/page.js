@@ -4,11 +4,15 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import MediaFrame from "@/components/MediaFrame";
 import { getContent } from "@/lib/content";
 import { safeUrl } from "@/lib/safeUrl";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/contact",
   title: "Contact",
-  description: "Plan a trip with Muto Tours — reach us by WhatsApp, phone, email, or the enquiry form below.",
-};
+  description:
+    "Plan a trip with Muto Tours — reach us by WhatsApp, phone, email, or the enquiry form below.",
+  image: "/images/namibia.jpg",
+});
 
 export default async function ContactPage() {
   const { brand, media } = await getContent();

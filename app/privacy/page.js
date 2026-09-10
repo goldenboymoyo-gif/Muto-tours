@@ -1,10 +1,12 @@
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/privacy",
   title: "Privacy Policy",
   description:
     "How Muto Tours collects, uses, and protects the personal information you share through this website.",
-};
+});
 
 export default async function PrivacyPage() {
   const { brand } = await getContent();

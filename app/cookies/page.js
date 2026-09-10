@@ -1,10 +1,12 @@
 import { getContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: "/cookies",
   title: "Cookie Policy",
   description:
     "Which cookies the Muto Tours website sets and how you can control your cookie preferences.",
-};
+});
 
 export default async function CookiePage() {
   const { brand } = await getContent();

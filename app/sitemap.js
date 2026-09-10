@@ -9,6 +9,7 @@ export default async function sitemap() {
     "",
     "/destinations",
     "/experiences",
+    "/itineraries",
     "/about",
     "/contact",
     "/privacy",

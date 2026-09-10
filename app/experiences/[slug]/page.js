@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import BackLink from "@/components/BackLink";
 import { experiences as defaultExperiences } from "@/data/experiences";
 import { getContent } from "@/lib/content";
+import { SITE_URL } from "@/lib/seo";
 
 const RouteMap = dynamic(() => import("@/components/RouteMap"), { ssr: false });
 
@@ -20,7 +21,25 @@ export async function generateMetadata({ params }) {
   return {
     title: experience.name,
     description: experience.blurb,
-    openGraph: experience.image ? { images: [{ url: experience.image }] } : undefined,
+    alternates: { canonical: `${SITE_URL}/experiences/${experience.slug}` },
+    openGraph: experience.image
+      ? {
+          images: [
+            {
+              url: `${SITE_URL}${experience.image}`,
+              width: 1200,
+              height: 800,
+              alt: experience.imageAlt || experience.name,
+            },
+          ],
+        }
+      : undefined,
+    twitter: experience.image
+      ? {
+          card: "summary_large_image",
+          images: [`${SITE_URL}${experience.image}`],
+        }
+      : undefined,
   };
 }
 
