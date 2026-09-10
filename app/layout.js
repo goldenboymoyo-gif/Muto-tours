@@ -4,10 +4,9 @@ import "@fontsource/fraunces/500.css";
 import "@fontsource/fraunces/500-italic.css";
 import "@fontsource/fraunces/600.css";
 import "@fontsource/fraunces/600-italic.css";
-import "@fontsource/manrope/400.css";
-import "@fontsource/manrope/500.css";
-import "@fontsource/manrope/600.css";
-import "@fontsource/manrope/700.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
 import "@fontsource/archivo-black/400.css";
 import "./globals.css";
 import AppShell from "@/components/site/AppShell";
@@ -28,19 +27,14 @@ export async function generateMetadata() {
     },
     description: brand.shortStatement,
     keywords: [
-      "Muto Tours",
       "Victoria Falls tours",
       "Zimbabwe safari",
       "Southern Africa tours",
-      "Victoria Falls activities",
-      "Zambezi sunset cruise",
+      "Zambezi cruise",
       "Hwange National Park safari",
       "Okavango Delta",
       "Sossusvlei tours",
       "Chobe National Park",
-      "Namibia tours",
-      "Botswana safari",
-      "South Africa tour packages",
     ],
     openGraph: {
       title: `${brand.name} — ${brand.tagline}`,
@@ -49,20 +43,11 @@ export async function generateMetadata() {
       siteName: brand.name,
       locale: "en_US",
       type: "website",
-      images: [
-        {
-          url: `${SITE_URL}/images/slide2.jpg`,
-          width: 1200,
-          height: 630,
-          alt: `${brand.name} — ${brand.tagline}`,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${brand.name} — ${brand.tagline}`,
       description: brand.shortStatement,
-      images: [`${SITE_URL}/images/slide2.jpg`],
     },
   };
 }

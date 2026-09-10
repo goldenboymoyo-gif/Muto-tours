@@ -52,30 +52,23 @@ const brand = {
 // ---------------------------------------------------------------------------
 // COLOR SYSTEM
 // ---------------------------------------------------------------------------
-// Premium editorial palette: deep charcoal ink on a warm ivory canvas, with
-// safari green as the primary brand anchor and bronze as the accent. The
-// Tailwind tokens generated from this object (see tailwind.config.js) are the
-// only color source used across the site, so this one-file swap re-skins every
-// component consistently.
+// Aligned to the Essentia-style homepage palette so every sub-page matches
+// the single-page aesthetic: a warm cream canvas with coffee text, Archivo
+// Black headlines and an orange accent. The Tailwind tokens generated from
+// this object (see tailwind.config.js) are the only color source used by the
+// legacy sub-page components, so this one-file swap re-skins them all to the
+// homepage look.
 const colors = {
-  // Core tokens
-  charcoal: "#101412", // near-black ink
-  safari: "#263D32", // deep safari green — primary brand anchor
-  safariDark: "#1B2B23", // darker green for hover states
-  bronze: "#B58A52", // earth/bronze accent
-  ivory: "#FBF8F1", // lightest — text over dark imagery
-  white: "#FFFFFF",
-
-  // Legacy-compatible aliases (keep old classNames working while re-skinning)
-  clay: "#263D32", // primary — maps to safari green (buttons / strong anchors)
-  clayDark: "#1B2B23", // hover
-  river: "#101412", // secondary — charcoal for dark sections & text
-  riverDark: "#0B0E0C",
-  gold: "#B58A52", // accent — bronze highlight (kickers, hover)
-  sage: "#6E7B63", // supporting — muted sage for tags / quiet UI
-  sand: "#F6F2E8", // background — warm ivory canvas
-  sandDeep: "#EDE6D3", // slightly deeper ivory for image placeholders
-  ink: "#101412", // primary text — charcoal
+  clay: "#4b3621", // primary — coffee, the dark anchor (buttons / strong text)
+  clayDark: "#181919", // hover — near-black
+  river: "#4b3621", // secondary — also coffee for dark sections & text
+  riverDark: "#181919",
+  gold: "#fc6d42", // accent — orange highlight (kickers, hover)
+  sage: "#71785C", // supporting — muted sage for tags / quiet UI
+  sand: "#ece5d5", // background — cream (matches --cream)
+  sandDeep: "#e2dabd", // slightly deeper cream for image placeholders
+  ink: "#4b3621", // primary text — coffee
+  ivory: "#f4efe3", // light cream — text over dark imagery & secondary bg
 };
 
 module.exports = { brand, colors };

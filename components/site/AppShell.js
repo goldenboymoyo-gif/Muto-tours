@@ -1,21 +1,20 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import ContentProvider from "@/components/site/ContentProvider";
-import Header from "@/components/site/Header";
-import Footer from "@/components/site/Footer";
-import FloatingWhatsApp from "@/components/site/FloatingWhatsApp";
+import SubHeader from "@/components/site/SubHeader";
+import SubFooter from "@/components/site/SubFooter";
 import CookieConsent from "@/components/site/CookieConsent";
 
 export default function AppShell({ children }) {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
     <ContentProvider>
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
-      <Header />
-      <main id="main">{children}</main>
-      <Footer />
-      <FloatingWhatsApp />
+      {!isHome && <SubHeader />}
+      <main>{children}</main>
+      {!isHome && <SubFooter />}
       <CookieConsent />
     </ContentProvider>
   );
