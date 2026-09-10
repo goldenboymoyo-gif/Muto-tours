@@ -11,13 +11,16 @@ import "@fontsource/archivo-black/400.css";
 import "./globals.css";
 import AppShell from "@/components/site/AppShell";
 import { getContent } from "@/lib/content";
+import { brand as defaultBrand } from "@/data/brand";
+
+const SITE_URL = "https://mutotours-travel.com";
 
 export async function generateMetadata() {
   const content = await getContent();
   const { brand } = content;
 
   return {
-    metadataBase: new URL("https://mutotours-travel.com"),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: `${brand.name} — ${brand.tagline}`,
       template: `%s — ${brand.name}`,
@@ -36,7 +39,7 @@ export async function generateMetadata() {
     openGraph: {
       title: `${brand.name} — ${brand.tagline}`,
       description: brand.shortStatement,
-      url: "https://mutotours-travel.com",
+      url: SITE_URL,
       siteName: brand.name,
       locale: "en_US",
       type: "website",
@@ -50,9 +53,58 @@ export async function generateMetadata() {
 }
 
 export default function RootLayout({ children }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": `${SITE_URL}/#organization`,
+        name: defaultBrand.fullName || defaultBrand.name,
+        alternateName: defaultBrand.name,
+        url: SITE_URL,
+        logo: `${SITE_URL}/images/muto-logo.png`,
+        image: [
+          `${SITE_URL}/images/slide2.jpg`,
+          `${SITE_URL}/images/vicfalls.jpg`,
+          `${SITE_URL}/images/namibia.jpg`,
+        ],
+        slogan: defaultBrand.tagline,
+        description: defaultBrand.shortStatement,
+        email: defaultBrand.contact.email,
+        telephone: defaultBrand.contact.phoneHref.replace("tel:", ""),
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: defaultBrand.contact.address.line2,
+          addressLocality: "Victoria Falls",
+          addressCountry: "ZW",
+        },
+        sameAs: [defaultBrand.social.instagram, defaultBrand.social.facebook],
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: defaultBrand.contact.phoneHref.replace("tel:", ""),
+          contactType: "sales",
+          email: defaultBrand.contact.email,
+          availableLanguage: ["English"],
+        },
+        areaServed: ["Zimbabwe", "Botswana", "Namibia", "South Africa"],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: defaultBrand.name,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
+
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <AppShell>{children}</AppShell>
       </body>
     </html>
