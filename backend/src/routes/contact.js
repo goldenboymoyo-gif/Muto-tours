@@ -81,24 +81,25 @@ router.post('/', contactLimiter, async (req, res) => {
     );
   }
 
-  let anyEmailSent = false;
+  let notificationEmailed = false;
+  let confirmationEmailed = false;
 
   try {
-    await sendEnquiryEmail(enquiry);
-    anyEmailSent = true;
+    notificationEmailed = await sendEnquiryEmail(enquiry);
   } catch (err) {
     // The enquiry is already saved — email is best-effort on top.
     console.error('[contact] failed to send notification email:', err.message);
   }
 
   try {
-    await sendEnquiryConfirmationEmail(enquiry);
-    anyEmailSent = true;
+    confirmationEmailed = await sendEnquiryConfirmationEmail(enquiry);
   } catch (err) {
     console.error('[contact] failed to send confirmation email:', err.message);
   }
 
-  res.status(201).json({ ok: true, emailConfigured, emailSent: anyEmailSent });
+  const emailSent = emailConfigured && (notificationEmailed || confirmationEmailed);
+
+  res.status(201).json({ ok: true, emailConfigured, emailSent });
 });
 
 module.exports = router;

@@ -31,7 +31,7 @@ function fromAddress() {
 
 async function sendEnquiryEmail(enquiry) {
   const transport = getTransport();
-  if (!transport) return;
+  if (!transport) return false;
 
   const to = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
 
@@ -51,13 +51,14 @@ async function sendEnquiryEmail(enquiry) {
       enquiry.message,
     ].join('\n'),
   });
+  return true;
 }
 
 // --- Sent to the person who submitted the enquiry -------------------------
 
 async function sendEnquiryConfirmationEmail(enquiry) {
   const transport = getTransport();
-  if (!transport) return;
+  if (!transport) return false;
 
   const ownerEmail = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
 
@@ -106,13 +107,14 @@ async function sendEnquiryConfirmationEmail(enquiry) {
       `,
     }),
   });
+  return true;
 }
 
 // --- Sent to a new mailing-list subscriber ---------------------------------
 
 async function sendSubscribeWelcomeEmail(email) {
   const transport = getTransport();
-  if (!transport) return;
+  if (!transport) return false;
 
   await transport.sendMail({
     from: fromAddress(),
@@ -143,6 +145,7 @@ async function sendSubscribeWelcomeEmail(email) {
       `,
     }),
   });
+  return true;
 }
 
 // --- Shared minimal HTML email shell ---------------------------------------
