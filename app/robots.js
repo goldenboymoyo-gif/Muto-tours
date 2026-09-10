@@ -4,6 +4,6 @@ export default function robots() {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://mutotours.africa/sitemap.xml",
+    sitemap: "https://mutotours-travel.com/sitemap.xml",
   };
 }

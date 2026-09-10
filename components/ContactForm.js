@@ -58,7 +58,7 @@ export default function ContactForm() {
         form.message,
       ].join("\n");
       window.location.href = `mailto:${brand.contact.email}?subject=${encodeURIComponent(
-        "Trip enquiry via mutotours.africa"
+        "Trip enquiry via mutotours-travel.com"
       )}&body=${encodeURIComponent(body)}`;
       setStatus("success");
       setConfirmationEmailed(false);

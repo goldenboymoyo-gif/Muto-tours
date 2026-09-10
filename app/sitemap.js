@@ -1,6 +1,6 @@
 import { getContent } from "@/lib/content";
 
-const BASE_URL = "https://mutotours.africa";
+const BASE_URL = "https://mutotours-travel.com";
 
 export default async function sitemap() {
   const { destinations, experiences } = await getContent();

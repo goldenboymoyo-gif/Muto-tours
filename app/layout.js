@@ -17,7 +17,7 @@ export async function generateMetadata() {
   const { brand } = content;
 
   return {
-    metadataBase: new URL("https://mutotours.africa"),
+    metadataBase: new URL("https://mutotours-travel.com"),
     title: {
       default: `${brand.name} — ${brand.tagline}`,
       template: `%s — ${brand.name}`,
@@ -36,7 +36,7 @@ export async function generateMetadata() {
     openGraph: {
       title: `${brand.name} — ${brand.tagline}`,
       description: brand.shortStatement,
-      url: "https://mutotours.africa",
+      url: "https://mutotours-travel.com",
       siteName: brand.name,
       locale: "en_US",
       type: "website",
