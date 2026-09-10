@@ -175,7 +175,7 @@ function renderEmail({ heading, body }) {
       <h1 style="font-size:22px;color:#211D18;margin:0 0 16px;font-weight:normal;font-style:italic;">${escapeHtml(heading)}</h1>
       <div style="color:#211D18;font-size:14px;line-height:1.6;">${body}</div>
       <p style="margin-top:32px;padding-top:16px;border-top:1px solid #21181812;font-size:11px;color:#71785C;">
-        Muto Tours &middot; info@mutotours.africa
+        Muto Tours &middot; mutotours.travel@gmail.com
       </p>
     </div>
   </div>

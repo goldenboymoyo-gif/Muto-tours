@@ -38,7 +38,7 @@ export default async function ContactPage() {
     },
     {
       q: "How do I request a quote?",
-      a: "Send an enquiry through this page, WhatsApp us at +263 77 784 9430, call +263 715 127 562, or email info@mutotours.africa. We reply within one business day.",
+      a: "Send an enquiry through this page, WhatsApp us at +263 77 784 9430, call +263 715 127 562, or email mutotours.travel@gmail.com. We reply within one business day.",
     },
     {
       q: "Do you handle transfers and border crossings?",

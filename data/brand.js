@@ -25,7 +25,7 @@ const brand = {
     phoneHref: "tel:+263715127562",
     whatsapp: "+263 77 784 9430",
     whatsappHref: "https://wa.me/263777849430",
-    email: "info@mutotours.africa",
+    email: "mutotours.travel@gmail.com",
     address: {
       line1: "Muto Tours and Travels",
       line2: "10197 Mkhosana Township",
