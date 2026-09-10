@@ -1,48 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import LoadingScreen from "@/components/site/LoadingScreen";
-import Navigation from "@/components/site/Navigation";
-import Hero from "@/components/site/Hero";
-import About from "@/components/site/About";
-import Stats from "@/components/site/Stats";
-import Explore from "@/components/site/Explore";
-import UltimateAdventure from "@/components/site/UltimateAdventure";
-import WhyUs from "@/components/site/WhyUs";
-import DestinationsCards from "@/components/site/DestinationsCards";
-import Reviews from "@/components/site/Reviews";
-import VideoSection from "@/components/site/VideoSection";
-import Contact from "@/components/site/Contact";
-import Facts from "@/components/site/Facts";
-import BigFooter from "@/components/site/BigFooter";
-import { useSiteContent } from "@/components/site/ContentProvider";
+import HomeHero from "@/components/site/HomeHero";
+import TrustBar from "@/components/site/TrustBar";
+import DiscoverZimbabwe from "@/components/site/DiscoverZimbabwe";
+import SignatureExperiences from "@/components/site/SignatureExperiences";
+import FeaturedJourneys from "@/components/site/FeaturedJourneys";
+import WhyMuto from "@/components/site/WhyMuto";
+import BeyondZimbabwe from "@/components/site/BeyondZimbabwe";
+import TravellerStories from "@/components/site/TravellerStories";
+import JournalTeaser from "@/components/site/JournalTeaser";
+import HomeFAQ from "@/components/site/HomeFAQ";
+import PlanJourneyCTA from "@/components/site/PlanJourneyCTA";
 
 export default function HomePage() {
-  const { content } = useSiteContent();
-  const [ready, setReady] = useState(false);
-
   return (
     <>
-      <LoadingScreen onDone={() => setReady(true)} />
-      <Navigation heroReady={ready} />
-
-      <div className="fixed-position">
-        <Hero ready={ready} />
-      </div>
-
-      <div className="relative-position">
-        <About brandName={content.brand.name} />
-        <Stats />
-        <Explore />
-        <UltimateAdventure />
-        <WhyUs />
-        <DestinationsCards />
-        <Reviews />
-        <VideoSection />
-        <Contact />
-        <Facts />
-        <BigFooter />
-      </div>
+      <HomeHero />
+      <TrustBar />
+      <DiscoverZimbabwe />
+      <SignatureExperiences />
+      <FeaturedJourneys />
+      <WhyMuto />
+      <BeyondZimbabwe />
+      <TravellerStories />
+      <JournalTeaser />
+      <HomeFAQ />
+      <PlanJourneyCTA />
     </>
   );
 }
