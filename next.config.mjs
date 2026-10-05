@@ -4,10 +4,26 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    formats: ["image/avif", "image/webp"],
+    // AVIF intentionally omitted (webp only): Next.js 14's AVIF path is the
+    // subject of GHSA-2xp9-vwfh-vxw4 (unauthenticated RCE in the Image
+    // Optimization API via AVIF), disclosed after this site's September 2026
+    // security pass. Because remotePatterns below allows any https host (the
+    // CMS accepts arbitrary image URLs), the public /_next/image endpoint is
+    // reachable by anyone with no admin access needed, so this isn't a
+    // theoretical risk. Removing "image/avif" closes the specific trigger
+    // with zero visible change (webp still serves every modern browser; older
+    // browsers already fall back to the original format). Re-add once the
+    // project upgrades to a patched Next.js release (see SECURITY.md).
+    formats: ["image/webp"],
     deviceSizes: [640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // The CMS accepts absolute image URLs too, so allow https images from any host.
+    // The CMS accepts absolute image URLs too, so allow https images from any
+    // host. Trade-off: this also means the Image Optimizer will server-side
+    // fetch whatever https URL an admin (or anyone who compromises the admin
+    // password) supplies, which is an SSRF surface in principle. Accepted for
+    // now since this is a single-trusted-admin CMS with no internal network
+    // to pivot into from Vercel's serverless environment; revisit with a
+    // trusted-host allowlist if that trust model ever changes.
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
   eslint: {

@@ -1,4 +1,5 @@
 const express = require('express');
+const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
 const {
   signAdminToken,
@@ -29,6 +30,19 @@ const adminApiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Plain !== on the password short-circuits at the first differing byte, so
+// response time leaks how many leading characters an attacker has guessed
+// right — a real (if slow) side channel against a single shared secret.
+// Comparing fixed-length SHA-256 digests instead of the raw strings means
+// timingSafeEqual always walks the same 32 bytes regardless of where (or
+// whether) the strings diverge, and sidesteps its requirement that both
+// inputs already be equal length.
+function constantTimeEquals(a, b) {
+  const digestA = crypto.createHash('sha256').update(String(a)).digest();
+  const digestB = crypto.createHash('sha256').update(String(b)).digest();
+  return crypto.timingSafeEqual(digestA, digestB);
+}
+
 const VALID_STATUSES = ['new', 'contacted', 'closed'];
 
 router.post('/login', loginLimiter, (req, res) => {
@@ -40,7 +54,7 @@ router.post('/login', loginLimiter, (req, res) => {
     return res.status(503).json({ error: 'Admin login is not configured yet.' });
   }
 
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
+  if (!password || !constantTimeEquals(password, process.env.ADMIN_PASSWORD)) {
     log('admin_login_failed', { ip: req.ip });
     // Deliberately vague: don't reveal whether the account exists vs a bad password.
     return res.status(401).json({ error: 'Incorrect password.' });

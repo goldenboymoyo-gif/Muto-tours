@@ -15,12 +15,16 @@ const COOKIE_NAME = 'muto_admin_session';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 function signAdminToken() {
-  return jwt.sign({ role: 'admin' }, SECRET, { expiresIn: '7d' });
+  return jwt.sign({ role: 'admin' }, SECRET, { expiresIn: '7d', algorithm: 'HS256' });
 }
 
 function verifyAdminToken(token) {
   try {
-    const payload = jwt.verify(token, SECRET);
+    // Pin the algorithm so a token signed (or forged) with a different
+    // algorithm — e.g. 'none', or HMAC-vs-RSA confusion if this secret were
+    // ever swapped for a public key — can never verify, regardless of what
+    // the token's own header claims.
+    const payload = jwt.verify(token, SECRET, { algorithms: ['HS256'] });
     return payload.role === 'admin';
   } catch {
     return false;

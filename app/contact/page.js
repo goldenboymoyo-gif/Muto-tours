@@ -58,9 +58,12 @@ export default async function ContactPage() {
 
   return (
     <div>
+      {/* Escaping "<" prevents a "</script>" sequence from breaking out of
+          this script tag if the FAQ copy below is ever edited to include one
+          — defense-in-depth for dangerouslySetInnerHTML'd JSON-LD. */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd).replace(/</g, "\\u003c") }}
       />
       <PageHero
         src={media?.pageHero?.contact || "/images/namibia.jpg"}

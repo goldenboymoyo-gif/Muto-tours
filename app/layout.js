@@ -11,7 +11,6 @@ import "@fontsource/archivo-black/400.css";
 import "./globals.css";
 import AppShell from "@/components/site/AppShell";
 import { getContent } from "@/lib/content";
-import { brand as defaultBrand } from "@/data/brand";
 
 const SITE_URL = "https://mutotours-travel.com";
 
@@ -64,15 +63,20 @@ export async function generateMetadata() {
   };
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // Use the same CMS-merged brand as generateMetadata() above, rather than the
+  // static data/brand.js default, so structured data stays in sync with
+  // whatever an admin has edited in the CMS instead of silently going stale.
+  const { brand } = await getContent();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "TravelAgency",
         "@id": `${SITE_URL}/#organization`,
-        name: defaultBrand.fullName || defaultBrand.name,
-        alternateName: defaultBrand.name,
+        name: brand.fullName || brand.name,
+        alternateName: brand.name,
         url: SITE_URL,
         logo: `${SITE_URL}/images/muto-logo.png`,
         image: [
@@ -80,22 +84,22 @@ export default function RootLayout({ children }) {
           `${SITE_URL}/images/vicfalls.jpg`,
           `${SITE_URL}/images/namibia.jpg`,
         ],
-        slogan: defaultBrand.tagline,
-        description: defaultBrand.shortStatement,
-        email: defaultBrand.contact.email,
-        telephone: defaultBrand.contact.phoneHref.replace("tel:", ""),
+        slogan: brand.tagline,
+        description: brand.shortStatement,
+        email: brand.contact.email,
+        telephone: brand.contact.phoneHref.replace("tel:", ""),
         address: {
           "@type": "PostalAddress",
-          streetAddress: defaultBrand.contact.address.line2,
+          streetAddress: brand.contact.address.line2,
           addressLocality: "Victoria Falls",
           addressCountry: "ZW",
         },
-        sameAs: [defaultBrand.social.instagram, defaultBrand.social.facebook],
+        sameAs: [brand.social.instagram, brand.social.facebook],
         contactPoint: {
           "@type": "ContactPoint",
-          telephone: defaultBrand.contact.phoneHref.replace("tel:", ""),
+          telephone: brand.contact.phoneHref.replace("tel:", ""),
           contactType: "sales",
-          email: defaultBrand.contact.email,
+          email: brand.contact.email,
           availableLanguage: ["English"],
         },
         areaServed: ["Zimbabwe", "Botswana", "Namibia", "South Africa"],
@@ -104,7 +108,7 @@ export default function RootLayout({ children }) {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         url: SITE_URL,
-        name: defaultBrand.name,
+        name: brand.name,
         publisher: { "@id": `${SITE_URL}/#organization` },
       },
     ],
@@ -116,9 +120,14 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="image" href="/images/slide1.jpg" fetchPriority="high" />
       </head>
       <body>
+        {/* Escaping "<" prevents a "</script>" sequence inside any interpolated
+            value (e.g. a CMS-edited brand field) from breaking out of this
+            script tag — standard hardening for dangerouslySetInnerHTML'd
+            JSON-LD, even though every value here currently comes from brand
+            content an admin controls, not an anonymous site visitor. */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
         <AppShell>{children}</AppShell>
       </body>
