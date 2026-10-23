@@ -23,10 +23,11 @@ function isEmailConfigured() {
   return Boolean(resendApiKey() && process.env.SMTP_FROM && process.env.NOTIFY_EMAIL);
 }
 
-const FROM_NAME = 'Muto Tours';
-
+// SMTP_FROM is expected to already be in full "Name <email@domain>" format
+// (that's what was configured on Render), so it's used as-is rather than
+// wrapped again here.
 function fromAddress() {
-  return `${FROM_NAME} <${process.env.SMTP_FROM}>`;
+  return process.env.SMTP_FROM;
 }
 
 // Fails fast (15s) instead of hanging — Resend's API is normally sub-second,
