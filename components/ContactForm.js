@@ -98,14 +98,29 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Honeypot — hidden from sighted users and screen readers, but a
           field simple bots that auto-fill every input will still find.
-          The backend silently drops any submission where this is filled. */}
+          The backend silently drops any submission where this is filled
+          (keyed on "website" in the JSON body — see backend/src/routes/
+          contact.js — so `form.website` below stays as-is even though the
+          DOM field name changed).
+
+          The *HTML* field name/autocomplete previously used ("website",
+          autoComplete="off") is exactly what Chrome's address/company
+          autofill heuristics look for, so real visitors with a saved
+          "Website" value in their autofill profile had it silently
+          injected here on page load — autofill operates on the DOM, not
+          what's visually on screen, so position/opacity/display hiding
+          doesn't stop it, and Chrome deliberately ignores autocomplete="off"
+          for fields it recognizes. That caused real enquiries to be dropped
+          as spam. Fix: a field name autofill won't match, plus
+          autoComplete="new-password", which Chrome *does* still honor as a
+          genuine opt-out. */}
       <input
         type="text"
-        name="website"
+        name="hp_contact_field"
         value={form.website || ""}
         onChange={(e) => update("website", e.target.value)}
         tabIndex={-1}
-        autoComplete="off"
+        autoComplete="new-password"
         aria-hidden="true"
         className="absolute left-[-9999px] h-0 w-0 opacity-0"
       />
