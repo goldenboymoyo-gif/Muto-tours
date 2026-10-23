@@ -1,43 +1,72 @@
-const nodemailer = require('nodemailer');
+// Sends through Resend's HTTPS API (https://api.resend.com/emails) rather
+// than raw SMTP. We switched off nodemailer+SMTP after both port 587 and 465
+// hung for minutes and then timed out connecting to smtp.resend.com from
+// Render's free-tier instance — free/low-tier PaaS hosts commonly block or
+// silently drop outbound SMTP ports (25/465/587) to curb spam abuse, while
+// ordinary HTTPS (443) is unaffected. An HTTPS API call sidesteps that
+// entirely and is also Resend's own recommended integration path.
+//
+// RESEND_API_KEY is the preferred env var; SMTP_PASS is accepted as a
+// fallback so the key already configured under that name keeps working
+// without touching Render's dashboard again.
+const RESEND_API_URL = 'https://api.resend.com/emails';
 
-// Email is optional throughout: if SMTP env vars aren't set, every function
-// below is a silent no-op so the API still works — enquiries are always
-// saved to the database/disk and subscribers always saved, regardless of
-// whether email is configured.
-function isEmailConfigured() {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  return Boolean(SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS);
+function resendApiKey() {
+  return process.env.RESEND_API_KEY || process.env.SMTP_PASS;
 }
 
-function getTransport() {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!isEmailConfigured()) return null;
-
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-  });
+// Email is optional throughout: if it isn't configured, every function below
+// is a silent no-op so the API still works — enquiries are always saved to
+// the database/disk and subscribers always saved, regardless of whether
+// email is configured.
+function isEmailConfigured() {
+  return Boolean(resendApiKey() && process.env.SMTP_FROM && process.env.NOTIFY_EMAIL);
 }
 
 const FROM_NAME = 'Muto Tours';
 
 function fromAddress() {
-  return `${FROM_NAME} <${process.env.SMTP_FROM || process.env.SMTP_USER}>`;
+  return `${FROM_NAME} <${process.env.SMTP_FROM}>`;
+}
+
+// Fails fast (15s) instead of hanging — Resend's API is normally sub-second,
+// so a stall this long means something's genuinely wrong, not just slow.
+async function sendViaResend({ to, subject, text, html, replyTo }) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    const res = await fetch(RESEND_API_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendApiKey()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: fromAddress(),
+        to: [to],
+        subject,
+        text,
+        ...(html ? { html } : {}),
+        ...(replyTo ? { reply_to: replyTo } : {}),
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(`Resend API ${res.status}: ${body.slice(0, 300)}`);
+    }
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // --- Sent to the Muto Tours team when a new enquiry comes in -------------
 
 async function sendEnquiryEmail(enquiry) {
-  const transport = getTransport();
-  if (!transport) return false;
+  if (!isEmailConfigured()) return false;
 
-  const to = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
-
-  await transport.sendMail({
-    from: fromAddress(),
-    to,
+  await sendViaResend({
+    to: process.env.NOTIFY_EMAIL,
     replyTo: enquiry.email,
     subject: `New enquiry from ${enquiry.full_name}`,
     text: [
@@ -57,13 +86,11 @@ async function sendEnquiryEmail(enquiry) {
 // --- Sent to the person who submitted the enquiry -------------------------
 
 async function sendEnquiryConfirmationEmail(enquiry) {
-  const transport = getTransport();
-  if (!transport) return false;
+  if (!isEmailConfigured()) return false;
 
-  const ownerEmail = process.env.NOTIFY_EMAIL || process.env.SMTP_USER;
+  const ownerEmail = process.env.NOTIFY_EMAIL;
 
-  await transport.sendMail({
-    from: fromAddress(),
+  await sendViaResend({
     to: enquiry.email,
     replyTo: ownerEmail,
     subject: 'We’ve received your enquiry — Muto Tours',
@@ -113,11 +140,9 @@ async function sendEnquiryConfirmationEmail(enquiry) {
 // --- Sent to a new mailing-list subscriber ---------------------------------
 
 async function sendSubscribeWelcomeEmail(email) {
-  const transport = getTransport();
-  if (!transport) return false;
+  if (!isEmailConfigured()) return false;
 
-  await transport.sendMail({
-    from: fromAddress(),
+  await sendViaResend({
     to: email,
     subject: 'Welcome to Muto Tours',
     text: [
